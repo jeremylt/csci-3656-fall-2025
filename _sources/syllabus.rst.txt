@@ -25,7 +25,7 @@ Textbook
 Zulip
 -------------------------------------------------------------------------------------
 
-The `course Zulip <https://csci-2656-fall-2025.zulipchat.com/join/xy6eaczbthno4su3sa2c6qhw/>`_ server is the best location to ask questions and receive timely replies from myself and students in the course.
+The `course Zulip <https://csci-2656-fall-2025.zulipchat.com/join/xy6eaczbthno4su3sa2c6qhw>`_ server is the best location to ask questions and receive timely replies from myself and students in the course.
 Please join the course Zulip server as soon as is convenient.
 
 
@@ -46,7 +46,7 @@ Accommodation for Disabilities, Temporary Medical Conditions, and Medical Isolat
 
 If you qualify for accommodations because of a disability, please submit your accommodation letter from Disability Services to your faculty member in a timely manner so that your needs can be addressed.
 Disability Services determines accommodations based on documented disabilities in the academic environment.
-Information on requesting accommodations is located on the `Disability Services website <https://www.colorado.edu/disabilityservices/>`_.
+Information on requesting accommodations is located on the `Disability Services website <https://www.colorado.edu/disabilityservices>`_.
 Contact Disability Services at 303-492-8671 or DSinfo@colorado.edu for further assistance.
 If you have a temporary medical condition, see `Temporary Medical Conditions <https://www.colorado.edu/disabilityservices/students/temporary-medical-conditions>`_ on the Disability Services website.
 
@@ -82,7 +82,7 @@ Additional classroom behavior information
 
 * `Student Code of Conduct <https://www.colorado.edu/sccr/media/230>`_
 
-* `Office of Institutional Equity and Compliance <https://www.colorado.edu/oiec/>`_
+* `Office of Institutional Equity and Compliance <https://www.colorado.edu/oiec>`_
 
 
 Diversity, Equity and Inclusion
@@ -104,18 +104,18 @@ Sexual Misconduct, Discrimination, Harassment and/or Related Retaliation
 CU Boulder is committed to fostering an inclusive and welcoming learning, working, and living environment.
 University policy prohibits `protected-class <https://www.colorado.edu/oiec/policies/protected-class-nondiscrimination-policy/protected-class-definitions>`_ discrimination and harassment, sexual misconduct (harassment, exploitation, and assault), intimate partner abuse (dating or domestic violence), stalking, and related retaliation by or against members of our community on- and off-campus.
 The Office of Institutional Equity and Compliance (OIEC) addresses these concerns, and individuals who have been subjected to misconduct can contact OIEC at 303-492-2127 or email OIEC@colorado.edu.
-Information about university policies, `reporting options <https://www.colorado.edu/oiec/reporting-resolutions/making-report>`_, and `OIEC support resources <https://www.colorado.edu/oiec/support-resources>`_ including confidential services can be found on the `OIEC website <https://www.colorado.edu/oiec/>`_.
+Information about university policies, `reporting options <https://www.colorado.edu/oiec/reporting-resolutions/making-report>`_, and `OIEC support resources <https://www.colorado.edu/oiec/support-resources>`_ including confidential services can be found on the `OIEC website <https://www.colorado.edu/oiec>`_.
 
 Please know that faculty and graduate instructors are required to inform OIEC when they are made aware of incidents related to these concerns regardless of when or where something occurred.
 This is to ensure the person impacted receives outreach from OIEC about resolution options and support resources.
-To learn more about reporting and support a variety of concerns, visit the `Don’t Ignore It <https://www.colorado.edu/dontignoreit/>`_ page.
+To learn more about reporting and support a variety of concerns, visit the `Don’t Ignore It <https://www.colorado.edu/dontignoreit>`_ page.
 
 
 Mental Health and Wellness
 -------------------------------------------------------------------------------------
 
 The University of Colorado Boulder is committed to the well-being of all students.
-If you are struggling with personal stressors, mental health or substance use concerns that are impacting academic or daily life, please contact `Counseling and Psychiatric Services (CAPS) <https://www.colorado.edu/counseling/>`_, located in C4C, or call (303) 492-2277, 24/7.
+If you are struggling with personal stressors, mental health or substance use concerns that are impacting academic or daily life, please contact `Counseling and Psychiatric Services (CAPS) <https://www.colorado.edu/counseling>`_, located in C4C, or call (303) 492-2277, 24/7.
 
 Free and unlimited telehealth is also available through `AcademicLiveCare <https://www.colorado.edu/health/academiclivecare>`_.
 The AcademicLiveCare site also provides information about additional wellness services on campus that are available to students.
