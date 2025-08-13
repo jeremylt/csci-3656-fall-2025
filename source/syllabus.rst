@@ -8,17 +8,26 @@ Instructor
 
 jeremy.thompson@colorado.edu
 
-Zulip
--------------------------------------------------------------------------------------
-
-The `course Zulip <https://csci-2656-fall-2025.zulipchat.com/join/xy6eaczbthno4su3sa2c6qhw/>`_ server is the best location to ask questions and receive timely replies from myself and students in the course.
-Please join the course Zulip server as soon as is convenient.
 
 Overview
 -------------------------------------------------------------------------------------
 
 This course covers development, computer implementation, and analysis of numerical methods for applied mathematical problems.
 It explores topics such as floating point arithmetic, numerical solution of linear systems of equations, root finding, numerical interpolation, differentiation, and integration.
+
+
+Textbook
+-------------------------------------------------------------------------------------
+
+`Fundamentals of Numerical Computation Julia Edition by Tobin A. Driscoll and Richard J. Braun <https://tobydriscoll.net/fnc-julia>`_
+
+
+Zulip
+-------------------------------------------------------------------------------------
+
+The `course Zulip <https://csci-2656-fall-2025.zulipchat.com/join/xy6eaczbthno4su3sa2c6qhw/>`_ server is the best location to ask questions and receive timely replies from myself and students in the course.
+Please join the course Zulip server as soon as is convenient.
+
 
 Honor Code
 -------------------------------------------------------------------------------------
@@ -31,6 +40,7 @@ All incidents of academic misconduct will be reported to Student Conduct & Confl
 Students found responsible for violating the Honor Code will be assigned resolution outcomes from Student Conduct & Conflict Resolution and will be subject to academic sanctions from the faculty member.
 Visit `Honor Code <https://www.colorado.edu/sccr/students/honor-code-and-student-code-conduct>`_ for more information on the academic integrity policy.
 
+
 Accommodation for Disabilities, Temporary Medical Conditions, and Medical Isolation
 -------------------------------------------------------------------------------------
 
@@ -42,6 +52,7 @@ If you have a temporary medical condition, see `Temporary Medical Conditions <h
 
 If you have a temporary illness, injury or required medical isolation for which you require adjustment, please let me know as soon as feasible about any accommodations via email at jeremy.thompson@colorado.edu.
 
+
 Accommodation for Religious Obligations
 -------------------------------------------------------------------------------------
 
@@ -50,11 +61,13 @@ Please communicate the need for a religious accommodation in a timely manner.
 In this class, please let me know as soon as feasible about any accommodations needed via email at jeremy.thompson@colorado.edu.
 See the `campus policy regarding religious observances <https://www.colorado.edu/compliance/policies/observance-religious-holidays-absences-classes-or-exams>`_ for full details.
 
+
 Preferred Student Names and Pronouns
 -------------------------------------------------------------------------------------
 
 CU Boulder recognizes that students' legal information does not always align with how they identify.
 If you wish to have your preferred name (rather than your legal name) and/or your preferred pronouns appear on your instructors’ class rosters and in Canvas, visit the `Registrar’s website <https://www.colorado.edu/registrar/students/records/info/preferred>`_ for instructions on how to change your personal information in university systems.
+
 
 Classroom Behavior
 -------------------------------------------------------------------------------------
@@ -71,6 +84,7 @@ Additional classroom behavior information
 
 * `Office of Institutional Equity and Compliance <https://www.colorado.edu/oiec/>`_
 
+
 Diversity, Equity and Inclusion
 -------------------------------------------------------------------------------------
 
@@ -82,6 +96,7 @@ Moreover, our plan addresses the Chancellor’s three strategic imperatives: sha
 
 As laid out in the Dean’s Strategic Vision, we aim to be the premier destination for every engineering student in the state of Colorado while attracting outstanding students from across the country and world by increasing and supporting communities traditionally underrepresented in engineering and applied sciences to thrive in our college.
 In doing so, we will drive and support economic growth in Colorado, foster collaborative industry partnerships that prepare students to work in diverse teams and succeed in the global marketplace and to produce ethical, resilient and creative engineers who will become leaders in their fields.
+
 
 Sexual Misconduct, Discrimination, Harassment and/or Related Retaliation
 -------------------------------------------------------------------------------------
@@ -95,6 +110,7 @@ Please know that faculty and graduate instructors are required to inform OIEC wh
 This is to ensure the person impacted receives outreach from OIEC about resolution options and support resources.
 To learn more about reporting and support a variety of concerns, visit the `Don’t Ignore It <https://www.colorado.edu/dontignoreit/>`_ page.
 
+
 Mental Health and Wellness
 -------------------------------------------------------------------------------------
 
@@ -103,6 +119,7 @@ If you are struggling with personal stressors, mental health or substance use c
 
 Free and unlimited telehealth is also available through `AcademicLiveCare <https://www.colorado.edu/health/academiclivecare>`_.
 The AcademicLiveCare site also provides information about additional wellness services on campus that are available to students.
+
 
 Acceptable Use of AI in This Class
 -------------------------------------------------------------------------------------
