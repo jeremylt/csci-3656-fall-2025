@@ -4,7 +4,7 @@ Course Syllabus
 Instructor
 -------------------------------------------------------------------------------------
 
-`Prof Jeremy L Thompson (he/they) <https://jeremylt.org>`_
+Prof `Jeremy L Thompson <https://jeremylt.org>`_ (he/they)
 
 jeremy.thompson@colorado.edu
 
@@ -13,7 +13,7 @@ Overview
 -------------------------------------------------------------------------------------
 
 This course covers development, computer implementation, and analysis of numerical methods for applied mathematical problems.
-It explores topics such as floating point arithmetic, numerical solution of linear systems of equations, root finding, numerical interpolation, differentiation, and integration.
+It explores topics such as floating point arithmetic, root finding, numerical solution of linear systems of equations, numerical interpolation, differentiation, and integration.
 
 
 Textbook
@@ -27,6 +27,43 @@ Zulip
 
 The `course Zulip <https://csci-2656-fall-2025.zulipchat.com/join/xy6eaczbthno4su3sa2c6qhw>`_ server is the best location to ask questions and receive timely replies from myself and students in the course.
 Please join the course Zulip server as soon as is convenient.
+You may use a pseudonym but must use your CU email address when signing up for the Zulip server.
+
+
+Course Outcomes
+-------------------------------------------------------------------------------------
+
+* Understand the fundamentals of numerical algorithms to solve continuous problems, especially in the context of science and engineering problems
+
+* Develop code to implement numerical algorithms
+
+* Measure the accuracy and performance of these numerical algorithms
+
+* Recognize and explain conditions that degrade performance or accuracy of numerical algorithms
+
+* Anticipate and explain challenges and performance to scaling numerical algorithms to larger problems
+
+* Evaluate open source packages and communities related to numerical algorithms
+
+
+Ungrading
+-------------------------------------------------------------------------------------
+
+This course will use 'ungrading'.
+You will keep a learning journal with `SMART <https://en.wikipedia.org/wiki/SMART_criteria>`_ goals.
+You will regularly update this journal with notes about your progress towards these goals.
+You can update, close, or add goals throughout the semester but should have at least 3 goals at all times.
+
+Individual assignments and quizzes are intended to provide formative feedback.
+As such, you will receive a mixture of automated and written feedback but no numerical grade.
+This feedback should be used in your journal notes about your progression towards your goals.
+
+There will be no final exam in this course.
+The final project will be in two phases - first an individual portion and second a group portion.
+This project allow you to explore the course content in the context of professional open source software projects and establish connections between the course content and practical applications.
+
+At the end of the semester we will have a 1-on-1 meeting to discuss your final course grade.
+You will propose a grade and we will your goals and progress towards these goals.
 
 
 Honor Code
