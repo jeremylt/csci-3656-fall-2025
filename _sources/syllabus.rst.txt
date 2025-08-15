@@ -25,7 +25,7 @@ Textbook
 Zulip
 -------------------------------------------------------------------------------------
 
-The `course Zulip <https://csci-2656-fall-2025.zulipchat.com/join/xy6eaczbthno4su3sa2c6qhw>`_ server is the best location to ask questions and receive timely replies from myself and students in the course.
+The `course Zulip <https://csci-2656-fall-2025.zulipchat.com/join/kq2jysp7fp74ldcgt23ge4c3>`_ server is the best location to ask questions and receive timely replies from myself and students in the course.
 Please join the course Zulip server as soon as is convenient.
 You may use a pseudonym but must use your CU email address when signing up for the Zulip server.
 
