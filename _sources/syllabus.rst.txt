@@ -16,10 +16,12 @@ This course covers development, computer implementation, and analysis of numeric
 It explores topics such as floating point arithmetic, root finding, numerical solution of linear systems of equations, numerical interpolation, differentiation, and integration.
 
 
-Textbook
+Resources
 -------------------------------------------------------------------------------------
 
-`Fundamentals of Numerical Computation Julia Edition by Tobin A. Driscoll and Richard J. Braun <https://tobydriscoll.net/fnc-julia>`_
+* `Fundamentals of Numerical Computation Julia Edition <https://tobydriscoll.net/fnc-julia>`_ by Tobin A. Driscoll and Richard J. Braun
+
+* `2023 Course Website <https://cu-numcomp.github.io/spring23>`_
 
 
 Zulip
@@ -53,10 +55,12 @@ This course will use 'ungrading'.
 You will keep a learning journal with `SMART <https://en.wikipedia.org/wiki/SMART_criteria>`_ goals.
 You will regularly update this journal with notes about your progress towards these goals.
 You can update, close, or add goals throughout the semester but should have at least 3 goals at all times.
+Learning is non-monotonic, so it is perfectly normal to encounter difficulties or struggles.
+The important thing is to reflect on how you work through those difficulties or struggles.
 
 Individual assignments and quizzes are intended to provide formative feedback.
 As such, you will receive a mixture of automated and written feedback but no numerical grade.
-This feedback should be used in your journal notes about your progression towards your goals.
+This feedback should be used in your journal notes about your progress towards your goals.
 
 There will be no final exam in this course.
 The final project will be in two phases - first an individual portion and second a group portion.
@@ -64,6 +68,14 @@ This project allow you to explore the course content in the context of professio
 
 At the end of the semester we will have a 1-on-1 meeting to discuss your final course grade.
 You will propose a grade and we will your goals and progress towards these goals.
+
+
+Deadlines and Extensions
+-------------------------------------------------------------------------------------
+
+None of the assignments in the course are graded, so missing an assignment means missing an opportunity for receiving feedback and understanding your progress towards your course goals.
+Submitting assignments by the course deadlines help the course staff deliver written feedback promptly.
+If something comes up and you need an extension on an assessment, please let me know as soon as feasible via email at jeremy.thompson@colorado.edu.
 
 
 Honor Code
