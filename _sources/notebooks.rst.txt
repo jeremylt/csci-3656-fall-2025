@@ -1,7 +1,7 @@
 Jupyter Notebooks
 =====================================================================================
 
-Class notes will be written in [Jupyter Notebooks](https://jupyter.org) and [Julia](https://julialang.org).
+Class notes will be written in `Jupyter Notebooks <https://jupyter.org>`_ and `Julia <https://julialang.org>`_.
 Use the command
 
 .. code-block:: console
