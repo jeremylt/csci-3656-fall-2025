@@ -5,14 +5,13 @@
    "id": "03adb8b5-2e3f-4266-870d-9a299fb70bf2",
    "metadata": {
     "editable": true,
-    "jp-MarkdownHeadingCollapsed": true,
     "slideshow": {
      "slide_type": "slide"
     },
     "tags": []
    },
    "source": [
-    "# Welcome\n",
+    "# 2025-08-22 Welcome\n",
     "\n",
     "## CSCI 3656 Numerical Computation\n",
     "\n",
@@ -38,7 +37,7 @@
     "tags": []
    },
    "source": [
-    "# About Me\n",
+    "## About Me\n",
     "\n",
     "* Jeremy L Thompson (he/they)\n",
     "\n",
@@ -60,9 +59,9 @@
     "tags": []
    },
    "source": [
-    "# Prereqs\n",
+    "## Prereqs\n",
     "\n",
-    "## Calculus\n",
+    "### Calculus\n",
     "\n",
     "* Fundamental Theorem of Calculus\n",
     "\n",
@@ -86,7 +85,7 @@
     "tags": []
    },
    "source": [
-    "## Linear Algebra\n",
+    "### Linear Algebra\n",
     "\n",
     "* Vector spaces\n",
     "\n",
@@ -110,7 +109,7 @@
     "tags": []
    },
    "source": [
-    "# What is Numerical Computation?\n",
+    "## What is Numerical Computation?\n",
     "\n",
     "[Trefethen (1992)](https://people.maths.ox.ac.uk/trefethen/publication/PDF/1992_55.pdf) \n",
     "\n",
@@ -132,7 +131,7 @@
     "tags": []
    },
    "source": [
-    "# Continuous Mathematics ?!?\n",
+    "## Continuous Mathematics ?!?\n",
     "\n",
     "* Finite representations of continuous objects\n",
     "  - real and complex numbers $x \\in \\mathcal{R}$\n",
@@ -157,7 +156,7 @@
     "tags": []
    },
    "source": [
-    "# Rootfinding\n",
+    "## Rootfinding\n",
     "\n",
     "Given $f \\left( x \\right)$, find $x$ such that $f \\left( x \\right) = 0$\n",
     "\n",
@@ -300,7 +299,7 @@
     "tags": []
    },
    "source": [
-    "# Linear Algebra\n",
+    "## Linear Algebra\n",
     "\n",
     "Matrix factorizations are broadly useful\n",
     "\n",
@@ -325,7 +324,7 @@
     "tags": []
    },
    "source": [
-    "# Key Ideas\n",
+    "## Key Ideas\n",
     "\n",
     "* Cost estimates\n",
     "\n",
@@ -349,7 +348,7 @@
     "tags": []
    },
    "source": [
-    "# Function Approximation\n",
+    "## Function Approximation\n",
     "\n",
     "* Interpolation (exact)\n",
     "  - Given $\\left( x_0, f \\left( x_0 \\right) \\right), \\left( x_1, f \\left( x_1 \\right) \\right), ... $, find easy to compute $g \\left( x \\right)$ that exactly matches given data and is reasonable between datapoints\n",
@@ -705,7 +704,7 @@
     "tags": []
    },
    "source": [
-    "# Calculus\n",
+    "## Calculus\n",
     "\n",
     "* Differentiation: Given $f \\left( x \\right)$, find $g \\left( x \\right) \\approx f' \\left( x \\right)$\n",
     "  - Numerical approximation\n",
@@ -726,7 +725,7 @@
     "tags": []
    },
    "source": [
-    "# Optimization\n",
+    "## Optimization\n",
     "\n",
     "Given a function $f \\left( x \\right)$ (and often also $f ' \\left( x \\right)$), find\n",
     "\n",
@@ -744,7 +743,7 @@
     "tags": []
    },
    "source": [
-    "# Differential Equations\n",
+    "## Differential Equations\n",
     "\n",
     "Given\n",
     "\n",
@@ -760,7 +759,7 @@
    "id": "f0b2df61-44e1-4dbb-b76d-0110a1c18ace",
    "metadata": {},
    "source": [
-    "# Considerations\n",
+    "## Considerations\n",
     "\n",
     "For each topic, we'll cover\n",
     "\n",
@@ -786,7 +785,7 @@
     "tags": []
    },
    "source": [
-    "# Ungrading\n",
+    "## Ungrading\n",
     "\n",
     "* What?\n",
     "\n",
@@ -806,7 +805,7 @@
     "tags": []
    },
    "source": [
-    "# But I Need *A* Grade ?!?\n",
+    "## But I Need *A* Grade ?!?\n",
     "\n",
     "* Create SMART goals and update them\n",
     "\n",
@@ -830,7 +829,7 @@
     "tags": []
    },
    "source": [
-    "# Flow\n",
+    "## Flow\n",
     "\n",
     "* Lecture periods M, W, F (bring questions)\n",
     "\n",
@@ -854,7 +853,7 @@
     "tags": []
    },
    "source": [
-    "# Project\n",
+    "## Project\n",
     "\n",
     "* Two parts, solo and team\n",
     "\n",
@@ -868,7 +867,7 @@
    "id": "0d08fb00-7838-44ca-bfac-246d5967d279",
    "metadata": {},
    "source": [
-    "# Floating Point Arithmatic\n",
+    "## Floating Point Arithmatic\n",
     "\n",
     "How and why does floating point arithmatic give answers that are inconsistent with continuous mathematics?"
    ]
@@ -1016,7 +1015,7 @@
    "id": "255fd9b6-cb0f-4317-8de3-324a40a532d4",
    "metadata": {},
    "source": [
-    "# Machine precision\n",
+    "## Machine precision\n",
     "\n",
     "Floating point numbers do not exactly represent continuous values.\n",
     "\n",
@@ -1058,7 +1057,7 @@
    "id": "664f679c-18c5-41b2-b2a1-8eea19bab201",
    "metadata": {},
    "source": [
-    "# Remember Taylor Series?\n",
+    "### Remember Taylor Series?\n",
     "\n",
     "$$ log \\left( 1 + x \\right) = x - \\frac{x^2}{2} + \\frac{x^3}{3} - \\frac{x^4}{4} + \\cdots $$\n",
     "\n",
