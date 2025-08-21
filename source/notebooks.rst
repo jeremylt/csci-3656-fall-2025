@@ -29,4 +29,5 @@ before you can run cells that use the ``Polynomials`` package.
    :caption: Contents:
 
    notebooks/2025-08-22-Welcome.ipynb
+   notebooks/2025-08-24-Functions.ipynb
 
