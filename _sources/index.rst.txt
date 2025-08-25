@@ -9,5 +9,7 @@ Prof Jeremy L Thompson (he/they)
    :caption: Contents:
 
    syllabus
+   ungrading
    notebooks
+   quizes
 
