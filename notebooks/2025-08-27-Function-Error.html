@@ -18,7 +18,7 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Quizes" href="../quizes.html" />
+    <link rel="next" title="2025-08-29 Conditioning" href="2025-08-29-Conditioning.html" />
     <link rel="prev" title="2025-08-25 Functions" href="2025-08-25-Functions.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -570,7 +570,7 @@ relative_error = abs(result - result_big) / abs(result_big) = 0.0
 </div>
 <p>So, which part is to blame?</p>
 <p>Step 1 has the rounding. Step 2 is exact.</p>
-<p>But Step 2 represents <em>subtrractive cancellation</em> and is the loss of accuracy in the final result.</p>
+<p>But Step 2 represents <em>subtractive cancellation</em> and is the loss of accuracy in the final result.</p>
 </section>
 <section id="id1">
 <h2>Conditioning<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h2>
@@ -582,7 +582,7 @@ relative_error = abs(result - result_big) / abs(result_big) = 0.0
 <p>Floating point numbers offer relative accuracy, so we define the <strong>relative condition number</strong> as</p>
 <div class="math notranslate nohighlight">
 \[\kappa = \max_{\delta x} \frac{\lvert \delta f \rvert / \lvert f \rvert}{\lvert \delta x \rvert / \lvert x \rvert} = \max_{\delta x} \frac{\lvert \delta f \rvert / \lvert \delta x \rvert}{\lvert f \rvert / \vert x \rvert}\]</div>
-<p>If <span class="math notranslate nohighlight">\(f\)</span> is differentiable, then <span class="math notranslate nohighlight">\(\kappa = \lvert f' \left( x \right) \lvert \frac{\lvert x \rvert}{\lvert f \rvert}\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(f\)</span> is differentiable, then <span class="math notranslate nohighlight">\(\kappa = \left\lvert f' \left( x \right) \right\rvert \frac{\lvert x \rvert}{\lvert f \rvert}\)</span>.</p>
 </section>
 </section>
 
@@ -626,7 +626,7 @@ relative_error = abs(result - result_big) / abs(result_big) = 0.0
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../notebooks.html">Jupyter Notebooks</a><ul>
       <li>Previous: <a href="2025-08-25-Functions.html" title="previous chapter">2025-08-25 Functions</a></li>
-      <li>Next: <a href="../quizes.html" title="next chapter">Quizes</a></li>
+      <li>Next: <a href="2025-08-29-Conditioning.html" title="next chapter">2025-08-29 Conditioning</a></li>
   </ul></li>
   </ul></li>
 </ul>
