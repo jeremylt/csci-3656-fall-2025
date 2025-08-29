@@ -6,7 +6,7 @@ Each number is stored in 13 bits.
 The first bit is the sign of the number.
 The next 3 bits are the exponent and its sign.
 The remaining bits are the mantissa (significant digits).
-What is the smallest value :math:`e` such that :math:`1.0 + e = 1.0` in my floating point system (machine epsilon)?
+What is the largest value :math:`\epsilon` such that :math:`1 \oplus \epsilon = 1` in my floating point system (machine epsilon)?
 
   a) :math:`2^{-13}`
 
