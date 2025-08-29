@@ -6,19 +6,20 @@ Each number is stored in 13 bits.
 The first bit is the sign of the number.
 The next 3 bits are the exponent and its sign.
 The remaining bits are the mantissa (significant digits).
-What is machine epsilon in my floating point system?
+What is the smallest value :math:`e` such that :math:`1.0 + e = 1.0` in my floating point system (machine epsilon)?
 
-  a) :math:`2^{13}`
+  a) :math:`2^{-13}`
 
-  b) :math:`2^{10}`
+  b) :math:`2^{-10}`
 
-  c) :math:`2^9`
+  c) :math:`2^{-9}`
 
-  d) :math:`2^3`
+  d) :math:`2^{-3}`
 
 2) In Canada, purchases made in cash are rounded to the nearest 5 cents.
 Suppose you purchased a TTRPG (role playing game) for $10.97.
-What is the absolute error in the amount you paid for your purchase?
+Suppose that you pay in cash.
+What is the absolute error between the amount you paid for your purchase and the true cost?
 
   a) 2 cents
 
@@ -28,6 +29,6 @@ What is the absolute error in the amount you paid for your purchase?
 
   d) 5 cents
 
-3) Machine epsilon for a floating point number system is defined a the value :math:`\epsilon` such that :math:`1 \oplus \epsilon = 1`.
+3) Machine epsilon for a floating point number system is defined as the value :math:`\epsilon` such that :math:`1 \oplus \epsilon = 1`.
 Use this relationship to explain why the smallest possible absolute difference between any two values exactly representable in the floating point number system grows as the size of the numbers grows.
 How does this fact demonstrate the importance of relative error?
