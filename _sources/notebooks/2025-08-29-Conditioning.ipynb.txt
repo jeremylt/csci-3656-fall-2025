@@ -708,7 +708,7 @@
    "source": [
     "## An ill-conditioned problem from Paul Olum\n",
     "\n",
-    "From [Surely You're Jking, Mr. Feynman](https://sistemas.fciencias.unam.mx/%7Ecompcuantica/RICHARD%20P.%20FEYNMAN-SURELY%20YOU%27RE%20JOKING%20MR.%20FEYNMAN.PDF) (p 113)\n",
+    "From [Surely You're Joking, Mr. Feynman](https://sistemas.fciencias.unam.mx/%7Ecompcuantica/RICHARD%20P.%20FEYNMAN-SURELY%20YOU%27RE%20JOKING%20MR.%20FEYNMAN.PDF) (p 113)\n",
     "\n",
     "> So Paul is walking past the lunch place and these guys are all excited. “Hey, Paul!” they call out. “Feynman’s terrific! We give him a problem that can be stated in ten seconds, and in a minute he gets the answer to 10 percent. Why don’t you give him one?” Without hardly stopping, he says, “The tangent of 10 to the 100th.” I was sunk: you have to divide by pi to 100 decimal places! It was hopeless."
    ]
