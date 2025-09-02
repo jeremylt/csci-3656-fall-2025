@@ -47,7 +47,7 @@
    "id": "05b2d92f-429f-41ea-9008-cf2b63d348cd",
    "metadata": {},
    "source": [
-    "### Well-conditioned math\n",
+    "### Stable algorithms\n",
     "\n",
     "* An algorithm `f(x)` may be unstable\n",
     "\n",
