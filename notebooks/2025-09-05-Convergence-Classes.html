@@ -104,8 +104,8 @@ vol_Y = pvolume(Y) = 8.022769168019295
 <p>We are working with scalars for now and will revisit vector valued functions later.</p>
 <ul class="simple">
 <li><p>We don’t have <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> but rather the algorithm <code class="docutils literal notranslate"><span class="pre">f(x)</span></code> that approximates it.</p></li>
-<li><p>Sometimes we have extra information, such as <code class="docutils literal notranslate"><span class="pre">df(x)</span></code> that approximates <span class="math notranslate nohighlight">\(f' \left( x \right)\)</span>.</p></li>
-<li><p>If we have the source code for <code class="docutils literal notranslate"><span class="pre">f(x)</span></code>, we might be able to transform it to provide <code class="docutils literal notranslate"><span class="pre">df(x)</span></code>.</p></li>
+<li><p>Sometimes we have extra information, such as <code class="docutils literal notranslate"><span class="pre">fp(x)</span></code> that approximates <span class="math notranslate nohighlight">\(f' \left( x \right)\)</span>.</p></li>
+<li><p>If we have the source code for <code class="docutils literal notranslate"><span class="pre">f(x)</span></code>, we might be able to transform it to provide <code class="docutils literal notranslate"><span class="pre">fp(x)</span></code>.</p></li>
 </ul>
 <section id="Iterative-Bisection">
 <h3>Iterative Bisection<a class="headerlink" href="#Iterative-Bisection" title="Link to this heading">¶</a></h3>
@@ -279,46 +279,40 @@ bisect_iter (generic function with 1 method)
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
-<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="n">x0</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
 <span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x0</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span><span class="w"> </span><span class="c"># max number of iterations</span>
 <span class="w">        </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-<span class="w">        </span><span class="n">dfx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">df</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="n">fpx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">dp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">verbose</span>
-<span class="w">            </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;[</span><span class="si">$k</span><span class="s">] x=</span><span class="si">$x</span><span class="s">  f(x)=</span><span class="si">$fx</span><span class="s">  f&#39;(x)=</span><span class="si">$dfx</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">            </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;[</span><span class="si">$k</span><span class="s">] x=</span><span class="si">$x</span><span class="s">  f(x)=</span><span class="si">$fx</span><span class="s">  f&#39;(x)=</span><span class="si">$fpx</span><span class="s">&quot;</span><span class="p">)</span>
 <span class="w">        </span><span class="k">end</span>
 <span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span>
 <span class="w">            </span><span class="k">return</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">fx</span><span class="p">,</span><span class="w"> </span><span class="n">k</span>
 <span class="w">        </span><span class="k">end</span>
-<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">dfx</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fpx</span>
 <span class="w">    </span><span class="k">end</span>
 <span class="k">end</span>
 
 <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span>
-<span class="n">df</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
-<span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">df</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+<span class="n">fp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">newton</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-15</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
+<div class="nboutput nblast docutils container">
 <div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-[1] x=1  f(x)=-0.45969769413186023  f&#39;(x)=-1.8414709848078965
-[2] x=0.7503638678402439  f(x)=-0.018923073822117442  f&#39;(x)=-1.6819049529414878
-[3] x=0.7391128909113617  f(x)=-4.6455898990771516e-5  f&#39;(x)=-1.6736325442243012
-[4] x=0.739085133385284  f(x)=-2.847205804457076e-10  f&#39;(x)=-1.6736120293089505
-[5] x=0.7390851332151607  f(x)=0.0  f&#39;(x)=-1.6736120291832148
-</pre></div></div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-(0.7390851332151607, 0.0, 5)
+UndefVarError: `dp` not defined in `Main`
+Suggestion: check for spelling errors or missing imports.
+
+Stacktrace:
+ [1] <span class="ansi-bold">newton</span><span class="ansi-bold">(</span><span class="ansi-black-intense-fg">f</span>::typeof(f), <span class="ansi-black-intense-fg">fp</span>::Function, <span class="ansi-black-intense-fg">x0</span>::Int64; <span class="ansi-black-intense-fg">tol</span>::Float64, <span class="ansi-black-intense-fg">verbose</span>::Bool<span class="ansi-bold">)</span>
+<span class="ansi-black-intense-fg">   @</span> <span class="ansi-magenta-fg">Main</span> <span class="ansi-black-intense-fg">./</span><span class="ansi-black-intense-fg ansi-underline">In[8]:5</span>
+ [2] top-level scope
+<span class="ansi-black-intense-fg">   @</span> <span class="ansi-black-intense-fg ansi-underline">In[8]:18</span>
 </pre></div></div>
 </div>
 </section>

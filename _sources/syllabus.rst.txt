@@ -21,6 +21,8 @@ Resources
 
 * `Fundamentals of Numerical Computation Julia Edition <https://tobydriscoll.net/fnc-julia>`_ by Tobin A. Driscoll and Richard J. Braun
 
+* `Fundamentals of Numerical Computation (Matlab, Julia, and Python) <https://fncbook.com>`_ by Tobin A. Driscoll and Richard J. Braun
+
 * `2023 Course Website <https://cu-numcomp.github.io/spring23>`_
 
 
