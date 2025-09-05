@@ -34,4 +34,5 @@ before you can run cells that use the ``Polynomials`` package.
    notebooks/2025-08-29-Conditioning.ipynb
    notebooks/2025-09-03-Rootfinding.ipynb
    notebooks/2025-09-05-Convergence-Classes.ipynb
+   notebooks/2025-09-08-Newton-Methods.ipynb
 
