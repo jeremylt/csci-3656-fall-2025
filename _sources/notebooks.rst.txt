@@ -36,4 +36,5 @@ before you can run cells that use the ``Polynomials`` package.
    notebooks/2025-09-05-Convergence-Classes.ipynb
    notebooks/2025-09-08-Newton-Methods.ipynb
    notebooks/2025-09-10-More-Newton.ipynb
+   notebooks/2025-09-12-Formulation.ipynb
 
