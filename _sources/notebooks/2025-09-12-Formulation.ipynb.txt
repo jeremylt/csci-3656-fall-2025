@@ -3389,7 +3389,7 @@
     "\n",
     "See [FNC](https://tobydriscoll.net/fnc-julia/intro/stability.html#backward-error)\n",
     "\n",
-    "![image.png](attachment:fc8473cb-1760-4f04-9b70-4270618a4c2a.png)"
+    "![image2.png](attachment:fc8473cb-1760-4f04-9b70-4270618a4c2a.png)"
    ]
   },
   {
