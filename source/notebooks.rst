@@ -24,19 +24,35 @@ So you would first run the command
 
 before you can run cells that use the ``Polynomials`` package.
 
+Introduction
+-------------------------------------------------------------------------------------
+
 .. toctree::
    :maxdepth: 1
-   :caption: Contents:
 
    notebooks/2025-08-22-Welcome.ipynb
    notebooks/2025-08-25-Functions.ipynb
    notebooks/2025-08-27-Function-Error.ipynb
    notebooks/2025-08-29-Conditioning.ipynb
+
+Rootfinding
+-------------------------------------------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
    notebooks/2025-09-03-Rootfinding.ipynb
    notebooks/2025-09-05-Convergence-Classes.ipynb
    notebooks/2025-09-08-Newton-Methods.ipynb
    notebooks/2025-09-10-More-Newton.ipynb
    notebooks/2025-09-12-Formulation.ipynb
    notebooks/2025-09-15-Stability.ipynb
+
+Linear algebra
+-------------------------------------------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
    notebooks/2025-09-17-Linear-Algebra.ipynb
 
