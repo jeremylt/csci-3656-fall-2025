@@ -16,6 +16,10 @@ What is the largest value :math:`\epsilon` such that :math:`1 \oplus \epsilon = 
 
   d) :math:`2^{-3}`
 
+.. raw:: html
+
+    <details><summary>Answer</summary>b</details>
+
 2) In Canada, purchases made in cash are rounded to the nearest 5 cents.
 Suppose you purchased a TTRPG (role playing game) for $10.97.
 Suppose that you pay in cash.
@@ -29,6 +33,14 @@ What is the absolute error between the amount you paid for your purchase and the
 
   d) 5 cents
 
+.. raw:: html
+
+    <details><summary>Answer</summary>a</details>
+
 3) Machine epsilon for a floating point number system is defined as the value :math:`\epsilon` such that :math:`1 \oplus \epsilon = 1`.
 Use this relationship to explain why the smallest possible absolute difference between any two values exactly representable in the floating point number system grows as the size of the numbers grows.
 How does this fact demonstrate the importance of relative error?
+
+.. raw:: html
+
+    <details><summary>Answer</summary><span class="math notranslate nohighlight">\(1 \oplus \epsilon = 1\)</span> implies that <span class="math notranslate nohighlight">\(a \oplus a \epsilon = a\)</span> for any value <span class="math notranslate nohighlight">\(\)</span>. The quantity <span class="math notranslate nohighlight">\(a \epsilon\)</span> increases as <span class="math notranslate nohighlight">\(a\)</span> increases, indicating that the difference between two values representable in the floating point number system grow as the size of the numbers grows.</details>
