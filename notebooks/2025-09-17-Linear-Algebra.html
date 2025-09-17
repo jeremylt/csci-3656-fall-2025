@@ -18,7 +18,7 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Quizes" href="../quizes.html" />
+    <link rel="next" title="2025-09-19 Projections, rotations, and reflections" href="2025-09-19-Geometry.html" />
     <link rel="prev" title="2025-09-15 Stability" href="2025-09-15-Stability.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -533,7 +533,7 @@ size(V) = (4, 4)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-B = [-0.5702081198885853 0.001636161392312263 0.0008890349653087881 0.07423377839204892; 0.001636161392312263 1.2612919305262345 0.39967641435257706 -0.07486961959692573; 0.0008890349653087881 0.39967641435257706 -0.09992684689865383 -0.3466558210442713; 0.07423377839204892 -0.07486961959692573 -0.3466558210442713 -0.5911569637389956]
+B = [-0.3223456105868705 0.12568934311221702 -0.6827206962241104 -0.16135399870532607; 0.12568934311221702 1.210134826959173 0.043092185369907776 0.7978537780538818; -0.6827206962241104 0.043092185369907776 -1.0107850300610743 -0.5971098179604463; -0.16135399870532607 0.7978537780538818 -0.5971098179604463 0.1229958136887721]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -542,7 +542,7 @@ B = [-0.5702081198885853 0.001636161392312263 0.0008890349653087881 0.0742337783
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
--0.1554599916137662
+-0.23352419264832755
 </pre></div></div>
 </div>
 </section>
@@ -566,10 +566,10 @@ of the columns of <span class="math notranslate nohighlight">\(A\)</span>, i.e.,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
- 0.469049   0.640779  0.922473   0.088969
- 0.0949948  0.454889  0.0413703  0.984744
- 0.217148   0.450278  0.968822   0.905899
- 0.940495   0.150568  0.215927   0.0924834
+ 0.67584    0.716838  0.262312   0.435808
+ 0.0596538  0.837685  0.621584   0.823014
+ 0.890875   0.50513   0.25752    0.455909
+ 0.723634   0.459148  0.0109591  0.262897
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -588,10 +588,10 @@ of the columns of <span class="math notranslate nohighlight">\(A\)</span>, i.e.,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
-  1.0          0.0           0.0           0.0
- -5.43259e-17  1.0           0.0           0.0
-  7.63374e-18  4.61301e-17   1.0          -0.0
-  2.33097e-17  1.84446e-17  -3.00358e-17   1.0
+  1.0          -1.27854e-18   0.0          -2.58985e-17
+ -1.5444e-16    1.0           0.0          -1.95406e-17
+ -4.70316e-17   8.25091e-17   1.0          -2.65181e-16
+  1.86416e-16  -1.35951e-16  -3.01865e-17   1.0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -610,10 +610,10 @@ of the columns of <span class="math notranslate nohighlight">\(A\)</span>, i.e.,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
-  1.0          4.34811e-17   3.89715e-17  -2.63856e-17
- -1.77111e-16  1.0           5.35726e-17   1.18242e-16
-  4.63831e-20  2.91261e-17   1.0          -1.11218e-16
-  5.70914e-17  3.95877e-17  -4.23485e-17   1.0
+  1.0          -3.66209e-17  -4.84921e-17   5.01411e-18
+ -3.24653e-17   1.0          -1.47559e-16  -2.01666e-16
+  1.40997e-16   2.90078e-16   1.0          -6.3693e-16
+  5.92525e-16  -5.65117e-16  -4.55633e-17   1.0
 </pre></div></div>
 </div>
 </section>
@@ -645,6 +645,7 @@ of the columns of <span class="math notranslate nohighlight">\(A\)</span>, i.e.,
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
 <span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
 
+<span class="c"># Let&#39;s take some inner products</span>
 <span class="nd">@show</span><span class="w"> </span><span class="n">x</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span>
 <span class="nd">@show</span><span class="w"> </span><span class="n">y</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="p">;</span>
 </pre></div>
@@ -663,12 +664,19 @@ y&#39; * x = 1
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
-<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">ϕ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">pi</span><span class="o">/</span><span class="mi">6</span>
-<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">cos</span><span class="p">(</span><span class="n">ϕ</span><span class="p">),</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">ϕ</span><span class="p">)]</span>
-<span class="n">cos_θ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">&#39;*</span><span class="n">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Let&#39;s define a vector from an angle</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">ϕ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">π</span><span class="o">/</span><span class="mi">6</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">cos</span><span class="p">(</span><span class="n">ϕ</span><span class="p">),</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">ϕ</span><span class="p">)]</span>
 
-<span class="nd">@show</span><span class="w"> </span><span class="n">cos_θ</span>
-<span class="nd">@show</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">ϕ</span><span class="o">-</span><span class="nb">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+<span class="c"># Let&#39;s compute and use the angle between x and y</span>
+<span class="n">println</span><span class="p">()</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">cos_θ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">θ</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">acos</span><span class="p">(</span><span class="n">cos_θ</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">rad2deg</span><span class="p">(</span><span class="n">θ</span><span class="p">)</span>
+
+<span class="c"># And compare to our original angle</span>
+<span class="n">println</span><span class="p">()</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">ϕ</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nb">π</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -677,8 +685,14 @@ y&#39; * x = 1
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-cos_θ = 0.49999999999999994
-cos(ϕ - pi / 2) = 0.4999999999999999
+ϕ = π / 6 = 0.5235987755982988
+y = [cos(ϕ), sin(ϕ)] = [0.8660254037844387, 0.49999999999999994]
+
+cos_θ = (x&#39; * y) / (norm(x) * norm(y)) = 0.49999999999999994
+θ = acos(cos_θ) = 1.0471975511965979
+rad2deg(θ) = 60.00000000000001
+
+cos(ϕ - π / 2) = 0.4999999999999999
 </pre></div></div>
 </div>
 </section>
@@ -693,6 +707,7 @@ cos(ϕ - pi / 2) = 0.4999999999999999
 <span class="n">M</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">[</span><span class="mf">.5</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="c"># 0.5</span>
 <span class="w">         </span><span class="mi">0</span><span class="w">  </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w">  </span><span class="c"># x</span>
 <span class="w">         </span><span class="mi">0</span><span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="c"># x^2</span>
+
 <span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">M</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">0.5</span><span class="se">\$</span><span class="s">&quot;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$</span><span class="s">x</span><span class="se">\$</span><span class="s">&quot;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$</span><span class="s">x^2</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">])</span>
 <span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="o">*</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="ss">:none</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:black</span><span class="p">)</span>
 </pre></div>
@@ -715,53 +730,24 @@ cos(ϕ - pi / 2) = 0.4999999999999999
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># &lt; 0.5, x &gt;</span>
-<span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="c"># &lt; 0.5, x^2 &gt;</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="c"># &lt;x, x^2 &gt;</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">3</span><span class="p">];</span>
 </pre></div>
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
-</pre></div>
+<div class="prompt empty docutils container">
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
--2.220446049250313e-16
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
-</pre></div>
-</div>
-<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># &lt; 0.5, x^2 &gt;</span>
-<span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
-8.673469387755103
-</pre></div></div>
-</div>
-<div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
-</pre></div>
-</div>
-<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># &lt;x, x^2 &gt;</span>
-<span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">]</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">M</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
-</pre></div>
-</div>
-<div class="output_area docutils container">
-<div class="highlight"><pre>
--4.440892098500626e-16
+(M[:, 1])&#39; * M[:, 2] = -2.220446049250313e-16
+(M[:, 1])&#39; * M[:, 3] = 8.673469387755103
+(M[:, 2])&#39; * M[:, 3] = -4.440892098500626e-16
 </pre></div></div>
 </div>
 </section>
@@ -807,7 +793,7 @@ cos(ϕ - pi / 2) = 0.4999999999999999
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../notebooks.html">Jupyter Notebooks</a><ul>
       <li>Previous: <a href="2025-09-15-Stability.html" title="previous chapter">2025-09-15 Stability</a></li>
-      <li>Next: <a href="../quizes.html" title="next chapter">Quizes</a></li>
+      <li>Next: <a href="2025-09-19-Geometry.html" title="next chapter">2025-09-19 Projections, rotations, and reflections</a></li>
   </ul></li>
   </ul></li>
 </ul>
