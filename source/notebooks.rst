@@ -55,4 +55,5 @@ Linear algebra
    :maxdepth: 1
 
    notebooks/2025-09-17-Linear-Algebra.ipynb
+   notebooks/2025-09-19-Geometry.ipynb
 
