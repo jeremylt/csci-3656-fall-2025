@@ -56,4 +56,5 @@ Linear algebra
 
    notebooks/2025-09-17-Linear-Algebra.ipynb
    notebooks/2025-09-19-Geometry.ipynb
+   notebooks/2025-09-22-Gram-Schmidt.ipynb
 

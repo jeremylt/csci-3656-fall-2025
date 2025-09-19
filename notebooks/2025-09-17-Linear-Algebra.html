@@ -374,7 +374,8 @@ P(p + q) = Polynomial(1 - x + 3*x^2 + 9*x^3)
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># And lets multiply that by our coeffs</span>
-<span class="n">V</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span>
+<span class="n">V</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">V</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">q</span><span class="p">;</span>
+<span class="n">V</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">p</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">q</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -533,7 +534,7 @@ size(V) = (4, 4)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-B = [-0.3223456105868705 0.12568934311221702 -0.6827206962241104 -0.16135399870532607; 0.12568934311221702 1.210134826959173 0.043092185369907776 0.7978537780538818; -0.6827206962241104 0.043092185369907776 -1.0107850300610743 -0.5971098179604463; -0.16135399870532607 0.7978537780538818 -0.5971098179604463 0.1229958136887721]
+B = [0.4786659078573863 -0.6058243282505108 -0.08431381808611738 0.17379748782488802; -0.6058243282505108 -0.3523217832765442 -0.17822736587576016 0.21136858880960374; -0.08431381808611738 -0.17822736587576016 -0.12151179661611133 0.5425185862055443; 0.17379748782488802 0.21136858880960374 0.5425185862055443 -0.004832327964730654]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -542,7 +543,7 @@ B = [-0.3223456105868705 0.12568934311221702 -0.6827206962241104 -0.161353998705
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
--0.23352419264832755
+0.07104701982881283
 </pre></div></div>
 </div>
 </section>
@@ -566,10 +567,10 @@ of the columns of <span class="math notranslate nohighlight">\(A\)</span>, i.e.,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
- 0.67584    0.716838  0.262312   0.435808
- 0.0596538  0.837685  0.621584   0.823014
- 0.890875   0.50513   0.25752    0.455909
- 0.723634   0.459148  0.0109591  0.262897
+ 0.626678    0.673801  0.656624  0.0796999
+ 0.948769    0.105608  0.530424  0.930987
+ 0.681706    0.24679   0.400818  0.572381
+ 0.00619773  0.905357  0.750307  0.139434
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -588,10 +589,10 @@ of the columns of <span class="math notranslate nohighlight">\(A\)</span>, i.e.,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
-  1.0          -1.27854e-18   0.0          -2.58985e-17
- -1.5444e-16    1.0           0.0          -1.95406e-17
- -4.70316e-17   8.25091e-17   1.0          -2.65181e-16
-  1.86416e-16  -1.35951e-16  -3.01865e-17   1.0
+  1.0           7.31358e-17  -1.32838e-17  -1.22347e-16
+ -4.21113e-16   1.0           1.83308e-16  -5.62053e-16
+  5.27068e-16  -2.03387e-16   1.0           7.20475e-16
+ -9.9441e-17    3.77455e-17   1.50873e-16   1.0
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -610,10 +611,10 @@ of the columns of <span class="math notranslate nohighlight">\(A\)</span>, i.e.,
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
-  1.0          -3.66209e-17  -4.84921e-17   5.01411e-18
- -3.24653e-17   1.0          -1.47559e-16  -2.01666e-16
-  1.40997e-16   2.90078e-16   1.0          -6.3693e-16
-  5.92525e-16  -5.65117e-16  -4.55633e-17   1.0
+  1.0           2.6886e-17   -1.07425e-16  -3.06659e-16
+ -8.06184e-16   1.0           5.78853e-16  -4.69639e-16
+  5.14419e-16  -3.06496e-16   1.0          -9.91941e-17
+ -3.70712e-16   2.41317e-16   2.29375e-16   1.0
 </pre></div></div>
 </div>
 </section>
