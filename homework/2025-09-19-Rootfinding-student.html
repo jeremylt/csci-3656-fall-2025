@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2025-09-19 Rootfinding</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2025-10-03 Orthogonal Polynomials" href="2025-10-03-Orthogonal-Polynomials-student.html" />
+    <link rel="prev" title="2025-09-05 Taylor Series" href="2025-09-05-Taylor-Series-student.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>Before you turn this problem in, make sure everything runs as expected. First, restart the kernel (in the menubar, select Kernel → Restart) and then run all cells (in the menubar, select Cell → Run All).</p>
+<p>Make sure you fill in any place that says <code class="docutils literal notranslate"><span class="pre">YOUR</span> <span class="pre">CODE</span> <span class="pre">HERE</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;YOUR</span> <span class="pre">ANSWER</span> <span class="pre">HERE&quot;</span></code>, as well as your name and collaborators below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">COLLABORATORS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<section id="2025-09-19-Rootfinding">
+<h1>2025-09-19 Rootfinding<a class="headerlink" href="#2025-09-19-Rootfinding" title="Link to this heading">¶</a></h1>
+<section id="Globalizing-Newton">
+<h2>Globalizing Newton<a class="headerlink" href="#Globalizing-Newton" title="Link to this heading">¶</a></h2>
+<p>In this activity, we experiment with helping Newton methods to converge from poor initial guesses (known as <strong>globalization</strong>, which strives to get close enough that Newton’s quadratic local convergence can kick in).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+
+<span class="c"># We write down functions and their derivatives</span>
+<span class="n">tests</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Dict</span><span class="p">(</span>
+<span class="w">    </span><span class="s">&quot;x^2 - 2&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">),</span>
+<span class="w">    </span><span class="s">&quot;cos(x) - x&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">),</span>
+<span class="p">)</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">plotlist</span><span class="p">(</span><span class="n">ts</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;A utility function to plot and label each function&quot;</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">()</span>
+<span class="w">    </span><span class="c"># Style note: I use _ for unused parts of pattern matches</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">_fp</span><span class="p">))</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">ts</span>
+<span class="w">        </span><span class="n">plot!</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="s">&quot;black&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="w">    </span><span class="n">p</span>
+<span class="k">end</span>
+
+<span class="n">plotlist</span><span class="p">(</span><span class="n">tests</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Convergence-rates">
+<h3>Convergence rates<a class="headerlink" href="#Convergence-rates" title="Link to this heading">¶</a></h3>
+<p>We implemented bisection and Newton’s method in class. Our bisection implementation here has</p>
+<ul class="simple">
+<li><p>better error handling (raises <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code> when the function does not change sign in the interval), and</p></li>
+<li><p>is more efficient by not re-evaluating the function at both endpoints on each iteration.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">bisect</span><span class="p">((</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">_fp</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Iterative (rather than recursive) bisection method.</span>
+
+<span class="s">    Notice that this takes as input, a pair of functions (f, fp). Bisection</span>
+<span class="s">    does not use fp, but we&#39;re keeping the same interface here to make it</span>
+<span class="s">    easy to compare methods.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">fa</span><span class="p">,</span><span class="w"> </span><span class="n">fb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">a</span><span class="p">),</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="w">    </span><span class="nd">@assert</span><span class="w"> </span><span class="n">fa</span><span class="o">*</span><span class="n">fb</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="s">&quot;Interval function does not change sign, may not contain root&quot;</span>
+<span class="w">    </span><span class="n">history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">b</span><span class="o">-</span><span class="n">a</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">        </span><span class="n">mid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">        </span><span class="n">fmid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">mid</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">history</span><span class="p">,</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">fmid</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">fa</span><span class="o">*</span><span class="n">fmid</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">fb</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">fmid</span>
+<span class="w">        </span><span class="k">else</span>
+<span class="w">            </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">fa</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mid</span><span class="p">,</span><span class="w"> </span><span class="n">fmid</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="c"># return num_its rows of [x f(x)]</span>
+<span class="w">    </span><span class="n">reshape</span><span class="p">(</span><span class="n">vcat</span><span class="p">(</span><span class="n">history</span><span class="o">...</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">)</span><span class="o">&#39;</span>
+<span class="k">end</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">bisect</span><span class="p">(</span><span class="n">tests</span><span class="p">[</span><span class="s">&quot;cos(x) - x&quot;</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]),</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="ss">:auto</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">r_k</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">newton</span><span class="p">((</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Newton method without a line search.</span>
+
+<span class="s">    Note that this function takes an interval [a, b], which is a bit</span>
+<span class="s">    more information than is usually provided to Newton methods. We use</span>
+<span class="s">    this interface for uniformity with bisection above, and warn if Newton</span>
+<span class="s">    sends us outside the interval.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">        </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">history</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">fx</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span>
+<span class="w">            </span><span class="nd">@warn</span><span class="w"> </span><span class="s">&quot;Diverged at iteration </span><span class="si">$k</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="n">fpx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">fx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fpx</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="c"># return num_its rows of [x f(x)]</span>
+<span class="w">    </span><span class="n">reshape</span><span class="p">(</span><span class="n">vcat</span><span class="p">(</span><span class="n">history</span><span class="o">...</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">)</span><span class="o">&#39;</span>
+<span class="k">end</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">newton</span><span class="p">(</span><span class="n">tests</span><span class="p">[</span><span class="s">&quot;cos(x) - x&quot;</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="mf">1e-20</span><span class="p">,</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="ss">:auto</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">r_k</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This is steeper than a straight line, demonstrating the signature superlinear convergence of Newton methods.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">plot_conv</span><span class="p">(</span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="n">methods</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Plot the convergence of a group of methods on a dict of test problems&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">colors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Dict</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">keys</span><span class="p">(</span><span class="n">tests</span><span class="p">),</span><span class="w"> </span><span class="p">[</span><span class="ss">:red</span><span class="p">,</span><span class="w"> </span><span class="ss">:green</span><span class="p">,</span><span class="w"> </span><span class="ss">:blue</span><span class="p">]))</span>
+<span class="w">    </span><span class="n">markers</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">Dict</span><span class="p">(</span><span class="n">zip</span><span class="p">(</span><span class="n">methods</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="ss">:circle</span><span class="p">,</span><span class="w"> </span><span class="ss">:square</span><span class="p">]))</span>
+<span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mf">0.5</span><span class="w"> </span><span class="o">^</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:black</span><span class="p">,</span><span class="w"> </span><span class="n">xlims</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">30</span><span class="p">),</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">ylims</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-9</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">fpair</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">tests</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">method</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">methods</span>
+<span class="w">            </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mf">3.5</span>
+<span class="w">            </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">method</span><span class="p">(</span><span class="n">fpair</span><span class="p">,</span><span class="w"> </span><span class="n">left</span><span class="p">,</span><span class="w"> </span><span class="n">right</span><span class="p">)</span>
+<span class="w">            </span><span class="n">scatter!</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="mf">1e-20</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="si">$</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">method</span><span class="p">))</span><span class="s"> - </span><span class="si">$</span><span class="p">(</span><span class="n">string</span><span class="p">(</span><span class="n">name</span><span class="p">))</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="n">markers</span><span class="p">[</span><span class="n">method</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">p</span>
+<span class="k">end</span>
+
+<span class="n">plot_conv</span><span class="p">(</span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">bisect</span><span class="p">,</span><span class="w"> </span><span class="n">newton</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Breaking-Newton">
+<h3>Breaking Newton<a class="headerlink" href="#Breaking-Newton" title="Link to this heading">¶</a></h3>
+<p>Find a function <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> that satisfies all of the following properties:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f \left( x \right)\)</span> is <strong>strictly monotonically increasing</strong></p></li>
+<li><p><span class="math notranslate nohighlight">\(f \left( x \right)\)</span> has a simple root at <span class="math notranslate nohighlight">\(x = 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(f' \left( x \right)\)</span> exists for all real <span class="math notranslate nohighlight">\(x\)</span></p></li>
+<li><p>Newton’s method diverges when started with an initial guess <span class="math notranslate nohighlight">\(x_0 = 1\)</span></p></li>
+</ul>
+<p>Definition</p>
+<ul class="simple">
+<li><p>A function <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> is <strong>strictly montonically increasing</strong> if <span class="math notranslate nohighlight">\(f \left( a \right) &lt; f \left( b \right)\)</span> for all <span class="math notranslate nohighlight">\(a &lt; b\)</span>. If is differentiable, this implies <span class="math notranslate nohighlight">\(f' \left( x \right) &gt; 0\)</span> for all <span class="math notranslate nohighlight">\(x\)</span>.</p></li>
+</ul>
+<p>Hint</p>
+<ul class="simple">
+<li><p>Look up “sigmoid” functions and sketch a Newton iteration.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">monotonic_diverge</span><span class="p">()</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;A strictly monotonically increasing function with a simple</span>
+<span class="s">    root at x=0 for which Newton&#39;s method diverges with initial</span>
+<span class="s">    guess x=1. Recall that we need to return a pair of functions</span>
+<span class="s">    (f, fp). If your function was f(x) = x^2, you could write:</span>
+
+<span class="s">    f(x)  = x^2</span>
+<span class="s">    fp(x) = 2*x</span>
+<span class="s">    return (f, fp)</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">    </span><span class="c">### SOLUTION END</span>
+<span class="k">end</span>
+
+<span class="c"># You may see a &quot;Warning: Diverged&quot;. That&#39;s expected.</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="ss">:equal</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">f</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">hist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newton</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">(),</span><span class="w"> </span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">hist</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">markershape</span><span class="o">=</span><span class="ss">:auto</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">r_k</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Test</span>
+
+
+<span class="k">function</span><span class="w"> </span><span class="n">isderivative</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">)</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">    </span><span class="n">eps</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-8</span>
+<span class="w">    </span><span class="n">fh</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">eps</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">eps</span>
+<span class="w">    </span><span class="n">all</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">fp</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fh</span><span class="p">)</span><span class="w"> </span><span class="o">.&lt;</span><span class="w"> </span><span class="mf">1e-5</span><span class="o">*</span><span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+<span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">ismonotonic</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">_fp</span><span class="p">)</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">    </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="n">all</span><span class="p">(</span><span class="n">fx</span><span class="p">[</span><span class="mi">2</span><span class="o">:</span><span class="k">end</span><span class="p">]</span><span class="w"> </span><span class="o">.&gt;</span><span class="w"> </span><span class="n">fx</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+<span class="k">end</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">isdivergent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">)</span>
+<span class="w">    </span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newton</span><span class="p">((</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">),</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="w">    </span><span class="n">hx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span><span class="n">abs</span><span class="p">(</span><span class="n">hx</span><span class="p">[</span><span class="k">end</span><span class="p">])</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">hx</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="k">end</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+<span class="k">end</span>
+
+<span class="nd">@test</span><span class="w"> </span><span class="n">monotonic_diverge</span><span class="p">()[</span><span class="mi">1</span><span class="p">](</span><span class="mi">0</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-10</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">isderivative</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">()</span><span class="o">...</span><span class="p">)</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">ismonotonic</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">()</span><span class="o">...</span><span class="p">)</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">isdivergent</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">()</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Fixing-Newton---Secant-method">
+<h3>Fixing Newton - Secant method<a class="headerlink" href="#Fixing-Newton---Secant-method" title="Link to this heading">¶</a></h3>
+<p>The secant method is similar to Newton’s method, but instead of evaluating <span class="math notranslate nohighlight">\(f' \left( x_i \right)\)</span> directly, it uses the approximation</p>
+<div class="math notranslate nohighlight">
+\[f' \left( x_i \right) \approx \frac{f \left( x_i \right) - f \left( x_{i - 1} \right)}{x_i - x_{x - 1}}\]</div>
+<p>Implement the secant method by writing code similar to Newton’s method, but using this approximation in place of <span class="math notranslate nohighlight">\(f' \left( x_i \right)\)</span> where it appears in Newton’s method.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">secant</span><span class="p">((</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">_fp</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Solve f(x) = 0 using the secant method.</span>
+
+<span class="s">    We&#39;re keeping the same interface as bisection() and newton(), but</span>
+<span class="s">    the secant method should not use the argument _fp above. Instead,</span>
+<span class="s">    it should use the approximation based on a prior iterate.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">xlast</span><span class="p">,</span><span class="w"> </span><span class="n">fxlast</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="c"># Choose an arbitrary &quot;last&quot; x</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">xlast</span><span class="p">,</span><span class="w"> </span><span class="n">fxlast</span><span class="p">]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">        </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">history</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">fx</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span>
+<span class="w">            </span><span class="nd">@warn</span><span class="w"> </span><span class="s">&quot;Diverged at iteration </span><span class="si">$k</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">        </span><span class="c">### SOLUTION END</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">fx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fpx</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="c"># return num_its rows of [x f(x)]</span>
+<span class="w">    </span><span class="n">reshape</span><span class="p">(</span><span class="n">vcat</span><span class="p">(</span><span class="n">history</span><span class="o">...</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">)</span><span class="o">&#39;</span>
+<span class="k">end</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">secant</span><span class="p">(</span><span class="n">tests</span><span class="p">[</span><span class="s">&quot;cos(x) - x&quot;</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">)[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="mf">1e-20</span><span class="p">,</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">marker</span><span class="o">=</span><span class="ss">:auto</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">r_k</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_conv</span><span class="p">(</span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">newton</span><span class="p">,</span><span class="w"> </span><span class="n">secant</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">secant</span><span class="p">(</span><span class="n">tests</span><span class="p">[</span><span class="s">&quot;x^2 - 2&quot;</span><span class="p">],</span><span class="w"> </span><span class="o">-</span><span class="mf">1.</span><span class="p">,</span><span class="w"> </span><span class="mf">3.</span><span class="p">)</span>
+
+<span class="nd">@test</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="k">end</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">]</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="p">[</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="mi">0</span><span class="p">]))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-9</span><span class="w"> </span><span class="c"># Did not converge to correct root</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">size</span><span class="p">(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">10</span><span class="w"> </span><span class="c"># Convergence too slow</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Fixing-Newton---Line-search">
+<h3>Fixing Newton - Line search<a class="headerlink" href="#Fixing-Newton---Line-search" title="Link to this heading">¶</a></h3>
+<p>Newton’s method is often paired with a line search, which finds the smallest non-negative integer <span class="math notranslate nohighlight">\(n\)</span> such that</p>
+<div class="math notranslate nohighlight">
+\[\left\lvert f \left( x_{k + 1} \right) \right\rvert &lt; \left\lvert f \left( x_k \right) \right\rvert\]</div>
+<p>where</p>
+<div class="math notranslate nohighlight">
+\[x_{k + 1} = x_k - 2^{-n} f \left( x_k \right) / f' \left( x_k \right)\]</div>
+<p>Implement this algorithm by shortening the step until the inequality is satisfied. A new line search (i.e., <span class="math notranslate nohighlight">\(n = 0, 1, \dots\)</span>) starts every time you take a step and you can just try the inequality with each step size, until you can accept the step and continue with the next Newton step.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">newtonls</span><span class="p">((</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Newton method with a line search.</span>
+
+<span class="s">    Note that this function takes an interval [a, b], which is a bit</span>
+<span class="s">    more information than is usually provided to Newton methods. We use</span>
+<span class="s">    this interface for uniformity with bisection above, and warn if Newton</span>
+<span class="s">    sends us outside the interval.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="n">history</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">        </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">history</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">fx</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">x</span>
+<span class="w">            </span><span class="nd">@warn</span><span class="w"> </span><span class="s">&quot;Diverged at iteration </span><span class="si">$k</span><span class="s">&quot;</span>
+<span class="w">        </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="n">fpx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">        </span><span class="c">### SOLUTION END</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">reshape</span><span class="p">(</span><span class="n">vcat</span><span class="p">(</span><span class="n">history</span><span class="o">...</span><span class="p">),</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">)</span><span class="o">&#39;</span>
+<span class="k">end</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">aspect_ratio</span><span class="o">=</span><span class="ss">:equal</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">f</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">hist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newtonls</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">(),</span><span class="w"> </span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hist</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">hist</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">markershape</span><span class="o">=</span><span class="ss">:auto</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">r_k</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_conv</span><span class="p">(</span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="n">newtonls</span><span class="p">,</span><span class="w"> </span><span class="n">secant</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@test</span><span class="w"> </span><span class="n">maximum</span><span class="p">(</span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">newtonls</span><span class="p">(</span><span class="n">monotonic_diverge</span><span class="p">(),</span><span class="w"> </span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">6</span><span class="p">)[</span><span class="k">end</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">]))</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-10</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Newton-Accuracy">
+<h2>Newton Accuracy<a class="headerlink" href="#Newton-Accuracy" title="Link to this heading">¶</a></h2>
+<p>Find a function <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> satisfying the following properties:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(f \left( 0 \right) = 0\)</span></p></li>
+<li><p>bisection and Newton both converge, but Newton has an error of at least <span class="math notranslate nohighlight">\(10^{-2} = 0.01\)</span> even when the residual is smaller than <span class="math notranslate nohighlight">\(10^{-10}\)</span></p></li>
+</ul>
+<p>As a side-effect of this, you’ll likely see that Newton error is higher than bisection error, even if Newton residuals converge faster.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">inaccurate</span><span class="p">()</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;A function in which Newton error is large despite residual being small.</span>
+<span class="s">    You&#39;ll be creating a function and its derivative, as in</span>
+
+<span class="s">    f(x)  = x^2</span>
+<span class="s">    fp(x) = 2*x</span>
+<span class="s">    return (f, fp)</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">    </span><span class="c">### SOLUTION END</span>
+<span class="k">end</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="n">inaccurate</span><span class="p">()[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">f</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Note that we&#39;re plotting residuals |f(x_k)|, not errors |x_k - x_*|</span>
+<span class="n">plot_conv</span><span class="p">(</span><span class="kt">Dict</span><span class="p">(</span><span class="s">&quot;inaccurate&quot;</span><span class="w"> </span><span class="o">=&gt;</span><span class="w"> </span><span class="n">inaccurate</span><span class="p">()),</span><span class="w"> </span><span class="p">(</span><span class="n">bisect</span><span class="p">,</span><span class="w"> </span><span class="n">newton</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">h</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">newton</span><span class="p">(</span><span class="n">inaccurate</span><span class="p">(),</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">final_error</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="k">end</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">])</span>
+<span class="n">smallresid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="o">.</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span><span class="w"> </span><span class="o">.&lt;</span><span class="w"> </span><span class="mf">1e-10</span>
+
+<span class="nd">@test</span><span class="w"> </span><span class="n">any</span><span class="p">(</span><span class="n">smallresid</span><span class="p">)</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">any</span><span class="p">(</span><span class="n">h</span><span class="p">[</span><span class="n">smallresid</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">.&gt;</span><span class="w"> </span><span class="mf">1e-2</span><span class="p">)</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">isderivative</span><span class="p">(</span><span class="n">inaccurate</span><span class="p">()</span><span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Newton---Impact-of-initial-guess">
+<h2>Newton - Impact of initial guess<a class="headerlink" href="#Newton---Impact-of-initial-guess" title="Link to this heading">¶</a></h2>
+<p>We consider the function <span class="math notranslate nohighlight">\(f \left( z \right) = z^3 - 1\)</span> and examine when Newton’s method converges, and which root it converges to. (This function has three roots in the complex plane.) We will color each pixel based on how Newton’s method converges with that initial guess. You are asked to implement one step of Newton’s method (without line search or anything fancy) inside the inner loop.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">image</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">maxits</span><span class="p">)</span>
+<span class="w">    </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span>
+<span class="w">    </span><span class="n">o1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="w">    </span><span class="n">X</span><span class="p">,</span><span class="w"> </span><span class="n">Y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x1</span><span class="o">&#39;</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">o1</span><span class="p">,</span><span class="w"> </span><span class="n">o1</span><span class="o">&#39;</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">x1</span>
+<span class="w">    </span><span class="n">Z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">X</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="mi">1</span><span class="nb">im</span><span class="o">*</span><span class="n">Y</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fill</span><span class="p">(</span><span class="n">RGB</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span><span class="w"> </span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">m</span><span class="p">)</span><span class="w"> </span><span class="c"># m×m array of colors</span>
+<span class="w">    </span><span class="c"># The equation has three known roots</span>
+<span class="w">    </span><span class="n">roots</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="mi">2</span><span class="nb">im</span><span class="o">*</span><span class="nb">π</span><span class="o">/</span><span class="mi">3</span><span class="p">),</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="nb">im</span><span class="o">*</span><span class="nb">π</span><span class="o">/</span><span class="mi">3</span><span class="p">)]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">m</span>
+<span class="w">            </span><span class="n">z</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Z</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="c"># Initial guess for this pixel</span>
+<span class="w">            </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">            </span><span class="k">while</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">maxits</span>
+<span class="w">                </span><span class="c"># Update z with one Newton step on the equation f(z) = z**3 - 1.</span>
+<span class="w">                </span><span class="c"># Break if |f(z)| &lt; 1e-10.</span>
+<span class="w">                </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">                </span><span class="c">### SOLUTION END</span>
+<span class="w">                </span><span class="n">k</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">            </span><span class="c"># Color the output based on how many iterations were needed</span>
+<span class="w">            </span><span class="n">color</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="c"># white if not converged</span>
+<span class="w">            </span><span class="k">for</span><span class="w"> </span><span class="n">r</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span>
+<span class="w">                </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">z</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">roots</span><span class="p">[</span><span class="n">r</span><span class="p">])</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-8</span>
+<span class="w">                    </span><span class="n">color</span><span class="p">[</span><span class="o">:</span><span class="p">]</span><span class="w"> </span><span class="o">.=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">                    </span><span class="n">color</span><span class="p">[</span><span class="n">r</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">log</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+<span class="w">                </span><span class="k">end</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">            </span><span class="n">C</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">RGB</span><span class="p">(</span><span class="n">color</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="w"> </span><span class="n">color</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">C</span>
+<span class="k">end</span>
+
+<span class="c"># You may try adjusting the resolution and/or number of iterations</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">image</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>You can read more about <a class="reference external" href="https://en.wikipedia.org/wiki/Julia_set">such diagrams</a>, the complexity of which demonstrate that precisely describing the domain of convergence may be far more complicated than the function or the algorithm. Considering that for many problems, one specific root is physical (say the real one, colored red above), we usually need good initial guesses for fast, reliable convergence in practical applications. Note that convergence in this case is pretty reliable if the
+initial guess is real.</p>
+</section>
+<section id="Newton-for-rational-functions">
+<h2>Newton for rational functions<a class="headerlink" href="#Newton-for-rational-functions" title="Link to this heading">¶</a></h2>
+<p>Newton’s method solves <span class="math notranslate nohighlight">\(f \left( x \right) = 0\)</span> using a first order Taylor approximation at each point. We can use it to compute square roots and related functions. Sample code for Newton’s method is provided.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Printf</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">newton</span><span class="p">((</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fp</span><span class="p">),</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Newton method without a line search.</span>
+
+<span class="s">    Note that this function takes an interval [a, b], which is a bit</span>
+<span class="s">    more information than is usually provided to Newton methods. We use</span>
+<span class="s">    this interface for uniformity with bisection above, and warn if Newton</span>
+<span class="s">    sends us outside the interval.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">100</span>
+<span class="w">        </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">verbose</span>
+<span class="w">            </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;k=</span><span class="si">$k</span><span class="s">, x_k=</span><span class="si">$</span><span class="p">(</span><span class="nd">@sprintf</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%.16f</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">))</span><span class="s">, f_k=</span><span class="si">$</span><span class="p">(</span><span class="nd">@sprintf</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%.16e</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fx</span><span class="p">))</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">fx</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">tol</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="n">fpx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="n">fx</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">fpx</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">x</span>
+<span class="k">end</span>
+
+<span class="n">newton</span><span class="p">(</span><span class="n">tests</span><span class="p">[</span><span class="s">&quot;cos(x) - x&quot;</span><span class="p">],</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">;</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">true</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Square-root">
+<h3>Square root<a class="headerlink" href="#Square-root" title="Link to this heading">¶</a></h3>
+<p>We can estimate <span class="math notranslate nohighlight">\(\sqrt{a}\)</span> as the root of <span class="math notranslate nohighlight">\(f \left( x \right) = x^2 - a\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">my_sqrt</span><span class="p">(</span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Compute sqrt(a) using Newton&#39;s method.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">funcs</span><span class="p">()</span>
+<span class="w">        </span><span class="s">&quot;&quot;&quot;Return a pair of functions, f(x) and f&#39;(x)</span>
+<span class="s">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">        </span><span class="c">### SOLUTION END</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">newton</span><span class="p">(</span><span class="n">funcs</span><span class="p">(),</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="nd">@show</span><span class="w"> </span><span class="n">sqrt_4</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_sqrt</span><span class="p">(</span><span class="mi">4</span><span class="p">;</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@test</span><span class="w"> </span><span class="n">my_sqrt</span><span class="p">(</span><span class="nb">pi</span><span class="p">;</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="n">sqrt</span><span class="p">(</span><span class="nb">pi</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Experiment to see if there are positive values of <code class="docutils literal notranslate"><span class="pre">a</span></code> and/or <code class="docutils literal notranslate"><span class="pre">guess</span></code> for wich this function does not converge.</p>
+</section>
+<section id="Reciprocal-square-root">
+<h3>Reciprocal square root<a class="headerlink" href="#Reciprocal-square-root" title="Link to this heading">¶</a></h3>
+<p>Similar to above, express the reciprocal square root <span class="math notranslate nohighlight">\(1 / \sqrt{a}\)</span> as a rootfinding problem, <span class="math notranslate nohighlight">\(f \left( x; a \right) = 0\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">my_rsqrt1</span><span class="p">(</span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Compute sqrt(a) using Newton&#39;s method.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">funcs</span><span class="p">()</span>
+<span class="w">        </span><span class="s">&quot;&quot;&quot;Return a pair of functions, f(x) and f&#39;(x)</span>
+<span class="s">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">        </span><span class="c">### SOLUTION END</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">newton</span><span class="p">(</span><span class="n">funcs</span><span class="p">(),</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="nd">@show</span><span class="w"> </span><span class="n">rsqrt_9</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_rsqrt1</span><span class="p">(</span><span class="mf">9.</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@test</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">my_rsqrt1</span><span class="p">(</span><span class="mf">1.05</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="mf">1.05</span>
+<span class="nd">@test</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">my_rsqrt1</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mf">.01</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<p>Choose a different way to express this problem as a rootfinding problem. Hint: When writing <span class="math notranslate nohighlight">\(f \left( x; a \right)\)</span>, you can place the division on the term with <span class="math notranslate nohighlight">\(x\)</span> or the term with <span class="math notranslate nohighlight">\(a\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">my_rsqrt2</span><span class="p">(</span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Compute sqrt(a) using Newton&#39;s method.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="k">function</span><span class="w"> </span><span class="n">funcs</span><span class="p">()</span>
+<span class="w">        </span><span class="s">&quot;&quot;&quot;Return a pair of functions, f(x) and f&#39;(x)</span>
+<span class="s">        &quot;&quot;&quot;</span>
+<span class="w">        </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">        </span><span class="c">### SOLUTION END</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">newton</span><span class="p">(</span><span class="n">funcs</span><span class="p">(),</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">0.1</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="n">tol</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="nd">@show</span><span class="w"> </span><span class="n">rsqrt_9</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_rsqrt2</span><span class="p">(</span><span class="mf">9.</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@test</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">my_rsqrt2</span><span class="p">(</span><span class="mf">1.05</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="mf">1.05</span>
+<span class="nd">@test</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">my_rsqrt2</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mf">.01</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<section id="Make-and-explain-a-figure">
+<h4>Make and explain a figure<a class="headerlink" href="#Make-and-explain-a-figure" title="Link to this heading">¶</a></h4>
+<p>Fix a positive value of <span class="math notranslate nohighlight">\(a\)</span> (your choice) and plot a figure with both functions <span class="math notranslate nohighlight">\(f_1 \left( x \right)\)</span> and <span class="math notranslate nohighlight">\(f_2 \left( x \right)\)</span> that you’ve created above. (They should have roots at <span class="math notranslate nohighlight">\(x_* = 1 / \sqrt{a}\)</span>.) You may want to refer to class notebooks for the plotting syntax, including setting <code class="docutils literal notranslate"><span class="pre">xlim</span></code> such that you avoid singularities.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="c">### SOLUTION END</span>
+</pre></div>
+</div>
+</div>
+<p>Write a caption for the figure you just made, explaining how Newton could struggle with either of your functions. Which function will be more reliable for finding the root if the initial guess is poor?</p>
+</section>
+</section>
+<section id="SOLUTION-BEGIN">
+<h3>SOLUTION BEGIN<a class="headerlink" href="#SOLUTION-BEGIN" title="Link to this heading">¶</a></h3>
+</section>
+<section id="SOLUTION-END">
+<h3>SOLUTION END<a class="headerlink" href="#SOLUTION-END" title="Link to this heading">¶</a></h3>
+</section>
+<section id="Avoiding-division">
+<h3>Avoiding division<a class="headerlink" href="#Avoiding-division" title="Link to this heading">¶</a></h3>
+<p>This implementation performs division in defining the function <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> and the Newton step,</p>
+<div class="math notranslate nohighlight">
+\[x_{i + 1} = x_i - f \left( x_i \right) / f' \left( x_i \right)\]</div>
+<p>(Division is a <a class="reference external" href="https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=div_pd&amp;expand=2150">relatively expensive operation</a> compared to addition and multiplication.)</p>
+<p>Substitute the expressions you used for <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> and <span class="math notranslate nohighlight">\(f' \left( x \right)\)</span> and simplify so that there is no division in the Newton step itself.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">my_rsqrt3</span><span class="p">(</span><span class="n">a</span><span class="p">;</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">tol</span><span class="o">=</span><span class="mf">1e-10</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">false</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Compute sqrt(a) using Newton&#39;s method with no division.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">guess</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="mi">10</span>
+<span class="w">        </span><span class="c">### SOLUTION BEGIN</span>
+
+<span class="w">        </span><span class="c">### SOLUTION END</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">verbose</span>
+<span class="w">            </span><span class="n">fx</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span>
+<span class="w">            </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;k=</span><span class="si">$k</span><span class="s">, x_k=</span><span class="si">$</span><span class="p">(</span><span class="nd">@sprintf</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%.16f</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">))</span><span class="s">, f_k=</span><span class="si">$</span><span class="p">(</span><span class="nd">@sprintf</span><span class="p">(</span><span class="s">&quot;</span><span class="si">%.16e</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fx</span><span class="p">))</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">x</span>
+<span class="k">end</span>
+
+<span class="nd">@show</span><span class="w"> </span><span class="n">rsqrt_9</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">my_rsqrt3</span><span class="p">(</span><span class="mf">9.</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mf">.5</span><span class="p">,</span><span class="w"> </span><span class="n">verbose</span><span class="o">=</span><span class="nb">true</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@test</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">my_rsqrt3</span><span class="p">(</span><span class="mf">1.05</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="mf">1.05</span>
+<span class="nd">@test</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">my_rsqrt3</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mf">.01</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="mi">100</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">my_rsqrt3</span><span class="p">(</span><span class="nb">π</span><span class="p">,</span><span class="w"> </span><span class="n">guess</span><span class="o">=</span><span class="mf">.3</span><span class="p">)</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">π</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Conclusions?">
+<h4>Conclusions?<a class="headerlink" href="#Conclusions?" title="Link to this heading">¶</a></h4>
+<p>According to the experiments above, should we prefer one formulation over another? Run some additional experiments to confirm. What criteria might we use to evaluate which is better? (Write a couple of sentences. Feel free to discuss on Zulip.)</p>
+</section>
+</section>
+<section id="id1">
+<h3>SOLUTION BEGIN<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+</section>
+<section id="id2">
+<h3>SOLUTION END<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<section id="Exploration">
+<h2>Exploration<a class="headerlink" href="#Exploration" title="Link to this heading">¶</a></h2>
+<p>When introducing rootfinding, we consider examples such as <a class="reference external" href="https://cu-numcomp.github.io/spring23/slides/2023-01-30-rootfinding.html#example-nonlinear-elasticity">nonlinear elasticity</a> and used rootfinding to change inputs and outputs in an expression that cannot be analytically inverted. In this exploratory activity, I’d like you take a similar process with a function of interest to you.</p>
+<ul class="simple">
+<li><p>Find a function <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> that models something you’re interested in. You could consider nonlinear physical models (aerodynamic drag, nonlinear elasticity), behavioral models, probability distributions, or anything else that that catches your interest. Implement the function in Julia.</p></li>
+<li><p>Consider how you might know the output of such functions, but not an input. Think from the position of different stakeholders: is the equation used differently by an experimentalist collecting data versus by someone making predictions through simulation? How about a company or government reasoning about people versus the people their decisions may impact?</p></li>
+<li><p>Formulate the map from known to desired data as a rootfinding problem and try one or more methods (Newton, bisection, etc., or use a rootfinding library such as <a class="reference external" href="https://juliapackages.com/p/roots">Roots</a>, which was used in the <a class="reference external" href="https://jeremylt.github.io/csci-3656-fall-2025/notebooks/2025-08-22-Welcome.html">introductory class demos</a>).</p></li>
+<li><p>Plot the inverse function (output versus input) from the standpoint of one or more stakeholder. Write captions describing any interesting inflection points or ways in which the methods may or may not be reliable.</p></li>
+<li><p>If there are a hierarchy of models for the application you’re interested in, you could consider using a simpler model to provide an initial guess to a more complicated model.</p></li>
+</ul>
+<section id="id3">
+<h3>SOLUTION BEGIN<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+</section>
+<section id="id4">
+<h3>SOLUTION END<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">CSCI 3656</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Class Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quizes.html">Quizes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../homework.html">Homework</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../homework.html">Homework</a><ul>
+      <li>Previous: <a href="2025-09-05-Taylor-Series-student.html" title="previous chapter">2025-09-05 Taylor Series</a></li>
+      <li>Next: <a href="2025-10-03-Orthogonal-Polynomials-student.html" title="next chapter">2025-10-03 Orthogonal Polynomials</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Jeremy L Thompson.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/homework/2025-09-19-Rootfinding-student.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

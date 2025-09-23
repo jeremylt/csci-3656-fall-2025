@@ -1,0 +1,974 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "81c248ec-1ba5-4e95-90ce-0e84552c5e79",
+   "metadata": {},
+   "source": [
+    "Before you turn this problem in, make sure everything runs as expected.\n",
+    "First, restart the kernel (in the menubar, select Kernel → Restart) and then run all cells (in the menubar, select Cell → Run All).\n",
+    "\n",
+    "Make sure you fill in any place that says `YOUR CODE HERE` or `\"YOUR ANSWER HERE\"`, as well as your name and collaborators below:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ebb656f0-5653-4a7b-8c6d-5366af03ec08",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "NAME = \"\"\n",
+    "COLLABORATORS = \"\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "90302889-97ed-45be-976b-d0b8c1fff2d5",
+   "metadata": {},
+   "source": [
+    "# 2025-10-03 Orthogonal Polynomials\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a07ee96d-c63c-4767-a878-a18dd20e7588",
+   "metadata": {},
+   "source": [
+    "In thi activity, we will construct polynomials using orthogonality with respect to an integral inner product.\n",
+    "For example, given functions $u \\left( x \\right)$ and $v \\left( x \\right)$, we define their inner product to be\n",
+    "\n",
+    "$$ \\left\\langle u, w \\right\\rangle = \\int_{-1}{1} u \\left( x \\right) v \\left( x \\right) dx $$\n",
+    "\n",
+    "where we use the notation $\\left\\langle u, w \\right\\rangle$ to distinguish this continuous inner product from the discrete inner product $u^T v$ of vectors.\n",
+    "\n",
+    "<br>\n",
+    "\n",
+    "This is known as the $L^2$ inner product on the domain $\\left( -1, 1 \\right)$, which is a Hilbert space and a [$L^p$ space](https://en.wikipedia.org/wiki/Lp_space).\n",
+    "The study of such generalizations of linear algebraic concepts is called Functional Analysis, and advanced mathematical topic that is used in numerical activity.\n",
+    "We will only need the above definition in this activity."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5362f19a-83ff-4754-9897-083baee099af",
+   "metadata": {},
+   "source": [
+    "The inner product induces a norm,\n",
+    "\n",
+    "$$ \\left\\lvert \\left\\lvert u \\right\\rvert \\right\\rvert = \\sqrt{\\left\\langle u, u \\right\\rangle} $$\n",
+    "\n",
+    "The inner product and norm satisfy the unual properties from our Linear Algebra notebook."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "78780f6e-84d5-4212-b08c-55934beaedb9",
+   "metadata": {},
+   "source": [
+    "## Working with polynomials\n",
+    "\n",
+    "We'll develop functions to evaluate, multiply, and integrate polynomials expressed as vectors of coefficients."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1f184c6a-bc23-4ccf-9f6e-714642c1834f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "display(\"text/latex\", \"\\$x^2\\$\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c48779f0-6b6e-4845-a9cf-8e4c9bf80da2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "using LinearAlgebra\n",
+    "using Plots\n",
+    "using Test\n",
+    "\n",
+    "function polystring(p)\n",
+    "    \"\"\"Construct a string representation of the polynomial.\n",
+    "    \n",
+    "    You don't need to understand this function, it is only\n",
+    "    used to annotate plots and clearly view polynomials.\n",
+    "    \"\"\"\n",
+    "    join((a == 1 ? \"x^$(i-1)\" : \"$a x^$(i-1)\" for (i, a) in enumerate(p) if a ≠ 0), \" + \")\n",
+    "end\n",
+    "\n",
+    "polystring([1 4 0 6])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8ddbcc70-46c2-41a8-86d0-22ce236ca05c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function polydisp(name, p)\n",
+    "    \"\"\"Display the polynomial with friendly math formatting.\"\"\"\n",
+    "    \n",
+    "    s = join(('$', \"$name(x) = \", polystring(p), '$'))\n",
+    "    display(\"text/latex\", s)\n",
+    "end\n",
+    "    \n",
+    "polydisp(\"p\", [1 4 0 6])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "aeeca4d7-ee6d-4038-b379-b041f1e251a5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function polyval(p, x)\n",
+    "    \"\"\"Evaluate function described by coefficients p at point x.\n",
+    "    \n",
+    "    This uses Horner's rule, which evaluates a0 + a1 x + a2 x^2 + a3 x^3 as\n",
+    "    a0 + x * (a1 + x * (a2 + x * (a3))).\n",
+    "    \"\"\"\n",
+    "    f = one(x) * p[end]\n",
+    "    for a in reverse(p[1:end-1])\n",
+    "        f = a .+ x .* f\n",
+    "    end\n",
+    "    f\n",
+    "end\n",
+    "\n",
+    "@test polyval([1 4 0 6], π) ≈ 1 + 4π + 6π^3"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0a36755c-b907-4295-b528-da498fe88169",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function polyplot(p; label=nothing)\n",
+    "    \"\"\"Plot a polynomial p(x) defined by its coefficients\n",
+    "      p[1] + p[2]*x^1 + ... + p[n]*x^(n-1)\n",
+    "    where n = length(p).  We evaluate the polynomial using\n",
+    "    our polyval.\n",
+    "    \"\"\"\n",
+    "    if isnothing(label)\n",
+    "        label = polystring(p)\n",
+    "    end\n",
+    "    plot!(x -> polyval(p, x), xlims=(-1, 1), label=join(('$', label, '$')))\n",
+    "end\n",
+    "\n",
+    "plot()\n",
+    "polyplot([1 4 0 6])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e982eeca-79dc-4d77-a04f-05b2817ef973",
+   "metadata": {},
+   "source": [
+    "The polynomial manipulation functions such as `polyint` are $\\mathcal{O} \\left( n \\right)$ (linear time) opeartions on lists or arrays.\n",
+    "We'll start by implementing `polyint`, which computes the indefinite integral\n",
+    "\n",
+    "$$ P \\left( x \\right) = \\int p \\left( x \\right) dx $$\n",
+    "\n",
+    "i.e., $P' \\left( x \\right) = p \\left( x \\right)$.\n",
+    "Note that the antiderivative $P \\left( x \\right)$ is a polynomial determined only up to an integration constant, which you man choose arbitrarily.\n",
+    "\n",
+    "<br>\n",
+    "\n",
+    "As an example,\n",
+    "\n",
+    "$$ \\int 1 + 4 x + 6 x^3 = C + x + 2x^2 + \\frac{6}{4} x^4 $$\n",
+    "\n",
+    "where $C$ can be any value, so we should have\n",
+    "\n",
+    "`polyint([1 4 0 6]) == [0 1 2 0 6/4]`"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c9c86b01-e65d-4dc4-b57c-901bfb568e47",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function polyint(p)\n",
+    "    \"\"\"Without using library functions, compute an indefinite integral\n",
+    "    of p(x) expressed as a polynomial of degree 1 higher than the\n",
+    "    degree of p.  The constant of integration may be chosen arbitrarily.\n",
+    "    \"\"\"\n",
+    "    p = reshape(p, :) # Convert from row or column vector into list\n",
+    "    pint = zeros(length(p) + 1) # Array to hold the indefinite integral\n",
+    "    ### SOLUTION BEGIN\n",
+    "    \n",
+    "    ### SOLUTION END\n",
+    "    # return a row vector (for easier viewing)\n",
+    "    reshape(pint, 1, :)\n",
+    "end\n",
+    "\n",
+    "p = [1 4 0 6]\n",
+    "polydisp('p', p)\n",
+    "P = polyint(p)\n",
+    "polydisp('P', P)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f691d5d3-e134-42d1-ae3b-be94fa4f1f8a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test polyint([1 1]) ≈ [0 1 .5]\n",
+    "@test polyint([1 4 0 6]) ≈ [0 1 2 0 6/4]\n",
+    "@test polyint([1 2 3 4]) ≈ [0 1 1 1 1]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "22c5c050-354f-4271-9640-8ca49126c9ff",
+   "metadata": {},
+   "source": [
+    "## Multiplying polynomials\n",
+    "\n",
+    "We need to be able to compute the product of polynomials.\n",
+    "For example,\n",
+    "\n",
+    "$$ \\left( a_1 + a_2 x + a_3 x^2 \\right) \\left( b_1 + b_2 x + b_3 x^2 \\right) = a_1 b_1 + \\left( a_1 b_2 + a_2 b_1 \\right) x + \\left( a_1 b_3 + a_2 b_2 + a_3 b_1 \\right) x^2 + \\left( a_2 b_3 + a_3 b_2 \\right) x^3 + a_3 b_3 x^4 $$\n",
+    "\n",
+    "(You may notice that one-based indexing is kinda awkward here compared to zero-based indexing.)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "627e71c3-05e6-4376-bba1-7ab17c6a0950",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function polymul(p, q)\n",
+    "    \"\"\"Multiply two polynomials, returinng a polynomial.\"\"\"\n",
+    "    p = reshape(p, :)\n",
+    "    q = reshape(q, :)\n",
+    "    n = length(p) + length(q) - 1\n",
+    "    r = zeros(n)\n",
+    "    for (i, a) in enumerate(p)\n",
+    "        for (j, b) in enumerate(q)\n",
+    "            r[i+j-1] += a * b\n",
+    "        end\n",
+    "    end\n",
+    "    # return a row vector (for easier viewing)\n",
+    "    reshape(r, 1, :)\n",
+    "end\n",
+    "\n",
+    "r = polymul([1 2 3], [10, 100])\n",
+    "polydisp('r', r)\n",
+    "@show r;"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a5963a83-e601-418d-95b8-f48f36779779",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot()\n",
+    "p = [1 -2]\n",
+    "q = [.5 1]\n",
+    "polyplot(p)\n",
+    "polyplot(q)\n",
+    "polyplot(polymul(p, q))\n",
+    "plot!(x -> 0, color=:black, label=nothing)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "785534e2-7422-4d53-9306-f4aa4f44e0ef",
+   "metadata": {},
+   "source": [
+    "## Addition and subtraction\n",
+    "\n",
+    "We need to be able to add and subtract polynomials, that is, to compute $r = p + q$ and $r = p - q$.\n",
+    "This is just entry-wise addition and subtraction, except that the vectors may have different lengths."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d7366137-aa54-4526-8a39-32271e57ed36",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function polyadd(p, q)\n",
+    "    p = reshape(p, :)\n",
+    "    q = reshape(q, :)\n",
+    "    n = max(length(p), length(q))\n",
+    "    r = zeros(n)\n",
+    "    r[1:length(p)] = p\n",
+    "    r[1:length(q)] += q\n",
+    "    reshape(r, 1, :)\n",
+    "end\n",
+    "\n",
+    "polyadd([1 2 3], [10 20])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5a9df149-b63f-4919-8456-0cd80fca9174",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function polysub(p, q)\n",
+    "    p = reshape(p, :)\n",
+    "    q = reshape(q, :)\n",
+    "    n = max(length(p), length(q))\n",
+    "    r = zeros(n)\n",
+    "    r[1:length(p)] = p\n",
+    "    r[1:length(q)] -= q\n",
+    "    reshape(r, 1, :)\n",
+    "end\n",
+    "\n",
+    "polysub([1 2 3], [10 20])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "3614769a-c1bb-4a12-86bb-e5549e65678c",
+   "metadata": {},
+   "source": [
+    "## Inner products of polynomials\n",
+    "\n",
+    "We will use the $L^2$ inner product,\n",
+    "\n",
+    "$$ \\left\\langle u, v \\right\\rangle = \\int_{-1}^{1} u \\left( x \\right) v \\left( x \\right) dx $$\n",
+    "\n",
+    "restricted to the case where $u \\left( x \\right)$ and $ v \\left( x \\right)$ are polynomials.\n",
+    "\n",
+    "<br>\n",
+    "\n",
+    "Recall the [Fundamental Theorem of Calculus](https://en.wikipedia.org/wiki/Fundamental_theorem_of_calculus), which says that\n",
+    "\n",
+    "$$ \\int_a^b f \\left( x \\right) = F \\left( b \\right) - F \\left( a \\right) $$\n",
+    "\n",
+    "where $F$ is a function such that $F' \\left( x \\right) = f \\left( x \\right)$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "664e994c-737c-4459-9f95-64ab63562528",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function poly_inner_product(u, v)\n",
+    "    \"\"\"Use polymul, polyint, and polyval to define the L2\n",
+    "    inner product of u and v on the interval (-1, 1). Both u and v\n",
+    "    are polynomials expressed as arrays in the usual way. Recall that\n",
+    "    the inner product returns a scalar (single number).\n",
+    "    \"\"\"\n",
+    "    ### SOLUTION BEGIN\n",
+    "    \n",
+    "    ### SOLUTION END\n",
+    "end\n",
+    "\n",
+    "function display_inner_product(u, v)\n",
+    "    display(\"text/html\", \"\\$ \\\\langle $(polystring(u)), $(polystring(v)) \\\\rangle = $(poly_inner_product(u, v)) \\$\")\n",
+    "end\n",
+    "poly_inner_product([1], [0 1])\n",
+    "display_inner_product([1], [0 1])\n",
+    "display_inner_product([0 0 1], [1])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "851f46ec-cb61-4bb0-adf8-cd6bb1b7886e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test poly_inner_product([-1 0 3], [1]) ≈ 0\n",
+    "@test poly_inner_product([-1 0 3], [0 -3 0 5]) ≈ 0\n",
+    "@test poly_inner_product([0 1], [0 -3 0 5]) ≈ 0\n",
+    "@test poly_inner_product([1 2 3], [1 3 0 4]) ≈ 11.2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "70b234ca-b67d-435b-b425-8c2c0d25c605",
+   "metadata": {},
+   "source": [
+    "## Norms of polynomials\n",
+    "\n",
+    "Recall that an inner product **induces** a norm.\n",
+    "We'll define it now and use it later to normalize polynomials."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7e457955-e354-4b53-b372-5e0376b3d71e",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function poly_norm(p)\n",
+    "    \"\"\"Compute the norm of the polynomial p(x) induced by poly_inner_product().\n",
+    "    \"\"\"\n",
+    "    ### SOLUTION BEGIN\n",
+    "    \n",
+    "    ### SOLUTION END\n",
+    "end"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "028d3349-fcfc-48d6-b295-040dc74830e0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test poly_norm([1]) ≈ sqrt(2)\n",
+    "@test poly_norm([0 1]) ≈ sqrt(2/3)\n",
+    "@test poly_norm([-1 0 3]) ≈ sqrt(8/5)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "85cf2aae-4ff0-4748-b62d-4c5649a15f2f",
+   "metadata": {},
+   "source": [
+    "## Orthogonalization of polynomials\n",
+    "\n",
+    "We now have the ingredients to use the Gram-Schmidt algorithm to orgthogonalize polynomials (starting with the monomials) with respect to the $L^2$ inner product.\n",
+    "We start by defining a \"matrix\" in which each of the columns is a polynomial.\n",
+    "This is conceptually similar to a Vandermonde matrix (see `np.vander()`) in the limit where we evaluate at infinitely many points; instead of storing infinitely tall columns, we store each as a list defining the polynomial."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c1baec1a-be11-4152-9799-61dd8a5b64d5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function monomials(n)\n",
+    "    \"\"\"Return a list of the first n monomials in order of increasing degree.\n",
+    "    We will think of this as a \"tall\" matrix indexed by its n columns.\n",
+    "    Each column contains a polynomial.\n",
+    "    \"\"\"\n",
+    "    A = []\n",
+    "    for j in 1:n\n",
+    "        p = zeros(j)\n",
+    "        p[end] = 1\n",
+    "        push!(A, p)\n",
+    "    end\n",
+    "    A\n",
+    "end\n",
+    "\n",
+    "plot(title=\"Columns of the monomial matrix\")\n",
+    "for (j, p) in enumerate(monomials(6))\n",
+    "    polydisp(\"p_$j\", p)\n",
+    "    polyplot(p)\n",
+    "end\n",
+    "plot!()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "d92da281-e098-499e-88d4-57a7225c7623",
+   "metadata": {},
+   "source": [
+    "## Projections\n",
+    "\n",
+    "Polynomials can be projected just like vectors.\n",
+    "For example, if $q \\left( x \\right)$ is normalized,\n",
+    "\n",
+    "$$ q \\left\\langle q, p \\right\\rangle $$\n",
+    "\n",
+    "is the orthogonal projection of $p$ into the subspace of $q$ and\n",
+    "\n",
+    "$$ p - q \\left\\langle q, p \\right\\rangle $$\n",
+    "\n",
+    "is the part orthoronal to $q$.\n",
+    "\n",
+    "<br>\n",
+    "\n",
+    "Notice the similarities between the expressions above (involving the $L^2$ inner product) and those for projections of finite-dimensional vectors, $q q^T p$ and $\\left( I - q q^T \\right) p$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d464ebd4-eb0b-470d-981a-9ac2853a93dd",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function poly_project_orthog(p, q)\n",
+    "    \"\"\"Find the component of p(x) that is orthogonal to the normalized\n",
+    "    polynomial q(x).\n",
+    "    \"\"\"\n",
+    "    c = poly_inner_product(p, q) # length of p in direction q\n",
+    "    # polysub is just subtraction of arrays, but lines them up correctly\n",
+    "    # in case they are different lengths\n",
+    "    polysub(p, q * c) # p - q c\n",
+    "end\n",
+    "\n",
+    "function test_project()\n",
+    "    A = monomials(5)\n",
+    "    plot()\n",
+    "    polyplot(A[2])                      # x\n",
+    "    polyplot(A[4])                      # x^3\n",
+    "    display_inner_product(A[2], A[4])\n",
+    "    p1 = A[2] / poly_norm(A[2])         # Normalize x in L^2 norm\n",
+    "    display(\"text/latex\", \"\\$ \\\\lVert p_1 \\\\rVert = $(poly_norm(p1)) \\$\")\n",
+    "    polyplot(p1)\n",
+    "    p3 = poly_project_orthog(A[4], p1)  # Find component of x^3 that is orthogonal to x\n",
+    "    polyplot(p3)\n",
+    "    display_inner_product(A[2], p3)\n",
+    "end\n",
+    "\n",
+    "test_project()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "e73a8321-0e83-4b5e-a30b-0e9cfb9f5043",
+   "metadata": {},
+   "source": [
+    "## Polynomial matrix multiplication\n",
+    "\n",
+    "We have discussed the matrix product $A x$ being a linear combination of the columns of $A$.\n",
+    "If $A$ is a polynomial matrix with $m$ columns (we'll say it has shape `(*, m)`), then\n",
+    "\n",
+    "$$ A x = \\sum_i A_{:, i} x_i $$\n",
+    "\n",
+    "Similarly, if $B$ is a $m \\times n$ matrix (i.e. shape `(m, n)`), then the $j$th column of $C = A B$ is\n",
+    "\n",
+    "$$ C_{:, j} = \\sum_k A_{:, k} B_{k, j} $$\n",
+    "\n",
+    "The matrix $C$ is also a polynomial matrix, now with shape `(*, n)`."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1e69fc97-eb98-4e82-bfff-f20afe107b3f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "A = monomials(4)\n",
+    "B = reshape(0:7, 2, 4)'\n",
+    "@show C = poly_matmul(A, B)\n",
+    "Cref = [[0 2 4 6], [1 3 5 7]]\n",
+    "@test C[1] ≈ Cref[1]\n",
+    "@test C[2] ≈ Cref[2]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "bb74bb2f-3db5-4a28-bebc-144f843bbd5d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function poly_matmul(A, B)\n",
+    "    \"\"\"Multiply a polynomial matrix A of shape (*,m) times\n",
+    "    a matrix B of shape (m,n) to yield a polynomial matrix\n",
+    "    C of shape (*,n).\n",
+    "    \"\"\"\n",
+    "    C = []\n",
+    "    m, n = size(B)\n",
+    "    for j in 1:n\n",
+    "        # Use polyadd to compute A * B[:,j] and\n",
+    "        # append it to C using push!(C, new_col)\n",
+    "        ### SOLUTION BEGIN\n",
+    "        \n",
+    "        ### SOLUTION END\n",
+    "    end\n",
+    "    C\n",
+    "end\n",
+    "\n",
+    "C = poly_matmul(monomials(4), [1 0 0; 0 1 0; 0 0 1; 0 0 0])\n",
+    "\n",
+    "polydisp(\"C_{:,1}\", C[1])\n",
+    "polydisp(\"C_{:,2}\", C[2])\n",
+    "polydisp(\"C_{:,3}\", C[3])\n",
+    "@show C\n",
+    "@show C[1]  # The polynomial 1\n",
+    "@show C[2]  # The polynomial x\n",
+    "@show C[3]; # The polynomial x^2"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6f976904-6a2f-407e-92af-1155ccd769c1",
+   "metadata": {},
+   "source": [
+    "## QR factorization of monomials\n",
+    "\n",
+    "We can apply the Gram-Schmidt process to compute a QR factorization of the monomials.\n",
+    "This will yield an orthogonal basis of polynomials."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "54cc028f-509f-4ea9-9a65-4cbff55c7ac7",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function poly_qr(A)\n",
+    "    \"\"\"Compute a reduced QR factorization of the polynomials in the columns of A\n",
+    "    using the Gram-Schmidt algorithm. If A has shape (*,n), the factor Q will have \n",
+    "    shape (*,n) (i.e., a list of polynomials) and R will be a square (n,n)\n",
+    "    triangular matrix.\n",
+    "    \n",
+    "    This algorithm can look line-for-line like the naive Gram-Schmidt in our class\n",
+    "    notebook (see Feb 11 or Feb 16 lectures), but you'll need to use the appropriate\n",
+    "    functions that act on polynomials, an ensure you are accessing columns. That is,\n",
+    "    when working with polynomial matrices (shape (*,n)), column j is accessed as A[j]\n",
+    "    instead of A[:,j] for traditional matrices.\n",
+    "    \"\"\"\n",
+    "    Q = []\n",
+    "    n = length(A)\n",
+    "    R = zeros(n, n)\n",
+    "    for j in 1:n # Each column of A and R\n",
+    "        ### SOLUTION BEGIN\n",
+    "        \n",
+    "        ### SOLUTION END\n",
+    "    end\n",
+    "    Q, R\n",
+    "end\n",
+    "\n",
+    "Q, R = poly_qr(monomials(4))\n",
+    "for (j, col) in enumerate(Q)\n",
+    "    polydisp(\"q_{$j}\", col)\n",
+    "end\n",
+    "R"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c42f159a-f1a4-49c8-90ae-5269ac4ad0f2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "## This cell explores some properties of the factorization, and its output\n",
+    "## may be helpful in debugging your implementation above.\n",
+    "\n",
+    "function poly_QtQ(Q)\n",
+    "    \"\"\"Compute Q.T Q where Q is a matrix of polynomials\n",
+    "    expressed as a list of columns. The result is an ordinary\n",
+    "    square matrix.\n",
+    "    \"\"\"\n",
+    "    n = length(Q)\n",
+    "    A = zeros(n, n)\n",
+    "    for i in 1:n\n",
+    "        for j in 1:n\n",
+    "            A[i,j] = poly_inner_product(Q[i], Q[j])\n",
+    "        end\n",
+    "    end\n",
+    "    A\n",
+    "end\n",
+    "\n",
+    "function poly_matsub(A, B)\n",
+    "    \"\"\"Compute A - B where A and B are matrices of polynomials\n",
+    "    expressed as lists of columns.\n",
+    "    \"\"\"\n",
+    "    C = []\n",
+    "    for i in 1:length(A)\n",
+    "        push!(C, polysub(A[i], B[i]))\n",
+    "    end\n",
+    "    C\n",
+    "end\n",
+    "\n",
+    "A = monomials(3)\n",
+    "Q, R = poly_qr(A)\n",
+    "QtQ = poly_QtQ(Q)\n",
+    "@show QtQ\n",
+    "QR_minus_A = poly_matsub(poly_matmul(Q, R), A)\n",
+    "@show QR_minus_A\n",
+    "@show norm(QtQ - I)\n",
+    "@show norm(QR_minus_A)\n",
+    "@test norm(QtQ - I) < 1e-12\n",
+    "@test norm(QR_minus_A) < 1e-12"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "34025698-0090-4dc0-83a4-1fba4cffd5ad",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# The Q factor loses orthogonality as the maximum degree is increased.\n",
+    "# This is much the same effect as we've observed with Vandermonde matrices\n",
+    "# in class, and part of the motivation for the Householder algorithm.\n",
+    "\n",
+    "A = monomials(15)\n",
+    "Q, R = poly_qr(A)\n",
+    "QtQ = poly_QtQ(Q)\n",
+    "QR_minus_A = poly_matsub(poly_matmul(Q, R), A)\n",
+    "@show norm(QtQ - I)\n",
+    "@show norm(QR_minus_A);"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "04a92021-807b-462e-98e2-b5b722bcba15",
+   "metadata": {},
+   "source": [
+    "## Plot the orthogonal polynomials"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "71409091-9d63-4193-998b-d5f3f7732c48",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function poly_plotmat(A)\n",
+    "    handle = plot() # Create new figure\n",
+    "    for (j, p) in enumerate(A)\n",
+    "        polyplot(p; label=\"p_{$j}\")\n",
+    "    end\n",
+    "    handle\n",
+    "end\n",
+    "\n",
+    "Q, _ = poly_qr(monomials(5))\n",
+    "poly_plotmat(Q)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "85104fd8-7ca9-46d4-b723-4662de38fc09",
+   "metadata": {},
+   "source": [
+    "## Normalization\n",
+    "\n",
+    "Our QR factorization is normalied using the $L^2$ norm, which is just fine mathematically, but perhaps not visually satisfying.\n",
+    "\n",
+    "<br>\n",
+    "\n",
+    "This set of polynomials is famous ([Legendre polynomials](https://en.wikipedia.org/wiki/Legendre_polynomials)), but with the normalization $p \\left( 1 \\right) = 1$ instead of the $L^2$ normalization $\\left\\langle p \\left( x \\right), p \\left( x \\right) \\right\\rangle = 1$.\n",
+    "Let's convert our $QR$ factorization to use this different normalization convention."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "14691311-ec3f-4d89-988b-ab205e75905b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function poly_qr_norm1(A)\n",
+    "    \"\"\"Compute a QR factorization with the normalization convention that\n",
+    "    q(1) = 1 for each column of Q.  This can be constructed by modifying\n",
+    "    the standard QR factorization (scaling the columns of Q and absorbing\n",
+    "    that scaling factor into R).\n",
+    "    \n",
+    "    The resulting matrix Q should have columns that are orthogonal with \n",
+    "    respect to the L^2 inner product, but they will not be normalized with\n",
+    "    respect to that product.  Consequently, Q^T Q will be diagonal, but\n",
+    "    not the identity.\n",
+    "    \n",
+    "    The factors should still satisfy Q R = A.\n",
+    "    \"\"\"\n",
+    "    Q, R = poly_qr(A)\n",
+    "    n, _ = size(R)\n",
+    "    # Loop over columns of Q (and rows of R).\n",
+    "    # Use polyval() to evaluate each column at x=1 and use that\n",
+    "    # normalization to scale the column of Q and corresponding entries\n",
+    "    # of R. The new columns of Q should be orthogonal, but will not, in\n",
+    "    # general, have norm 1.  This means Q^T Q will be diagonal, but not\n",
+    "    # the identity.  Q R = A should still be satisfied.\n",
+    "    ### SOLUTION BEGIN\n",
+    "    \n",
+    "    ### SOLUTION END\n",
+    "    Q, R\n",
+    "end\n",
+    "    \n",
+    "Q, R = poly_qr_norm1(monomials(6))\n",
+    "poly_plotmat(Q)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7f3c4a14-49d3-47ad-a846-3e1a1cc6baa8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "Q, R = poly_qr_norm1(monomials(6))\n",
+    "diag(poly_QtQ(Q))'"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b5bb0edc-9cf4-4325-935d-fee8cca981e5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# There is an analytic formula for this normalizing factor\n",
+    "[2 / (2*i+1) for i in 0:5]'"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a00effaf-bd26-4704-8948-2e5447ee2a31",
+   "metadata": {},
+   "source": [
+    "## Recurrence relation\n",
+    "\n",
+    "Although there is also structure in the factor $R$, we are often interested only in the basis $Q$.\n",
+    "Let us test whether our functions, the columns of $Q$ (with our new normalization convention), satisfy the recurrence relation\n",
+    "\n",
+    "$$ \\left( n + 1 \\right) q_{n + 1} \\left( x \\right) = \\left( 2 n + 1 \\right) x q_n \\left( x \\right) - n q_{n - 1} \\left( x \\right) $$\n",
+    "\n",
+    "The above uses the standard convention that $q_n$ is a polynomial of degree $n$, but we're using Julia's 1-based indexing so our $q_n$ is a polynomial of degree $n - 1$.\n",
+    "As such, we'll rewrite the standard recurrrance as\n",
+    "\n",
+    "$$ \\left( n + 1 \\right) q_{n + 2} \\left( x \\right) = \\left( 2 n + 1 \\right) x q_{n + 1} \\left( x \\right) - n q_n \\left( x \\right) $$"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "96a8bd67-35fe-44f1-b216-eae649dfa0a6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "for n in 1:length(Q)-2\n",
+    "    term = (2*n+1) * polymul([0 1], Q[n+1])\n",
+    "    rhs = polysub(term, n*Q[n])\n",
+    "    lhs = (n+1)*Q[n+2]\n",
+    "    err = poly_norm(polysub(rhs, lhs))\n",
+    "    @show err\n",
+    "end"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "16fa05c3-2063-4ae7-94a6-4e1f3255b01e",
+   "metadata": {},
+   "source": [
+    "This recurrence is faster and more stable to evaluate than applying Gram-Schmidt to the monomials.\n",
+    "We can use it to create a generalied Vandermonde matrix in which the columns are Legendre polynomials instead of the monomials.\n",
+    "This matrix will look like\n",
+    "\n",
+    "$$ Q = \\left[ q_0 \\left( x \\right) \\vert q_1 \\left( x \\right) \\vert q_2 \\left( x \\right) \\vert \\cdots \\right] $$\n",
+    "\n",
+    "Use the recurrence to compute this Vandermonde matrix."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d0a187ac-77df-4482-ba90-6e5c554492a2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function vander_legendre(x, k=nothing)\n",
+    "    if isnothing(k)\n",
+    "        k = length(x) # Square by default\n",
+    "    end\n",
+    "    m = length(x)\n",
+    "    Q = ones(m, k)\n",
+    "    Q[:, 2] = x\n",
+    "    for n in 1:k-2\n",
+    "        # Use the recurrence to compute Q[:,n+1] from Q[:,n] and Q[:,n-1].\n",
+    "        ### SOLUTION BEGIN\n",
+    "        \n",
+    "        ### SOLUTION END\n",
+    "    end\n",
+    "    Q\n",
+    "end\n",
+    "\n",
+    "x = LinRange(-1, 1, 50)\n",
+    "Q = vander_legendre(x, 6)\n",
+    "plot(x, Q, label=[\"\\$P_{$j}\\$\" for j in (0:5)'])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "a77e84fa-958b-4899-9b7c-f4ac0c5e9841",
+   "metadata": {},
+   "source": [
+    "In both the standard Vandermonde matrix (`vander`) and our Legendre variant, column $j$ is a polynomial of degree $j - 1$ evaluated at the points $x$.\n",
+    "The columns span the same space (i.e., the matrices have the same range).\n",
+    "Let's compare the condition number of these matrices on a set of 50 evenly-spaced points on the interval $\\left[ -1 , \\right]$.\n",
+    "Recall that small condition numbers are desirable for numerical stability."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6a8bdfef-653f-4cbc-9acc-514099a22d30",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function vander(x, k=nothing)\n",
+    "    if isnothing(k)\n",
+    "        k = length(x) # Square by default\n",
+    "    end\n",
+    "    m = length(x)\n",
+    "    P = ones(m, k)\n",
+    "    P[:, 2] = x\n",
+    "    for n in 1:k-1\n",
+    "        P[:, n+1] = x .* P[:, n]\n",
+    "    end\n",
+    "    P\n",
+    "end\n",
+    "\n",
+    "@show cond(vander(x, 20))\n",
+    "@show cond(vander_legendre(x, 20));"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "1526e31f-dbe4-4d71-a812-e57f280d15b0",
+   "metadata": {},
+   "source": [
+    "## Outlook\n",
+    "\n",
+    "* This set of orthogonal polynomials is an alternative basis to polynomials, and much more attractive for approximating functions, due to better conditioning and the convenience of orthogonality (when handling continuous functions).\n",
+    "\n",
+    "* The recurrence provides a computationally efficient and numerically stable procedure for evaluating the polynomials of any degree.\n",
+    "\n",
+    "* The zeros of these orthogonal polynomials are particularly significant for representing functions and for numerical integration.\n",
+    "\n",
+    "* We will compute the zeros efficiently using Newton's method and a carefully chosen initial guess.\n",
+    "(They can also be computed by solving an eigenvalue problem.)"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Julia 1.11.6",
+   "language": "julia",
+   "name": "julia-1.11"
+  },
+  "language_info": {
+   "file_extension": ".jl",
+   "mimetype": "application/julia",
+   "name": "julia",
+   "version": "1.11.6"
+  },
+  "nbsphinx": {
+   "execute": "never"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}

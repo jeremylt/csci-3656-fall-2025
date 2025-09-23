@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+
+<html lang="en" data-content_root="../">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2025-09-05 Taylor Series</title>
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
+    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
+    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="2025-09-19 Rootfinding" href="2025-09-19-Rootfinding-student.html" />
+    <link rel="prev" title="Homework" href="../homework.html" />
+   
+  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
+  
+
+  
+  
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <p>Before you turn this problem in, make sure everything runs as expected. First, restart the kernel (in the menubar, select Kernel → Restart) and then run all cells (in the menubar, select Cell → Run All).</p>
+<p>Make sure you fill in any place that says <code class="docutils literal notranslate"><span class="pre">YOUR</span> <span class="pre">CODE</span> <span class="pre">HERE</span></code> or <code class="docutils literal notranslate"><span class="pre">&quot;YOUR</span> <span class="pre">ANSWER</span> <span class="pre">HERE&quot;</span></code>, as well as your name and collaborators below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">COLLABORATORS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<section id="2025-09-05-Taylor-Series">
+<h1>2025-09-05 Taylor Series<a class="headerlink" href="#2025-09-05-Taylor-Series" title="Link to this heading">¶</a></h1>
+<p>Suppose we wish to sum the series</p>
+<div class="math notranslate nohighlight">
+\[\sum_{n = 1}^{\infty} \frac{1}{n^2} = 1 + \frac{1}{2^2} + \frac{1}{3^2} + \frac{1}{4^2} + \cdots\]</div>
+<p>We cannot sum an infinite number of terms, but we can sum the first <span class="math notranslate nohighlight">\(k\)</span> terms and see what happens as <span class="math notranslate nohighlight">\(k\)</span> increases. In other words, we will compute</p>
+<div class="math notranslate nohighlight">
+\[y_k = \sum_{n = 1}^{k} \frac{1}{n^2}\]</div>
+<p>and estimate what happens in the limit as <span class="math notranslate nohighlight">\(k \rightarrow \infty\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+
+<span class="k">function</span><span class="w"> </span><span class="n">series_n2</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">k</span>
+<span class="w">        </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="o">^</span><span class="mi">2</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">sum</span>
+<span class="k">end</span>
+
+<span class="n">series_n2</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This <a class="reference external" href="https://en.wikipedia.org/wiki/Pi#Irrationality_and_transcendence">series converges</a> to <span class="math notranslate nohighlight">\(\pi^2 / 6\)</span>. (Proof is beyond the scope of this course.)</p>
+<section id="How-fast-does-the-series-converge?">
+<h2>How fast does the series converge?<a class="headerlink" href="#How-fast-does-the-series-converge?" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">known_limit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">π</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">6</span>
+<span class="n">ks</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">.^</span><span class="w"> </span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="c"># [1, 2, 4, ..., 1024]</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">series_n2</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">known_limit</span><span class="p">],</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;partial sum&quot;</span><span class="w"> </span><span class="s">&quot;limit&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Lets swap to a log scale</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span><span class="w"> </span><span class="p">[</span><span class="n">series_n2</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">known_limit</span><span class="p">],</span><span class="w"> </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;partial sum&quot;</span><span class="w"> </span><span class="s">&quot;limit&quot;</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Error">
+<h2>Error<a class="headerlink" href="#Error" title="Link to this heading">¶</a></h2>
+<p>If we have an approximation <span class="math notranslate nohighlight">\(y_k\)</span> of an exact value <span class="math notranslate nohighlight">\(y_*\)</span>, then we can compute the <strong>absolute error</strong> as</p>
+<div class="math notranslate nohighlight">
+\[y_k - y_*\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot error</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span><span class="w">  </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">series_n2</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">known_limit</span><span class="p">,</span><span class="w"> </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;absolute error&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Hmm, let&#39;s compare to a reference line</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span>
+<span class="w">    </span><span class="p">[</span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">series_n2</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">known_limit</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="mi">1</span><span class="o">/</span><span class="n">k</span><span class="p">],</span>
+<span class="w">    </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;absolute error&quot;</span><span class="w"> </span><span class="s">&quot;1/k&quot;</span><span class="p">]</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Conclusion?">
+<h2>Conclusion?<a class="headerlink" href="#Conclusion?" title="Link to this heading">¶</a></h2>
+<p>This plot suggests that the error is proportional to <span class="math notranslate nohighlight">\(1 / k\)</span>, or</p>
+<div class="math notranslate nohighlight">
+\[\lvert \sum_{n = 1}^{k} \frac{1}{n^2} - \pi^2 / 6 \rvert \sim \frac{1}{k}\]</div>
+<section id="Notation">
+<h3>Notation<a class="headerlink" href="#Notation" title="Link to this heading">¶</a></h3>
+<p>The notation <span class="math notranslate nohighlight">\(f \sim g\)</span> means that</p>
+<div class="math notranslate nohighlight">
+\[a g \left( x \right) \leq f \left( x \right) \leq b g \left( x \right)\]</div>
+<p>for two positive numbers <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span> in some asymptotic regime (<span class="math notranslate nohighlight">\(x\)</span> is sufficiently large or small).</p>
+<p>In this case, the ‘asymptotic regime’ is large <span class="math notranslate nohighlight">\(k\)</span> (the variable ‘<span class="math notranslate nohighlight">\(x\)</span>’ for this series), but sometimes we will also investigate small limits.</p>
+</section>
+</section>
+<section id="Case-Study---exponential-function">
+<h2>Case Study - exponential function<a class="headerlink" href="#Case-Study---exponential-function" title="Link to this heading">¶</a></h2>
+<p>Recall that <a class="reference external" href="https://en.wikipedia.org/wiki/Exponential_function#Formal_definition">one definition</a> of the exponential function is</p>
+<div class="math notranslate nohighlight">
+\[e^x = \sum_{n = 0}^\infty \frac{x^n}{n!}\]</div>
+<section id="Modify-this-function">
+<h3>Modify this function<a class="headerlink" href="#Modify-this-function" title="Link to this heading">¶</a></h3>
+<p>Modify this function so at most <code class="docutils literal notranslate"><span class="pre">k</span></code> terms are summed.</p>
+<p>(Hint: <code class="docutils literal notranslate"><span class="pre">if</span></code> and <code class="docutils literal notranslate"><span class="pre">break</span></code> may help, or a modification to the <code class="docutils literal notranslate"><span class="pre">while</span></code> condition)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">myexp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="n">sum</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="n">term</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="c"># modify so at most k terms are summed</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="n">sum</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">term</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="n">sum</span>
+<span class="w">        </span><span class="n">sum</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">term</span>
+<span class="w">        </span><span class="n">term</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span>
+<span class="w">        </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">        </span><span class="c">### END SOLUTION</span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">sum</span>
+<span class="k">end</span>
+
+<span class="n">myexp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Investigation">
+<h3>Investigation<a class="headerlink" href="#Investigation" title="Link to this heading">¶</a></h3>
+<p>Why did the original loop terminate (before any changes you made)? Can you write an equivalent expression in terms of <code class="docutils literal notranslate"><span class="pre">sum</span></code>, <code class="docutils literal notranslate"><span class="pre">term</span></code>, and <span class="math notranslate nohighlight">\(\epsilon_\text{machine}\)</span>? (Discuss on Zulip)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@assert</span><span class="w"> </span><span class="n">myexp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">myexp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mf">2.5</span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">myexp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="w">  </span><span class="o">-</span><span class="w"> </span><span class="mf">2.6666666666666665</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">eps</span><span class="p">()</span>
+<span class="nd">@assert</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">myexp</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mf">2.7182815255731922</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">eps</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Relative-Error">
+<h2>Relative Error<a class="headerlink" href="#Relative-Error" title="Link to this heading">¶</a></h2>
+<p>If we have a function <span class="math notranslate nohighlight">\(\tilde{f} \left( x \right)\)</span> that approximates <span class="math notranslate nohighlight">\(f \left( x \right)\)</span>, then we can compute the <strong>relative error</strong> as</p>
+<div class="math notranslate nohighlight">
+\[\frac{\tilde{f} \left( x \right) - f \left( x \right)}{\lvert f \left( x \right) \rvert}\]</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">relative_error</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">myexp</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">exp</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">relative_error</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot relative error as k increases</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span>
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">relative_error</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">),</span>
+<span class="w">    </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;relative error&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="ss">:none</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Plot relative error as k increases</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">ks</span><span class="p">,</span>
+<span class="w">    </span><span class="n">k</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">relative_error</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">),</span>
+<span class="w">    </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;k&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;relative error&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="ss">:none</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="More-Plotting">
+<h2>More Plotting<a class="headerlink" href="#More-Plotting" title="Link to this heading">¶</a></h2>
+<p>Plot the relative error in <code class="docutils literal notranslate"><span class="pre">myexp(-20,</span> <span class="pre">x)</span></code> as <code class="docutils literal notranslate"><span class="pre">k</span></code> increases.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Final-Accuracy">
+<h2>Final Accuracy<a class="headerlink" href="#Final-Accuracy" title="Link to this heading">¶</a></h2>
+<p>The intermediate accuracy can be quite bad. How good is the final result?</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">bottom</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">1e-20</span><span class="w"> </span><span class="c"># To avoid having the plotter attempt log(0)</span>
+<span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">relative_error</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mi">1000</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">bottom</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlims</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span><span class="w"> </span><span class="mi">20</span><span class="p">),</span>
+<span class="w">    </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;x&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;relative error&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="ss">:none</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exploration">
+<h2>Exploration<a class="headerlink" href="#Exploration" title="Link to this heading">¶</a></h2>
+<p>Select 1 or more of these questions to explore.</p>
+<ol class="arabic simple">
+<li><p>Plot each of the terms in the series expansion for computing <span class="math notranslate nohighlight">\(e^{-20}\)</span>.</p>
+<ul class="simple">
+<li><p>Where are rounding errors committed? Think about the size of those terms and the size of the final result (<span class="math notranslate nohighlight">\(e^{-20}\)</span> is a small number).</p></li>
+<li><p>How would you explain the large relative errors using the concept of conditioning?</p></li>
+<li><p>How is this different different from computing <span class="math notranslate nohighlight">\(e^x\)</span> with a positive argument?</p></li>
+</ul>
+</li>
+<li><p>Use the identity <span class="math notranslate nohighlight">\(e^{-x} = 1 / e^x\)</span> to write a new function that calls <code class="docutils literal notranslate"><span class="pre">myexp()</span></code> and is accurate for both positive and negative arguments <code class="docutils literal notranslate"><span class="pre">x</span></code>. Demostrate this improvement with a plot and explain.</p></li>
+<li><p>Use the identity <span class="math notranslate nohighlight">\(e^x = \left( e^{x / 2} \right) ^2\)</span> to reduce the number of terms that need to be summed. Recall that squaring is easy – it is just multiplication. Demostrate this improvement with a plot and explain.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">## Exploration 1</span>
+
+<span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">## Exploration 2</span>
+
+<span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">## Exploration 3</span>
+
+<span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="Main">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../index.html">CSCI 3656</a></h1>
+
+
+
+
+
+
+
+
+
+<search id="searchbox" style="display: none" role="search">
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</search>
+<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../notebooks.html">Class Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quizes.html">Quizes</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../homework.html">Homework</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../index.html">Documentation overview</a><ul>
+  <li><a href="../homework.html">Homework</a><ul>
+      <li>Previous: <a href="../homework.html" title="previous chapter">Homework</a></li>
+      <li>Next: <a href="2025-09-19-Rootfinding-student.html" title="next chapter">2025-09-19 Rootfinding</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &#169;2025, Jeremy L Thompson.
+      
+      |
+      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
+      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
+      
+      |
+      <a href="../_sources/homework/2025-09-05-Taylor-Series-student.ipynb.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

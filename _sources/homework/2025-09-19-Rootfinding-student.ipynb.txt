@@ -1,0 +1,928 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "id": "b094f8e2-b7ae-4628-95eb-9e370c6360d9",
+   "metadata": {},
+   "source": [
+    "Before you turn this problem in, make sure everything runs as expected.\n",
+    "First, restart the kernel (in the menubar, select Kernel → Restart) and then run all cells (in the menubar, select Cell → Run All).\n",
+    "\n",
+    "Make sure you fill in any place that says `YOUR CODE HERE` or `\"YOUR ANSWER HERE\"`, as well as your name and collaborators below:"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8b30db64-08b5-4672-a212-13c342c9f38c",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "NAME = \"\"\n",
+    "COLLABORATORS = \"\""
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "174fc4fc-a9a6-4927-878c-d06cea04ac41",
+   "metadata": {},
+   "source": [
+    "# 2025-09-19 Rootfinding"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "0ea1eeca-f060-460b-9742-fbb4ff52cfde",
+   "metadata": {},
+   "source": [
+    "## Globalizing Newton"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "9fa3e1b2-5cf2-48c5-906c-168fc3b0a555",
+   "metadata": {},
+   "source": [
+    "In this activity, we experiment with helping Newton methods to converge from poor initial guesses (known as **globalization**, which strives to get close enough that Newton's quadratic local convergence can kick in)."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "30cd9ff4-6469-4d1b-8c37-ca2bad96b185",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "using Plots\n",
+    "\n",
+    "# We write down functions and their derivatives\n",
+    "tests = Dict(\n",
+    "    \"x^2 - 2\" => (x -> x^2 - 2, x -> 2*x),\n",
+    "    \"cos(x) - x\" => (x -> cos(x) - x, x -> -sin(x) - 1),\n",
+    ")\n",
+    "\n",
+    "function plotlist(ts)\n",
+    "    \"A utility function to plot and label each function\"\n",
+    "    p = plot()\n",
+    "    # Style note: I use _ for unused parts of pattern matches\n",
+    "    for (name, (f, _fp)) in ts\n",
+    "        plot!(f, label=name)\n",
+    "    end\n",
+    "    plot!(x -> 0, color=\"black\", label=false)\n",
+    "    p\n",
+    "end\n",
+    "\n",
+    "plotlist(tests)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "88f62798-ff44-4c7b-9228-fa4b635f607a",
+   "metadata": {},
+   "source": [
+    "### Convergence rates\n",
+    "\n",
+    "We implemented bisection and Newton's method in class. Our bisection implementation here has\n",
+    "\n",
+    "* better error handling (raises `AssertionError` when the function does not change sign in the interval), and\n",
+    "\n",
+    "* is more efficient by not re-evaluating the function at both endpoints on each iteration."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "53ab5b31-f1a3-4695-bf0c-e04266937ab9",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function bisect((f, _fp), a, b; tol=1e-10)\n",
+    "    \"\"\"Iterative (rather than recursive) bisection method.\n",
+    "\n",
+    "    Notice that this takes as input, a pair of functions (f, fp). Bisection\n",
+    "    does not use fp, but we're keeping the same interface here to make it \n",
+    "    easy to compare methods.\n",
+    "    \"\"\"\n",
+    "    fa, fb = f(a), f(b)\n",
+    "    @assert fa*fb <= 0 \"Interval function does not change sign, may not contain root\"\n",
+    "    history = []\n",
+    "    while b-a > tol\n",
+    "        mid = (a + b) / 2\n",
+    "        fmid = f(mid)\n",
+    "        push!(history, mid, fmid)\n",
+    "        if fa*fmid <= 0\n",
+    "            b, fb = mid, fmid\n",
+    "        else\n",
+    "            a, fa = mid, fmid\n",
+    "        end\n",
+    "    end\n",
+    "    # return num_its rows of [x f(x)]\n",
+    "    reshape(vcat(history...), 2, :)'\n",
+    "end\n",
+    "\n",
+    "plot(abs.(bisect(tests[\"cos(x) - x\"], 0, 2)[:, 2]), yscale=:log10, marker=:auto, label=\"\\$r_k\\$\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7880ec74-6d7b-4990-954a-88ef533617fe",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function newton((f, fp), a, b; tol=1e-10)\n",
+    "    \"\"\"Newton method without a line search.\n",
+    "\n",
+    "    Note that this function takes an interval [a, b], which is a bit\n",
+    "    more information than is usually provided to Newton methods. We use\n",
+    "    this interface for uniformity with bisection above, and warn if Newton\n",
+    "    sends us outside the interval.\n",
+    "    \"\"\"\n",
+    "    x = (a + b) / 2\n",
+    "    history = []\n",
+    "    for k in 1:100\n",
+    "        fx = f(x)\n",
+    "        push!(history, x, fx)\n",
+    "        if x < a || b < x\n",
+    "            @warn \"Diverged at iteration $k\"\n",
+    "        break\n",
+    "        end\n",
+    "        if abs(fx) < tol\n",
+    "            break\n",
+    "        end\n",
+    "        fpx = fp(x)\n",
+    "        x -= fx / fpx\n",
+    "    end\n",
+    "    # return num_its rows of [x f(x)]\n",
+    "    reshape(vcat(history...), 2, :)'\n",
+    "end\n",
+    "\n",
+    "plot(abs.(newton(tests[\"cos(x) - x\"], 0, 2)[:, 2]) .+ 1e-20, yscale=:log10, marker=:auto, label=\"\\$r_k\\$\")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "02072dd4-c3fb-4aac-8eef-d9099138b86e",
+   "metadata": {},
+   "source": [
+    "This is steeper than a straight line, demonstrating the signature superlinear convergence of Newton methods."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "90a76c71-94f0-4a4b-86d0-87400596056d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function plot_conv(tests, methods)\n",
+    "    \"\"\"Plot the convergence of a group of methods on a dict of test problems\"\"\"\n",
+    "    colors = Dict(zip(keys(tests), [:red, :green, :blue]))\n",
+    "    markers = Dict(zip(methods, [:circle, :square]))\n",
+    "    p = plot(x -> 0.5 ^ x, color=:black, xlims=(0, 30), yscale=:log10, ylims=(1e-9, 10), label=false)\n",
+    "    for (name, fpair) in tests\n",
+    "        for method in methods\n",
+    "            left, right = -1, 3.5\n",
+    "            h = method(fpair, left, right)\n",
+    "            scatter!(abs.(h[:,2]) .+ 1e-20, label=\"$(string(method)) - $(string(name))\", marker=markers[method], color=colors[name])\n",
+    "        end\n",
+    "    end\n",
+    "    p\n",
+    "end\n",
+    "\n",
+    "plot_conv(tests, (bisect, newton))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2f43f288-73c9-44bd-b8f6-c9115d2037d0",
+   "metadata": {},
+   "source": [
+    "### Breaking Newton\n",
+    "\n",
+    "Find a function $f \\left( x \\right)$ that satisfies all of the following properties:\n",
+    "\n",
+    "* $f \\left( x \\right)$ is **strictly monotonically increasing**\n",
+    "\n",
+    "* $f \\left( x \\right)$ has a simple root at $x = 0$\n",
+    "\n",
+    "* $f' \\left( x \\right)$ exists for all real $x$\n",
+    "\n",
+    "* Newton's method diverges when started with an initial guess $x_0 = 1$\n",
+    "\n",
+    "Definition\n",
+    "\n",
+    "* A function $f \\left( x \\right)$ is **strictly montonically increasing** if $f \\left( a \\right) < f \\left( b \\right)$ for all $a < b$. If is differentiable, this implies $f' \\left( x \\right) > 0$ for all $x$.\n",
+    "\n",
+    "Hint\n",
+    "\n",
+    "* Look up \"sigmoid\" functions and sketch a Newton iteration."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "389ad303-93d6-4315-9d78-2b25f8e12bf5",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function monotonic_diverge()\n",
+    "    \"\"\"A strictly monotonically increasing function with a simple\n",
+    "    root at x=0 for which Newton's method diverges with initial\n",
+    "    guess x=1. Recall that we need to return a pair of functions\n",
+    "    (f, fp). If your function was f(x) = x^2, you could write:\n",
+    "\n",
+    "    f(x)  = x^2\n",
+    "    fp(x) = 2*x\n",
+    "    return (f, fp)\n",
+    "    \"\"\"\n",
+    "    ### SOLUTION BEGIN\n",
+    "\n",
+    "    ### SOLUTION END\n",
+    "end\n",
+    "\n",
+    "# You may see a \"Warning: Diverged\". That's expected.\n",
+    "plot(monotonic_diverge()[1], aspect_ratio=:equal, label=\"\\$f\\$\")\n",
+    "hist = newton(monotonic_diverge(), -4, 6)\n",
+    "plot!(hist[:,1], hist[:,2], markershape=:auto, label=\"\\$r_k\\$\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b4461bca-1b64-4aef-89d4-636b00495a44",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "using Test\n",
+    "\n",
+    "\n",
+    "function isderivative(f, fp)\n",
+    "    x = LinRange(-5, 5, 100)\n",
+    "    eps = 1e-8\n",
+    "    fh = (f.(x .+ eps) - f.(x)) / eps\n",
+    "    all(abs.(fp.(x) - fh) .< 1e-5*maximum(abs.(f.(x))))\n",
+    "end\n",
+    "\n",
+    "function ismonotonic(f, _fp)\n",
+    "    x = LinRange(-5, 5, 100)\n",
+    "    fx = f.(x)\n",
+    "    all(fx[2:end] .> fx[1:end-1])\n",
+    "end\n",
+    "\n",
+    "function isdivergent(f, fp)\n",
+    "    h = newton((f, fp), -1, 3)\n",
+    "    hx = h[:, 1]\n",
+    "    abs(hx[end]) > maximum(abs.(hx[1:end-1]))\n",
+    "end\n",
+    "\n",
+    "@test monotonic_diverge()[1](0) < 1e-10\n",
+    "@test isderivative(monotonic_diverge()...)\n",
+    "@test ismonotonic(monotonic_diverge()...)\n",
+    "@test isdivergent(monotonic_diverge()...)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "aaaff5fa-ad34-4da3-ab7a-c775dceccde6",
+   "metadata": {},
+   "source": [
+    "### Fixing Newton - Secant method\n",
+    "\n",
+    "The secant method is similar to Newton's method, but instead of evaluating $f' \\left( x_i \\right)$ directly, it uses the approximation\n",
+    "\n",
+    "$$ f' \\left( x_i \\right) \\approx \\frac{f \\left( x_i \\right) - f \\left( x_{i - 1} \\right)}{x_i - x_{x - 1}} $$\n",
+    "\n",
+    "Implement the secant method by writing code similar to Newton's method, but using this approximation in place of $f' \\left( x_i \\right)$ where it appears in Newton's method."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "44600b0b-f090-4ce5-a22f-5efd9d7ba427",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function secant((f, _fp), a, b; tol=1e-10)\n",
+    "    \"\"\"Solve f(x) = 0 using the secant method.\n",
+    "\n",
+    "    We're keeping the same interface as bisection() and newton(), but\n",
+    "    the secant method should not use the argument _fp above. Instead,\n",
+    "    it should use the approximation based on a prior iterate.\n",
+    "    \"\"\"\n",
+    "    xlast, fxlast = b, f(b) # Choose an arbitrary \"last\" x\n",
+    "    x = (a + b) / 2\n",
+    "    history = [xlast, fxlast]\n",
+    "    for k in 1:100\n",
+    "        fx = f(x)\n",
+    "        push!(history, x, fx)\n",
+    "        if x < a || b < x\n",
+    "            @warn \"Diverged at iteration $k\"\n",
+    "        break\n",
+    "        end\n",
+    "        if abs(fx) < tol\n",
+    "            break\n",
+    "        end\n",
+    "        ### SOLUTION BEGIN\n",
+    "\n",
+    "        ### SOLUTION END\n",
+    "        x -= fx / fpx\n",
+    "    end\n",
+    "    # return num_its rows of [x f(x)]\n",
+    "    reshape(vcat(history...), 2, :)'\n",
+    "end\n",
+    "\n",
+    "plot(abs.(secant(tests[\"cos(x) - x\"], 0, 2)[:, 2]) .+ 1e-20, yscale=:log10, marker=:auto, label=\"\\$r_k\\$\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c74dbeaf-537b-41eb-86fd-653407d2ea22",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot_conv(tests, (newton, secant))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a390a070-8f90-48d7-ba5c-4c38dd734f95",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "h = secant(tests[\"x^2 - 2\"], -1., 3.)\n",
+    "\n",
+    "@test maximum(abs.(h[end, :] .- [sqrt(2), 0])) < 1e-9 # Did not converge to correct root\n",
+    "@test size(h, 1) < 10 # Convergence too slow"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "f12ff564-1fee-494c-9101-a67e9ed9f848",
+   "metadata": {},
+   "source": [
+    "### Fixing Newton - Line search\n",
+    "\n",
+    "Newton's method is often paired with a line search, which finds the smallest non-negative integer $n$ such that\n",
+    "\n",
+    "$$ \\left\\lvert f \\left( x_{k + 1} \\right) \\right\\rvert < \\left\\lvert f \\left( x_k \\right) \\right\\rvert $$\n",
+    "\n",
+    "where\n",
+    "\n",
+    "$$ x_{k + 1} = x_k - 2^{-n} f \\left( x_k \\right) / f' \\left( x_k \\right) $$\n",
+    "\n",
+    "Implement this algorithm by shortening the step until the inequality is satisfied.\n",
+    "A new line search (i.e., $n = 0, 1, \\dots$) starts every time you take a step and you can just try the inequality with each step size, until you can accept the step and continue with the next Newton step."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7948b795-6787-4783-967d-6ab4dc7a10f3",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function newtonls((f, fp), a, b; tol=1e-10)\n",
+    "    \"\"\"Newton method with a line search.\n",
+    "\n",
+    "    Note that this function takes an interval [a, b], which is a bit\n",
+    "    more information than is usually provided to Newton methods. We use\n",
+    "    this interface for uniformity with bisection above, and warn if Newton\n",
+    "    sends us outside the interval.\n",
+    "    \"\"\"\n",
+    "    x = (a + b) / 2\n",
+    "    history = []\n",
+    "    for k in 1:100\n",
+    "        fx = f(x)\n",
+    "        push!(history, x, fx)\n",
+    "        if x < a || b < x\n",
+    "            @warn \"Diverged at iteration $k\"\n",
+    "        break\n",
+    "        end\n",
+    "        if abs(fx) < tol\n",
+    "            break\n",
+    "        end\n",
+    "        fpx = fp(x)\n",
+    "        ### SOLUTION BEGIN\n",
+    "\n",
+    "        ### SOLUTION END\n",
+    "    end\n",
+    "    reshape(vcat(history...), 2, :)'\n",
+    "end\n",
+    "\n",
+    "plot(monotonic_diverge()[1], aspect_ratio=:equal, label=\"\\$f\\$\")\n",
+    "hist = newtonls(monotonic_diverge(), -4, 6)\n",
+    "plot!(hist[:,1], hist[:,2], markershape=:auto, label=\"\\$r_k\\$\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cff44f10-585d-4539-82ac-a4d86269c283",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot_conv(tests, (newtonls, secant))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a533ff30-4116-48d6-bcf3-cbc71d4b5bb2",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test maximum(abs.(newtonls(monotonic_diverge(), -4, 6)[end, :])) < 1e-10"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "79124b0c-d20f-4d7d-b890-d3bfc61bfc98",
+   "metadata": {},
+   "source": [
+    "## Newton Accuracy\n",
+    "\n",
+    "Find a function $f \\left( x \\right)$ satisfying the following properties:\n",
+    "\n",
+    "* $f \\left( 0 \\right) = 0$\n",
+    "\n",
+    "* bisection and Newton both converge, but Newton has an error of at least $10^{-2} = 0.01$ even when the residual is smaller than $10^{-10}$\n",
+    "\n",
+    "As a side-effect of this, you'll likely see that Newton error is higher than bisection error, even if Newton residuals converge faster."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5a8ea1b3-bb7a-4af1-b949-15c24e730c09",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function inaccurate()\n",
+    "    \"\"\"A function in which Newton error is large despite residual being small.\n",
+    "    You'll be creating a function and its derivative, as in\n",
+    "\n",
+    "    f(x)  = x^2\n",
+    "    fp(x) = 2*x\n",
+    "    return (f, fp)\n",
+    "    \"\"\"\n",
+    "    ### SOLUTION BEGIN\n",
+    "\n",
+    "    ### SOLUTION END\n",
+    "end\n",
+    "\n",
+    "plot(inaccurate()[1], label=\"\\$f\\$\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f5b19c8a-0b7d-4444-9864-dc5e40ad9e3d",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Note that we're plotting residuals |f(x_k)|, not errors |x_k - x_*|\n",
+    "plot_conv(Dict(\"inaccurate\" => inaccurate()), (bisect, newton))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "198fe889-cbf6-4db4-8293-ad99ff00c9a6",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "h = newton(inaccurate(), -1, 3)\n",
+    "@show final_error = abs(h[end, 1])\n",
+    "smallresid = abs.(h[:,2]) .< 1e-10\n",
+    "\n",
+    "@test any(smallresid)\n",
+    "@test any(h[smallresid,1] .> 1e-2)\n",
+    "@test isderivative(inaccurate()...)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2c0739a2-162c-4ec1-8770-5d8d1c4f4e36",
+   "metadata": {},
+   "source": [
+    "## Newton - Impact of initial guess\n",
+    "\n",
+    "We consider the function $f \\left( z \\right) = z^3 - 1$ and examine when Newton's method converges, and which root it converges to.\n",
+    "(This function has three roots in the complex plane.)\n",
+    "We will color each pixel based on how Newton's method converges with that initial guess.\n",
+    "You are asked to implement one step of Newton's method (without line search or anything fancy) inside the inner loop."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5b4584ee-dfd7-465f-9f96-cb5b15ef7599",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function image(m, maxits)\n",
+    "    x1 = LinRange(-2, 2, m)\n",
+    "    o1 = ones(m)\n",
+    "    X, Y = x1' .* o1, o1' .* x1\n",
+    "    Z = X .+ 1im*Y\n",
+    "    C = fill(RGB(0), m, m) # m×m array of colors\n",
+    "    # The equation has three known roots\n",
+    "    roots = [1, exp(2im*π/3), exp(-2im*π/3)]\n",
+    "    for i in 1:m\n",
+    "        for j in 1:m\n",
+    "            z = Z[i, j] # Initial guess for this pixel\n",
+    "            k = 0\n",
+    "            while k < maxits\n",
+    "                # Update z with one Newton step on the equation f(z) = z**3 - 1.\n",
+    "                # Break if |f(z)| < 1e-10. \n",
+    "                ### SOLUTION BEGIN\n",
+    "\n",
+    "                ### SOLUTION END\n",
+    "                k += 1\n",
+    "            end\n",
+    "            # Color the output based on how many iterations were needed\n",
+    "            color = [1., 1, 1] # white if not converged\n",
+    "            for r in 1:3\n",
+    "                if abs(z - roots[r]) < 1e-8\n",
+    "                    color[:] .= 0\n",
+    "                    color[r] = log(k) / log(100)\n",
+    "                end\n",
+    "            end\n",
+    "            C[i,j] = RGB(color[1], color[2], color[3])\n",
+    "        end\n",
+    "    end\n",
+    "    C\n",
+    "end\n",
+    "\n",
+    "# You may try adjusting the resolution and/or number of iterations\n",
+    "plot(image(200, 50))"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "48ff8c60-53a7-499d-9290-357f2a47931b",
+   "metadata": {},
+   "source": [
+    "You can read more about [such diagrams](https://en.wikipedia.org/wiki/Julia_set), the complexity of which demonstrate that precisely describing the domain of convergence may be far more complicated than the function or the algorithm.\n",
+    "Considering that for many problems, one specific root is physical (say the real one, colored red above), we usually need good initial guesses for fast, reliable convergence in practical applications.\n",
+    "Note that convergence in this case is pretty reliable if the initial guess is real."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "6edd87f7-af9f-4aed-86c1-5ceee541c391",
+   "metadata": {},
+   "source": [
+    "## Newton for rational functions\n",
+    "\n",
+    "Newton's method solves $f \\left( x \\right) = 0$ using a first order Taylor approximation at each point.\n",
+    "We can use it to compute square roots and related functions. Sample code for Newton's method is provided."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "d567c387-91ed-4693-bb1b-39d117b15b1b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "using Printf\n",
+    "\n",
+    "function newton((f, fp), a, b; tol=1e-10, verbose=false)\n",
+    "    \"\"\"Newton method without a line search.\n",
+    "\n",
+    "    Note that this function takes an interval [a, b], which is a bit\n",
+    "    more information than is usually provided to Newton methods. We use\n",
+    "    this interface for uniformity with bisection above, and warn if Newton\n",
+    "    sends us outside the interval.\n",
+    "    \"\"\"\n",
+    "    x = (a + b) / 2\n",
+    "    for k in 1:100\n",
+    "        fx = f(x)\n",
+    "        if verbose\n",
+    "            println(\"k=$k, x_k=$(@sprintf(\"%.16f\", x)), f_k=$(@sprintf(\"%.16e\", fx))\")\n",
+    "        end\n",
+    "        if abs(fx) < tol\n",
+    "            break\n",
+    "        end\n",
+    "        fpx = fp(x)\n",
+    "        x -= fx / fpx\n",
+    "    end\n",
+    "    x\n",
+    "end\n",
+    "\n",
+    "newton(tests[\"cos(x) - x\"], 0, 2; verbose=true)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "41c1dc9f-5df0-4cb7-b2e0-56bc8c245568",
+   "metadata": {},
+   "source": [
+    "### Square root\n",
+    "\n",
+    "We can estimate $\\sqrt{a}$ as the root of $f \\left( x \\right) = x^2 - a$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b0d9fe82-8587-4ec9-8eee-c42d008b6a7a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function my_sqrt(a; guess=1, tol=1e-10, verbose=false)\n",
+    "    \"\"\"Compute sqrt(a) using Newton's method.\n",
+    "    \"\"\"\n",
+    "    function funcs()\n",
+    "        \"\"\"Return a pair of functions, f(x) and f'(x)\n",
+    "        \"\"\"\n",
+    "        ### SOLUTION BEGIN\n",
+    "\n",
+    "        ### SOLUTION END\n",
+    "    end\n",
+    "    newton(funcs(), guess - 0.1, guess + 0.1; tol=tol, verbose=verbose)\n",
+    "end\n",
+    "\n",
+    "@show sqrt_4 = my_sqrt(4; guess=1, verbose=true);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "24a40d77-8f18-4670-a646-f03ea2c694da",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test my_sqrt(pi; guess=1) ≈ sqrt(pi)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "b39a0d12-caae-49b9-95f0-f88da27b2fc9",
+   "metadata": {},
+   "source": [
+    "Experiment to see if there are positive values of `a` and/or `guess` for wich this function does not converge."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "190f188e-e86c-4b14-90ac-b1810b4e2d19",
+   "metadata": {},
+   "source": [
+    "### Reciprocal square root\n",
+    "\n",
+    "Similar to above, express the reciprocal square root $1 / \\sqrt{a}$ as a rootfinding  problem, $f \\left( x; a \\right) = 0$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6cec4446-459f-4756-886a-f3265b4ab8b0",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function my_rsqrt1(a; guess=1, tol=1e-10, verbose=false)\n",
+    "    \"\"\"Compute sqrt(a) using Newton's method.\n",
+    "    \"\"\"\n",
+    "    function funcs()\n",
+    "        \"\"\"Return a pair of functions, f(x) and f'(x)\n",
+    "        \"\"\"\n",
+    "        ### SOLUTION BEGIN\n",
+    "\n",
+    "        ### SOLUTION END\n",
+    "    end\n",
+    "    newton(funcs(), guess - 0.1, guess + 0.1; tol=tol, verbose=verbose)\n",
+    "end\n",
+    "\n",
+    "@show rsqrt_9 = my_rsqrt1(9., guess=.5, verbose=true);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "68d70d5f-53a6-4f20-9ce1-8531ca04919f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test 1/my_rsqrt1(1.05)^2 ≈ 1.05\n",
+    "@test 1/my_rsqrt1(100, guess=.01)^2 ≈ 100"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "2635cb2b-1108-4f54-9035-420cc8afb9dd",
+   "metadata": {},
+   "source": [
+    "Choose a different way to express this problem as a rootfinding problem.\n",
+    "Hint: When writing $f \\left( x; a \\right)$, you can place the division on the term with $x$ or the term with $a$."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e26c985f-48ba-4249-808b-ea4c3424bd84",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function my_rsqrt2(a; guess=1, tol=1e-10, verbose=false)\n",
+    "    \"\"\"Compute sqrt(a) using Newton's method.\n",
+    "    \"\"\"\n",
+    "    function funcs()\n",
+    "        \"\"\"Return a pair of functions, f(x) and f'(x)\n",
+    "        \"\"\"\n",
+    "        ### SOLUTION BEGIN\n",
+    "\n",
+    "        ### SOLUTION END\n",
+    "    end\n",
+    "    newton(funcs(), guess - 0.1, guess + 0.1; tol=tol, verbose=verbose)\n",
+    "end\n",
+    "\n",
+    "@show rsqrt_9 = my_rsqrt2(9., guess=.5, verbose=true);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5aabde0b-c07a-4b78-a0e0-8023fcf92fea",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test 1/my_rsqrt2(1.05)^2 ≈ 1.05\n",
+    "@test 1/my_rsqrt2(100, guess=.01)^2 ≈ 100"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "eaa032fe-b562-4b5a-95dc-7a86e01e4f54",
+   "metadata": {},
+   "source": [
+    "#### Make and explain a figure\n",
+    "\n",
+    "Fix a positive value of $a$ (your choice) and plot a figure with both functions $f_1 \\left( x \\right)$ and $f_2 \\left( x \\right)$ that you've created above.\n",
+    "(They should have roots at $x_* = 1 / \\sqrt{a}$.)\n",
+    "You may want to refer to class notebooks for the plotting syntax, including setting `xlim` such that you avoid singularities."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ee5006b1-7ca6-400e-9495-8f215628dc8b",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "### SOLUTION BEGIN\n",
+    "\n",
+    "### SOLUTION END"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "281a154f-fbde-4d25-87d2-ceaaae9d60d7",
+   "metadata": {},
+   "source": [
+    "Write a caption for the figure you just made, explaining how Newton could struggle with either of your functions.\n",
+    "Which function will be more reliable for finding the root if the initial guess is poor?"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "42631f1d-0a27-4024-9abe-d3f7c6066c7f",
+   "metadata": {},
+   "source": [
+    "### SOLUTION BEGIN\n",
+    "\n",
+    "### SOLUTION END"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "4b60cb0a-2067-4095-a5cd-86aac0195f0f",
+   "metadata": {},
+   "source": [
+    "### Avoiding division\n",
+    "\n",
+    "This implementation performs division in defining the function $f \\left( x \\right)$ and the Newton step,\n",
+    "\n",
+    "$$ x_{i + 1} = x_i - f \\left( x_i \\right) / f' \\left( x_i \\right) $$\n",
+    "\n",
+    "(Division is a [relatively expensive operation](https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=div_pd&expand=2150) compared to addition and multiplication.)\n",
+    "\n",
+    "Substitute the expressions you used for $f \\left( x \\right)$ and $f' \\left( x \\right)$ and simplify so that there is no division in the Newton step itself."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ee1df64e-a655-417f-a7a2-5e1d6bde2835",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "function my_rsqrt3(a; guess=1, tol=1e-10, verbose=false)\n",
+    "    \"\"\"Compute sqrt(a) using Newton's method with no division.\n",
+    "    \"\"\"\n",
+    "    x = guess\n",
+    "    for k in 1:10\n",
+    "        ### SOLUTION BEGIN\n",
+    "\n",
+    "        ### SOLUTION END\n",
+    "        if verbose\n",
+    "            fx = x^(-2) - a\n",
+    "            println(\"k=$k, x_k=$(@sprintf(\"%.16f\", x)), f_k=$(@sprintf(\"%.16e\", fx))\")\n",
+    "        end\n",
+    "    end\n",
+    "    x\n",
+    "end\n",
+    "\n",
+    "@show rsqrt_9 = my_rsqrt3(9., guess=.5, verbose=true);"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2f1d64b5-2b0f-4fa9-b185-7de3706fddac",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "@test 1/my_rsqrt3(1.05)^2 ≈ 1.05\n",
+    "@test 1/my_rsqrt3(100, guess=.01)^2 ≈ 100\n",
+    "@test my_rsqrt3(π, guess=.3) ≈ 1/sqrt(π)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "5042c710-eb57-47d3-aca4-a6cc70d5b2ec",
+   "metadata": {},
+   "source": [
+    "#### Conclusions?\n",
+    "\n",
+    "According to the experiments above, should we prefer one formulation over another?\n",
+    "Run some additional experiments to confirm.\n",
+    "What criteria might we use to evaluate which is better?\n",
+    "(Write a couple of sentences.\n",
+    "Feel free to discuss on Zulip.)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "60f9e535-72b5-4484-aba0-527f0f101e4a",
+   "metadata": {},
+   "source": [
+    "### SOLUTION BEGIN\n",
+    "\n",
+    "### SOLUTION END"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "83bbc874-2d82-4733-b35d-7dfbf637dce6",
+   "metadata": {},
+   "source": [
+    "## Exploration\n",
+    "\n",
+    "When introducing rootfinding, we consider examples such as [nonlinear elasticity](https://cu-numcomp.github.io/spring23/slides/2023-01-30-rootfinding.html#example-nonlinear-elasticity) and used rootfinding to change inputs and outputs in an expression that cannot be analytically inverted. In this exploratory activity, I'd like you take a similar process with a function of interest to you.\n",
+    "\n",
+    "* Find a function $f \\left( x \\right)$  that models something you're interested in. You could consider nonlinear physical models (aerodynamic drag, nonlinear elasticity), behavioral models, probability distributions, or anything else that that catches your interest. Implement the function in Julia.\n",
+    "\n",
+    "* Consider how you might know the output of such functions, but not an input. Think from the position of different stakeholders: is the equation used differently by an experimentalist collecting data versus by someone making predictions through simulation? How about a company or government reasoning about people versus the people their decisions may impact?\n",
+    "\n",
+    "* Formulate the map from known to desired data as a rootfinding problem and try one or more methods (Newton, bisection, etc., or use a rootfinding library such as [Roots](https://juliapackages.com/p/roots), which was used in the [introductory class demos](https://jeremylt.github.io/csci-3656-fall-2025/notebooks/2025-08-22-Welcome.html)).\n",
+    "\n",
+    "* Plot the inverse function (output versus input) from the standpoint of one or more stakeholder. Write captions describing any interesting inflection points or ways in which the methods may or may not be reliable.\n",
+    "\n",
+    "* If there are a hierarchy of models for the application you're interested in, you could consider using a simpler model to provide an initial guess to a more complicated model.\n"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "id": "09a69696-61a3-4f86-9282-82f51bafdda6",
+   "metadata": {},
+   "source": [
+    "### SOLUTION BEGIN\n",
+    "\n",
+    "### SOLUTION END"
+   ]
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Julia 1.11.6",
+   "language": "julia",
+   "name": "julia-1.11"
+  },
+  "language_info": {
+   "file_extension": ".jl",
+   "mimetype": "application/julia",
+   "name": "julia",
+   "version": "1.11.6"
+  },
+  "nbsphinx": {
+   "execute": "never"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
