@@ -1,4 +1,4 @@
-Jupyter Notebooks
+Class Notes
 =====================================================================================
 
 Class notes will be written in `Jupyter Notebooks <https://jupyter.org>`_ and `Julia <https://julialang.org>`_.
@@ -58,4 +58,5 @@ Linear algebra
    notebooks/2025-09-19-Geometry.ipynb
    notebooks/2025-09-22-Gram-Schmidt.ipynb
    notebooks/2025-09-24-QR-Factorization.ipynb
+   notebooks/2025-09-26-QR-Stability.ipynb
 
