@@ -8,7 +8,7 @@
     "Before you turn this problem in, make sure everything runs as expected.\n",
     "First, restart the kernel (in the menubar, select Kernel → Restart) and then run all cells (in the menubar, select Cell → Run All).\n",
     "\n",
-    "Make sure you fill in any place that says `YOUR CODE HERE` or `\"YOUR ANSWER HERE\"`, as well as your name and collaborators below:"
+    "Make sure you fill in any place that says `BEGIN SOLUTION` and `END SOLUTION`, as well as your name and collaborators below:"
    ]
   },
   {
