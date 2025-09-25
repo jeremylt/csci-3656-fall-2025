@@ -11,4 +11,5 @@ Assignments must be submitted via GitHub Classroom.
    homework/2025-09-05-Taylor-Series-student.ipynb
    homework/2025-09-19-Rootfinding-student.ipynb
    homework/2025-10-03-Orthogonal-Polynomials-student.ipynb
+   homework/2025-10-17-Krylov-student.ipynb
 
