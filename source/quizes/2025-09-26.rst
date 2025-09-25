@@ -1,0 +1,38 @@
+2025-09-26
+=====================================================================================
+
+1) If :math:`A` is an invertible matrix, then which of the following statements is **false**?
+
+  a) :math:`det \left( A \right) = 0`
+
+  b) :math:`A x = b` has a unique solution for any vector :math:`b`
+
+  c) :math:`A^T` is invertible
+
+  d) The nullspace of :math:`A` only contains the vector :math:`x = 0`
+
+.. raw:: html
+
+    <details><summary>Answer</summary>a</details>
+
+2) Suppose I have used the Gram-Schmidt process to decompose a matrix :math:`A` into an orthonormal matrix :math:`Q` and a upper triangular matrix :math:`R` such that :math:`A = Q R`.
+Which of the following statements is **true**?
+
+  a) :math:`R^T R = I`
+
+  b) :math:`Q` is a square matrix
+
+  c) :math:`A^{-1} = Q^T R^{-1}`
+
+  d) :math:`q_i \cdot q_j = 1` for any two columns of :math:`Q`
+
+.. raw:: html
+
+    <details><summary>Answer</summary>b</details>
+
+3) Sketch a diagram showing the decomposition of a 2D vector :math:`a` into its projection onto a unit vector :math:`v`, given by :math:`\left( a \cdot v \right) v`, and the projection orthogonal to the unit vector :math:`v`, given by :math:`a - \left( a \cdot v \right) v`.
+Assume that :math:`a` is not parallel or orthogonal to :math:`v`.
+
+.. raw:: html
+
+    <details><summary>Answer</summary>See <a href="https://en.wikipedia.org/wiki/Vector_projection">Wikipedia</a> for an example.</details>
