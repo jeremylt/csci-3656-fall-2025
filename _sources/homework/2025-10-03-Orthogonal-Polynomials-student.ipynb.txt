@@ -560,21 +560,6 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "id": "1e69fc97-eb98-4e82-bfff-f20afe107b3f",
-   "metadata": {},
-   "outputs": [],
-   "source": [
-    "A = monomials(4)\n",
-    "B = reshape(0:7, 2, 4)'\n",
-    "@show C = poly_matmul(A, B)\n",
-    "Cref = [[0 2 4 6], [1 3 5 7]]\n",
-    "@test C[1] ≈ Cref[1]\n",
-    "@test C[2] ≈ Cref[2]"
-   ]
-  },
-  {
-   "cell_type": "code",
-   "execution_count": null,
    "id": "bb74bb2f-3db5-4a28-bebc-144f843bbd5d",
    "metadata": {},
    "outputs": [],
@@ -605,6 +590,21 @@
     "@show C[1]  # The polynomial 1\n",
     "@show C[2]  # The polynomial x\n",
     "@show C[3]; # The polynomial x^2"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "1e69fc97-eb98-4e82-bfff-f20afe107b3f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "A = monomials(4)\n",
+    "B = reshape(0:7, 2, 4)'\n",
+    "@show C = poly_matmul(A, B)\n",
+    "Cref = [[0 2 4 6], [1 3 5 7]]\n",
+    "@test C[1] ≈ Cref[1]\n",
+    "@test C[2] ≈ Cref[2]"
    ]
   },
   {

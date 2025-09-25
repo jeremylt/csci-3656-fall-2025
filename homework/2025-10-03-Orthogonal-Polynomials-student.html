@@ -439,19 +439,6 @@
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>
 </div>
-<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">monomials</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
-<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reshape</span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="o">&#39;</span>
-<span class="nd">@show</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">poly_matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span>
-<span class="n">Cref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="p">]]</span>
-<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="n">Cref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="n">Cref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">poly_matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span>
 <span class="w">    </span><span class="s">&quot;&quot;&quot;Multiply a polynomial matrix A of shape (*,m) times</span>
 <span class="s">    a matrix B of shape (m,n) to yield a polynomial matrix</span>
@@ -478,6 +465,19 @@
 <span class="nd">@show</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w">  </span><span class="c"># The polynomial 1</span>
 <span class="nd">@show</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w">  </span><span class="c"># The polynomial x</span>
 <span class="nd">@show</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span><span class="w"> </span><span class="c"># The polynomial x^2</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">monomials</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">B</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reshape</span><span class="p">(</span><span class="mi">0</span><span class="o">:</span><span class="mi">7</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">)</span><span class="o">&#39;</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">poly_matmul</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">B</span><span class="p">)</span>
+<span class="n">Cref</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[[</span><span class="mi">0</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="mi">4</span><span class="w"> </span><span class="mi">6</span><span class="p">],</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">3</span><span class="w"> </span><span class="mi">5</span><span class="w"> </span><span class="mi">7</span><span class="p">]]</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="n">Cref</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="n">Cref</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 </pre></div>
 </div>
 </div>
