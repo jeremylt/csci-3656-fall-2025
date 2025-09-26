@@ -199,14 +199,14 @@ vol_Y = pvolume(Y) = 8.022769168019295
 </section>
 <section id="Convergence-classes">
 <h2>Convergence classes<a class="headerlink" href="#Convergence-classes" title="Link to this heading">¶</a></h2>
-<p>A convergent rootfinding algorithm procudes a sequence of approximations <span class="math notranslate nohighlight">\(x_k\)</span> such that</p>
+<p>A convergent rootfinding algorithm produces a sequence of approximations <span class="math notranslate nohighlight">\(x_k\)</span> such that</p>
 <div class="math notranslate nohighlight">
 \[\lim_{k \rightarrow \infty} x_k \rightarrow x_*\]</div>
 <p>where <span class="math notranslate nohighlight">\(f \left( x_* \right) = 0\)</span>. For analysis, it is convenient to define the errors <span class="math notranslate nohighlight">\(e_k = x_k - x_*\)</span>. We say that an iterative algorithm is <strong>:math:`q`-linearly convergent</strong> if</p>
 <div class="math notranslate nohighlight">
 \[\lim_{k \rightarrow \infty} \lvert e_{k + 1} \rvert / \lvert e_k \rvert = \rho &lt; 1\]</div>
 <p>(<strong>:math:`q`</strong> stands for “quotient”) A smaller convergence factor <span class="math notranslate nohighlight">\(\rho\)</span> represents faster convergence.</p>
-<p>A slightly weaker condition, <span class="math notranslate nohighlight">\(r\)</span>-linear convengence or <strong>linear convergence</strong>, is that</p>
+<p>A slightly weaker condition, <span class="math notranslate nohighlight">\(r\)</span>-linear convergence or <strong>linear convergence</strong>, is that</p>
 <div class="math notranslate nohighlight">
 \[\lvert e_{k + 1} \rvert \leq \lvert e_k \rvert\]</div>
 <p>for all sufficiently large <span class="math notranslate nohighlight">\(k\)</span> when the sequence <span class="math notranslate nohighlight">\(\left\lbrace e_k \right\rbrace\)</span> converges <span class="math notranslate nohighlight">\(q\)</span>-linearly to 0.</p>
@@ -283,7 +283,7 @@ vol_Y = pvolume(Y) = 8.022769168019295
 <li><p>If bisection works for <span class="math notranslate nohighlight">\(f \left( x \right)\)</span>, then it works and gives the same accuracy for <span class="math notranslate nohighlight">\(f \left( x \right) \sigma \left( x \right)\)</span> where <span class="math notranslate nohighlight">\(\sigma \left( x \right) &gt; 0\)</span></p></li>
 <li><p>Roots of even degree are problematic</p></li>
 <li><p>A bound on the solution error is directly available</p></li>
-<li><p>The convergence rate is modest – one iteration per bit of accuracy</p></li>
+<li><p>The convergence rate is modest - one iteration per bit of accuracy</p></li>
 </ul>
 </section>
 </section>

@@ -58,7 +58,7 @@
 <p>The inner product induces a norm,</p>
 <div class="math notranslate nohighlight">
 \[\left\lvert \left\lvert u \right\rvert \right\rvert = \sqrt{\left\langle u, u \right\rangle}\]</div>
-<p>The inner product and norm satisfy the unual properties from our Linear Algebra notebook.</p>
+<p>The inner product and norm satisfy the usual properties from our Linear Algebra notebook.</p>
 <section id="Working-with-polynomials">
 <h2>Working with polynomials<a class="headerlink" href="#Working-with-polynomials" title="Link to this heading">¶</a></h2>
 <p>We’ll develop functions to evaluate, multiply, and integrate polynomials expressed as vectors of coefficients.</p>
@@ -148,7 +148,7 @@
 </pre></div>
 </div>
 </div>
-<p>The polynomial manipulation functions such as <code class="docutils literal notranslate"><span class="pre">polyint</span></code> are <span class="math notranslate nohighlight">\(\mathcal{O} \left( n \right)\)</span> (linear time) opeartions on lists or arrays. We’ll start by implementing <code class="docutils literal notranslate"><span class="pre">polyint</span></code>, which computes the indefinite integral</p>
+<p>The polynomial manipulation functions such as <code class="docutils literal notranslate"><span class="pre">polyint</span></code> are <span class="math notranslate nohighlight">\(\mathcal{O} \left( n \right)\)</span> (linear time) operations on lists or arrays. We’ll start by implementing <code class="docutils literal notranslate"><span class="pre">polyint</span></code>, which computes the indefinite integral</p>
 <div class="math notranslate nohighlight">
 \[P \left( x \right) = \int p \left( x \right) dx\]</div>
 <p>i.e., <span class="math notranslate nohighlight">\(P' \left( x \right) = p \left( x \right)\)</span>. Note that the antiderivative <span class="math notranslate nohighlight">\(P \left( x \right)\)</span> is a polynomial determined only up to an integration constant, which you man choose arbitrarily.</p>
@@ -204,7 +204,7 @@
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">polymul</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">q</span><span class="p">)</span>
-<span class="w">    </span><span class="s">&quot;&quot;&quot;Multiply two polynomials, returinng a polynomial.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Multiply two polynomials, returning a polynomial.&quot;&quot;&quot;</span>
 <span class="w">    </span><span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reshape</span><span class="p">(</span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">)</span>
 <span class="w">    </span><span class="n">q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reshape</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="w"> </span><span class="o">:</span><span class="p">)</span>
 <span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span>
@@ -392,7 +392,7 @@
 <p>is the orthogonal projection of <span class="math notranslate nohighlight">\(p\)</span> into the subspace of <span class="math notranslate nohighlight">\(q\)</span> and</p>
 <div class="math notranslate nohighlight">
 \[p - q \left\langle q, p \right\rangle\]</div>
-<p>is the part orthoronal to <span class="math notranslate nohighlight">\(q\)</span>.</p>
+<p>is the part orthogonal to <span class="math notranslate nohighlight">\(q\)</span>.</p>
 <p>Notice the similarities between the expressions above (involving the <span class="math notranslate nohighlight">\(L^2\)</span> inner product) and those for projections of finite-dimensional vectors, <span class="math notranslate nohighlight">\(q q^T p\)</span> and <span class="math notranslate nohighlight">\(\left( I - q q^T \right) p\)</span>.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -607,7 +607,7 @@
 </section>
 <section id="Normalization">
 <h2>Normalization<a class="headerlink" href="#Normalization" title="Link to this heading">¶</a></h2>
-<p>Our QR factorization is normalied using the <span class="math notranslate nohighlight">\(L^2\)</span> norm, which is just fine mathematically, but perhaps not visually satisfying.</p>
+<p>Our QR factorization is normalized using the <span class="math notranslate nohighlight">\(L^2\)</span> norm, which is just fine mathematically, but perhaps not visually satisfying.</p>
 <p>This set of polynomials is famous (<a class="reference external" href="https://en.wikipedia.org/wiki/Legendre_polynomials">Legendre polynomials</a>), but with the normalization <span class="math notranslate nohighlight">\(p \left( 1 \right) = 1\)</span> instead of the <span class="math notranslate nohighlight">\(L^2\)</span> normalization <span class="math notranslate nohighlight">\(\left\langle p \left( x \right), p \left( x \right) \right\rangle = 1\)</span>. Let’s convert our <span class="math notranslate nohighlight">\(QR\)</span> factorization to use this different normalization convention.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
@@ -669,7 +669,7 @@
 <p>Although there is also structure in the factor <span class="math notranslate nohighlight">\(R\)</span>, we are often interested only in the basis <span class="math notranslate nohighlight">\(Q\)</span>. Let us test whether our functions, the columns of <span class="math notranslate nohighlight">\(Q\)</span> (with our new normalization convention), satisfy the recurrence relation</p>
 <div class="math notranslate nohighlight">
 \[\left( n + 1 \right) q_{n + 1} \left( x \right) = \left( 2 n + 1 \right) x q_n \left( x \right) - n q_{n - 1} \left( x \right)\]</div>
-<p>The above uses the standard convention that <span class="math notranslate nohighlight">\(q_n\)</span> is a polynomial of degree <span class="math notranslate nohighlight">\(n\)</span>, but we’re using Julia’s 1-based indexing so our <span class="math notranslate nohighlight">\(q_n\)</span> is a polynomial of degree <span class="math notranslate nohighlight">\(n - 1\)</span>. As such, we’ll rewrite the standard recurrrance as</p>
+<p>The above uses the standard convention that <span class="math notranslate nohighlight">\(q_n\)</span> is a polynomial of degree <span class="math notranslate nohighlight">\(n\)</span>, but we’re using Julia’s 1-based indexing so our <span class="math notranslate nohighlight">\(q_n\)</span> is a polynomial of degree <span class="math notranslate nohighlight">\(n - 1\)</span>. As such, we’ll rewrite the standard recurrence as</p>
 <div class="math notranslate nohighlight">
 \[\left( n + 1 \right) q_{n + 2} \left( x \right) = \left( 2 n + 1 \right) x q_{n + 1} \left( x \right) - n q_n \left( x \right)\]</div>
 <div class="nbinput nblast docutils container">
@@ -686,7 +686,7 @@
 </pre></div>
 </div>
 </div>
-<p>This recurrence is faster and more stable to evaluate than applying Gram-Schmidt to the monomials. We can use it to create a generalied Vandermonde matrix in which the columns are Legendre polynomials instead of the monomials. This matrix will look like</p>
+<p>This recurrence is faster and more stable to evaluate than applying Gram-Schmidt to the monomials. We can use it to create a generalized Vandermonde matrix in which the columns are Legendre polynomials instead of the monomials. This matrix will look like</p>
 <div class="math notranslate nohighlight">
 \[Q = \left[ q_0 \left( x \right) \vert q_1 \left( x \right) \vert q_2 \left( x \right) \vert \cdots \right]\]</div>
 <p>Use the recurrence to compute this Vandermonde matrix.</p>

@@ -212,7 +212,7 @@
     "\n",
     "Definition\n",
     "\n",
-    "* A function $f \\left( x \\right)$ is **strictly montonically increasing** if $f \\left( a \\right) < f \\left( b \\right)$ for all $a < b$. If is differentiable, this implies $f' \\left( x \\right) > 0$ for all $x$.\n",
+    "* A function $f \\left( x \\right)$ is **strictly monotonically increasing** if $f \\left( a \\right) < f \\left( b \\right)$ for all $a < b$. If is differentiable, this implies $f' \\left( x \\right) > 0$ for all $x$.\n",
     "\n",
     "Hint\n",
     "\n",

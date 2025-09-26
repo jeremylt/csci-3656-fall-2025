@@ -434,7 +434,7 @@ ek = xk[1:end - 1, 1] .- x_star = [1.2309148667848393, 0.003309687313930887, 2.4
 <li><p>Computing the derivative <span class="math notranslate nohighlight">\(f' \left( x \right)\)</span> is <em>intrusive</em></p>
 <ul>
 <li><p>Option - secant methods (activity)</p></li>
-<li><p>Option - automatic differentation (future topic)</p></li>
+<li><p>Option - automatic differentiation (future topic)</p></li>
 </ul>
 </li>
 <li><p>Line search helps robustness (activity)</p></li>
@@ -468,8 +468,8 @@ ek = xk[1:end - 1, 1] .- x_star = [1.2309148667848393, 0.003309687313930887, 2.4
 <li><p>A simulation might know (at each cell or mesh point, at each time step) the density and internal energy, and need to compute pressure (and maybe temperature).</p></li>
 <li><p>An analyst might have access to simulation output and wish to compute entropy (a thermodynamic property whose change reflects irreversible processes, and can be used to assess accuracy/stability of a simulation or efficiency of a machine).</p></li>
 </ul>
-<p>The above highlights how many equations are incomplete, failing to model how related quantities (internal energy and entropy in this case) depend on the other quantities. Standardization bodies (such as NIST, here in Boulder) and practitioners often prefer models that intrinsically provide a complete set of consistent relations. An elegent methodology for equations of state for gasses and fluids is by way of the <a class="reference external" href="http://www.coolprop.org/fluid_properties/PurePseudoPure.html#pure-and-pseudo-pure-fluid-properties">Helmholtz free
-energy</a>, which is not observable, but whose partial derivatives define a complete set of thermodynamic properties. The <a class="reference external" href="http://www.coolprop.org">CoolProp</a> software has highly accurate models for many gasses, and practitioners often build less expensive models for narrower ranges of theromdynamic conditions.</p>
+<p>The above highlights how many equations are incomplete, failing to model how related quantities (internal energy and entropy in this case) depend on the other quantities. Standardization bodies (such as NIST, here in Boulder) and practitioners often prefer models that intrinsically provide a complete set of consistent relations. An elegant methodology for equations of state for gasses and fluids is by way of the <a class="reference external" href="http://www.coolprop.org/fluid_properties/PurePseudoPure.html#pure-and-pseudo-pure-fluid-properties">Helmholtz free
+energy</a>, which is not observable, but whose partial derivatives define a complete set of thermodynamic properties. The <a class="reference external" href="http://www.coolprop.org">CoolProp</a> software has highly accurate models for many gasses, and practitioners often build less expensive models for narrower ranges of thermodynamic conditions.</p>
 </section>
 </section>
 

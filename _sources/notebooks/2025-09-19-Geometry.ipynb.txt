@@ -589,7 +589,7 @@
    "metadata": {},
    "source": [
     "We'll group all these points into a $2 \\times n$ matrix $X$.\n",
-    "Note that multiplicatino by any matrix $A$ is applied to each column separately,\n",
+    "Note that multiplication by any matrix $A$ is applied to each column separately,\n",
     "\n",
     "$$ A \\underbrace{\\Bigg[ \\mathbf x_1 \\Bigg| \\mathbf x_2 \\Bigg| \\dotsb \\Bigg]}_X = \\underbrace{\\Bigg[ A \\mathbf x_1 \\Bigg| A \\mathbf x_2 \\Bigg| \\dotsb \\Bigg]}_{AX} $$"
    ]
@@ -1615,7 +1615,7 @@
     "\n",
     "Using a construct of the form $I - \\alpha v v^T$, create a reflection across the plane defined by the unit normal vector $v = \\left[ \\cos \\left( \\theta \\right), \\sin \\left( \\theta \\right) \\right]$.\n",
     "\n",
-    "Try different varues of $\\alpha$ and convince yourself of why it works or sketch a diagram for the projections $v v^T$ and $I - v v^T$ and decide how to modify it to make a reflection."
+    "Try different values of $\\alpha$ and convince yourself of why it works or sketch a diagram for the projections $v v^T$ and $I - v v^T$ and decide how to modify it to make a reflection."
    ]
   },
   {

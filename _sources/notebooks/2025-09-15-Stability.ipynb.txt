@@ -4833,7 +4833,7 @@
     "These are mixed-precision algorithms, and can be a useful optimization technique.\n",
     "\n",
     "Such techniques can give up to 2x improvement if memory bandwidth (for floating point data) or pure vectorizable flops are the bottleneck.\n",
-    "In case of single to half precision, the benefit can be greater than 2x when using special hardware, such as GPUs with “tensor cores”.\n",
+    "In case of single to half precision, the benefit can be greater than 2x when using special hardware, such as GPUs with \"tensor cores\".\n",
     "\n",
     "Warning: Premature use of mixed-precision techniques can often obscure better algorithms that can provide greater speedups and/or reliability improvements."
    ]

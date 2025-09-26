@@ -89,14 +89,14 @@ f (generic function with 1 method)
 </section>
 <section id="Convergence-classes">
 <h2>Convergence classes<a class="headerlink" href="#Convergence-classes" title="Link to this heading">¶</a></h2>
-<p>A convergent rootfinding algorithm procudes a sequence of approximations <span class="math notranslate nohighlight">\(x_k\)</span> such that</p>
+<p>A convergent rootfinding algorithm produces a sequence of approximations <span class="math notranslate nohighlight">\(x_k\)</span> such that</p>
 <div class="math notranslate nohighlight">
 \[\lim_{k \rightarrow \infty} x_k \rightarrow x_*\]</div>
 <p>where <span class="math notranslate nohighlight">\(f \left( x_* \right) = 0\)</span>. For analysis, it is convenient to define the errors <span class="math notranslate nohighlight">\(e_k = x_k - x_*\)</span>. We say that an iterative algorithm is <cite>:math:`q</cite>-linearly convergent &lt;<a class="reference external" href="https://en.wikipedia.org/wiki/Rate_of_convergence#Q-convergence">https://en.wikipedia.org/wiki/Rate_of_convergence#Q-convergence</a>&gt;`__ if</p>
 <div class="math notranslate nohighlight">
 \[\lim_{k \rightarrow \infty} \lvert e_{k + 1} \rvert / \lvert e_k \rvert = \rho &lt; 1\]</div>
 <p>(<strong>:math:`q`</strong> stands for “quotient”) A smaller convergence factor <span class="math notranslate nohighlight">\(\rho\)</span> represents faster convergence.</p>
-<p>A slightly weaker condition, <cite>:math:`r</cite>-linear convengence &lt;<a class="reference external" href="https://en.wikipedia.org/wiki/Rate_of_convergence#R-convergence">https://en.wikipedia.org/wiki/Rate_of_convergence#R-convergence</a>&gt;`__ or <strong>linear convergence</strong>, is that</p>
+<p>A slightly weaker condition, <cite>:math:`r</cite>-linear convergence &lt;<a class="reference external" href="https://en.wikipedia.org/wiki/Rate_of_convergence#R-convergence">https://en.wikipedia.org/wiki/Rate_of_convergence#R-convergence</a>&gt;`__ or <strong>linear convergence</strong>, is that</p>
 <div class="math notranslate nohighlight">
 \[\lvert e_{k + 1} \rvert \leq \lvert e_k \rvert\]</div>
 <p>for all sufficiently large <span class="math notranslate nohighlight">\(k\)</span> when the sequence <span class="math notranslate nohighlight">\(\left\lbrace e_k \right\rbrace\)</span> converges <span class="math notranslate nohighlight">\(r\)</span>-linearly to 0.</p>
@@ -131,7 +131,7 @@ f (generic function with 1 method)
 <p>Much of the numerical analysis reduces to <a class="reference external" href="https://en.wikipedia.org/wiki/Taylor_series">Taylor series</a>, the approximation</p>
 <div class="math notranslate nohighlight">
 \[f \left( x \right) = f \left( x_0 \right) + f' \left( x_0 \right) \left( x - x_0 \right) + f'' \left( x_0 \right) \left( x - x_0 \right)^2 / 2 + \cdots\]</div>
-<p>centered on some referece point <span class="math notranslate nohighlight">\(x_0\)</span>.</p>
+<p>centered on some reference point <span class="math notranslate nohighlight">\(x_0\)</span>.</p>
 <p>In numerical computation, it is exceedingly rare to look beyond the first-order approximation</p>
 <div class="math notranslate nohighlight">
 \[\tilde{f}_{x_0} \left( x \right) = f \left( x_0 \right) + f' \left( x_0 \right) \left( x - x_0 \right)\]</div>
