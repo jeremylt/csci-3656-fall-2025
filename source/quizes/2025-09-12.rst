@@ -1,7 +1,7 @@
 2025-09-12
 =====================================================================================
 
-1) The error of values :math:`x_k` in a bisection iteration is given by :math:`e_k \approx \left( b - a \right) \left(\frac{1}{2} \right)^k` for the initial interval :math:`\left[ a, b \right]`.
+1. The error of values :math:`x_k` in a bisection iteration is given by :math:`e_k \approx \left( b - a \right) \left(\frac{1}{2} \right)^k` for the initial interval :math:`\left[ a, b \right]`.
 This method is
 
   a) divergent
@@ -16,7 +16,7 @@ This method is
 
     <details><summary>Answer</summary>c</details>
 
-2) The irrational number :math:`e` can be approximated by applying Newton's method to solve the nonlinear equation :math:`f \left( x \right) = ln \left( x \right) - 1 = 0`.
+2. The irrational number :math:`e` can be approximated by applying Newton's method to solve the nonlinear equation :math:`f \left( x \right) = ln \left( x \right) - 1 = 0`.
 What is the Newton iteration formula?
 (Note: :math:`\frac{d}{dx} ln \left( x \right) = \frac{1}{x}`)
 
@@ -32,7 +32,7 @@ What is the Newton iteration formula?
 
     <details><summary>Answer</summary>d</details>
 
-3) Sketch the graph of a continuous function :math:`f \left( x \right)` that has a root :math:`f \left( 1 \right) = 0` that cannot be located using bisection.
+3. Sketch the graph of a continuous function :math:`f \left( x \right)` that has a root :math:`f \left( 1 \right) = 0` that cannot be located using bisection.
 Explain why this root cannot be located with bisection.
 
 .. raw:: html

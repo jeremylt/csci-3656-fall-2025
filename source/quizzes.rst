@@ -1,7 +1,7 @@
-Quizes
+Quizzes
 =====================================================================================
 
-Quizes and solutions are posted here.
+Quizzes and solutions are posted here.
 
 .. toctree::
    :maxdepth: 1

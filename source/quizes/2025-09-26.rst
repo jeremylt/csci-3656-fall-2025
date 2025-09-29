@@ -1,7 +1,7 @@
 2025-09-26
 =====================================================================================
 
-1) If :math:`A` is an invertible matrix, then which of the following statements is **false**?
+1. If :math:`A` is an invertible matrix, then which of the following statements is **false**?
 
   a) :math:`det \left( A \right) = 0`
 
@@ -15,7 +15,7 @@
 
     <details><summary>Answer</summary>a</details>
 
-2) Suppose I have used the Gram-Schmidt process to decompose a matrix :math:`A` into an orthonormal matrix :math:`Q` and a upper triangular matrix :math:`R` such that :math:`A = Q R`.
+2. Suppose I have used the Gram-Schmidt process to decompose a matrix :math:`A` into an orthonormal matrix :math:`Q` and a upper triangular matrix :math:`R` such that :math:`A = Q R`.
 Which of the following statements is **true**?
 
   a) :math:`R^T R = I`
@@ -30,7 +30,7 @@ Which of the following statements is **true**?
 
     <details><summary>Answer</summary>b</details>
 
-3) Sketch a diagram showing the decomposition of a 2D vector :math:`a` into its projection onto a unit vector :math:`v`, given by :math:`\left( a \cdot v \right) v`, and the projection orthogonal to the unit vector :math:`v`, given by :math:`a - \left( a \cdot v \right) v`.
+3. Sketch a diagram showing the decomposition of a 2D vector :math:`a` into its projection onto a unit vector :math:`v`, given by :math:`\left( a \cdot v \right) v`, and the projection orthogonal to the unit vector :math:`v`, given by :math:`a - \left( a \cdot v \right) v`.
 Assume that :math:`a` is not parallel or orthogonal to :math:`v`.
 
 .. raw:: html
