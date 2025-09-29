@@ -18,7 +18,7 @@
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Quizes" href="../quizes.html" />
+    <link rel="next" title="2025-10-01 \(QR\) Retrospective" href="2025-10-01-QR-Retrospective.html" />
     <link rel="prev" title="2025-09-26 QR Stability" href="2025-09-26-QR-Stability.html" />
    
   <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
@@ -265,10 +265,10 @@ gram_schmidt_modified (generic function with 1 method)
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
-  2.9871       2.73656    1.29042   1.82253
- -1.70796e-16  0.180143   0.567164  1.56247
-  5.17774e-17  0.809653  -0.206263  0.441038
-  8.08559e-17  0.303183  -0.31427   0.0946859
+ 2.26517       2.63538      2.4721     2.22141
+ 3.52765e-16  -0.00924956   0.730906   0.571404
+ 7.44012e-16  -1.15411     -0.696721  -0.785289
+ 5.62623e-16  -1.17038     -0.830242  -0.488231
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
@@ -293,10 +293,10 @@ gram_schmidt_modified (generic function with 1 method)
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 4×4 Matrix{Float64}:
-  2.9871       2.73656       1.29042     1.82253
- -1.70796e-16  0.883125     -0.181302    0.75557
-  5.17774e-17  1.249e-16     0.655776    1.37037
-  8.08559e-17  5.55112e-17   0.00852918  0.442685
+ 2.26517       2.63538       2.4721     2.22141
+ 3.52765e-16   1.64373       1.07623    0.895793
+ 7.44012e-16  -1.11022e-16  -0.455615  -0.5588
+ 5.62623e-16  -2.22045e-16  -0.585737  -0.25855
 </pre></div></div>
 </div>
 </section>
@@ -387,7 +387,7 @@ qr_householder_naive (generic function with 1 method)
 <span class="w">    </span><span class="n">Q</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">diagm</span><span class="p">(</span><span class="n">ones</span><span class="p">(</span><span class="n">m</span><span class="p">))</span>
 <span class="w">    </span><span class="c"># Apply the reflectors to the identity matrix to build Q</span>
 <span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">m</span>
-<span class="w">        </span><span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reflectors_mult</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">j</span><span class="p">])</span>
+<span class="w">        </span><span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">reflectors_mult</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">Q</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">j</span><span class="p">])</span>
 <span class="w">    </span><span class="k">end</span>
 <span class="w">    </span><span class="n">Q</span>
 <span class="k">end</span>
@@ -481,7 +481,7 @@ norm(Q * R - A) = 7.653110366995408e-15
 <span class="w">        </span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="n">sign</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="c"># Here&#39;s the fix!</span>
 <span class="w">        </span><span class="n">v</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">normalize</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
 <span class="w">        </span><span class="c"># Build and apply F</span>
-<span class="w">        </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">,</span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">]</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">,</span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">])</span>
+<span class="w">        </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">]</span><span class="w"> </span><span class="o">-=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="n">v</span><span class="o">&#39;</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">R</span><span class="p">[</span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">,</span><span class="n">j</span><span class="o">:</span><span class="n">end</span><span class="p">])</span>
 <span class="w">        </span><span class="c"># Keep track of the reflectors</span>
 <span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">v</span><span class="p">)</span>
 <span class="w">    </span><span class="k">end</span>
@@ -523,8 +523,8 @@ qr_householder (generic function with 1 method)
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># And with a more robust test</span>
-<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-10</span>
-<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
+<span class="n">A</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">1e-10</span>
+<span class="n">A</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="mi">1</span><span class="p">]</span>
 
 <span class="n">V</span><span class="p">,</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">qr_householder</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
 <span class="n">tau</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">v</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">V</span><span class="p">]</span>
@@ -542,7 +542,7 @@ qr_householder (generic function with 1 method)
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 tau = [2.0, 2.0]
-V1 = [[1.0, 0.0], [1.0]]
+V1 = [[1.0, -4.999999999e-11], [1.0]]
 R =
 </pre></div></div>
 </div>
@@ -551,9 +551,9 @@ R =
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-2×2 Matrix{Int64}:
- -1   0
-  0  -1
+2×2 Matrix{Float64}:
+ -1.0   2.0e-10
+  0.0  -1.0
 </pre></div></div>
 </div>
 <section id="Householder-QR-is-backward-stable">
@@ -842,7 +842,7 @@ norm(v) = 1.0
 <li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../notebooks.html">Class Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quizes.html">Quizes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../quizzes.html">Quizzes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../homework.html">Homework</a></li>
 </ul>
 
@@ -852,7 +852,7 @@ norm(v) = 1.0
   <li><a href="../index.html">Documentation overview</a><ul>
   <li><a href="../notebooks.html">Class Notes</a><ul>
       <li>Previous: <a href="2025-09-26-QR-Stability.html" title="previous chapter">2025-09-26 QR Stability</a></li>
-      <li>Next: <a href="../quizes.html" title="next chapter">Quizes</a></li>
+      <li>Next: <a href="2025-10-01-QR-Retrospective.html" title="next chapter">2025-10-01 <span class="math notranslate nohighlight">\(QR\)</span> Retrospective</a></li>
   </ul></li>
   </ul></li>
 </ul>

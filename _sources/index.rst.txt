@@ -15,6 +15,6 @@ It also explores topics such as floating point arithmetic, numerical solution of
    syllabus
    ungrading
    notebooks
-   quizes
+   quizzes
    homework
 

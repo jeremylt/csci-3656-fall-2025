@@ -80,7 +80,7 @@
     "\n",
     "The **inner product**\n",
     "\n",
-    "$$ x^T y = \\sum_i x_i y_y $$\n",
+    "$$ x^T y = \\sum_i x_i y_i $$\n",
     "\n",
     "of vectors (or columns of a matrix) tells us about their magnitude and about the angle.\n",
     "The **norm** is induced by the inner product,\n",

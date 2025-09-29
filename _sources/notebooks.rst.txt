@@ -60,4 +60,5 @@ Linear algebra
    notebooks/2025-09-24-QR-Factorization.ipynb
    notebooks/2025-09-26-QR-Stability.ipynb
    notebooks/2025-09-29-Householder-QR.ipynb
+   notebooks/2025-10-01-QR-Retrospective.ipynb
 
