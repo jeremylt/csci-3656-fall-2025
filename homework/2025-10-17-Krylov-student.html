@@ -205,6 +205,27 @@
 <p>This plot looks significantly different, telling us that we cannot interpret this basis in the same way as we did before. However, we can use the basis from the Arnoldi iteration to solve a linear system of equations <span class="math notranslate nohighlight">\(A x = b\)</span>. We’ll come back to this, but first let’s pick a problem to solve.</p>
 <p>We will solve the equation <span class="math notranslate nohighlight">\(A p = y\)</span>, where <span class="math notranslate nohighlight">\(A\)</span> is the Vandermonde matrix at some points <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(p\)</span> represents the polynomial coefficients for the polynomial of degree <span class="math notranslate nohighlight">\(3\)</span> that fits the points <span class="math notranslate nohighlight">\((x_i, y_i)\)</span> given by the vectors <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span>.</p>
 <p>First, let’s solve a system of equations with <span class="math notranslate nohighlight">\(QR\)</span> factorization as we did in class. With <span class="math notranslate nohighlight">\(QR\)</span> factorization, we form the orthonormal matrix <span class="math notranslate nohighlight">\(Q\)</span> and the upper triangular matrix <span class="math notranslate nohighlight">\(R\)</span> such that <span class="math notranslate nohighlight">\(A = QR\)</span>. This means that <span class="math notranslate nohighlight">\(Q R p = y\)</span> or <span class="math notranslate nohighlight">\(p = R^{-1} Q^{-1} y_1\)</span>. Since <span class="math notranslate nohighlight">\(Q\)</span> is orthonormal, <span class="math notranslate nohighlight">\(Q^{-1} = Q^T\)</span>. <span class="math notranslate nohighlight">\(R\)</span> is upper triangular and can be solved algorithmically.</p>
+<p>The matrix equation <span class="math notranslate nohighlight">\(R x = b\)</span> has the structure</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{bmatrix} r_{11} &amp; r_{12} &amp; r_{13} &amp; r_{14} &amp; r_{15} \\
+                       &amp; r_{22} &amp; r_{23} &amp; r_{24} &amp; r_{25} \\
+                       &amp;        &amp; r_{33} &amp; r_{34} &amp; r_{35} \\
+                       &amp;        &amp;        &amp; r_{44} &amp; r_{45} \\
+                       &amp;        &amp;        &amp;        &amp; r_{55}
+\end{bmatrix}
+\begin{bmatrix} x_{1} \\
+                x_{2} \\
+                x_{3} \\
+                x_{4} \\
+                x_{5}
+\end{bmatrix} =
+\begin{bmatrix} b_{1} \\
+                b_{2} \\
+                b_{3} \\
+                b_{4} \\
+                b_{5}
+\end{bmatrix}\end{split}\]</div>
+<p>We can therefore solve from the ‘bottom up’ to determine the entries of <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <p>Complete the function below to solve a system of equations <span class="math notranslate nohighlight">\(R x = b\)</span>, where <span class="math notranslate nohighlight">\(R\)</span> is a upper triangular matrix.</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
