@@ -62,4 +62,5 @@ Linear algebra
    notebooks/2025-09-29-Householder-QR.ipynb
    notebooks/2025-10-01-QR-Retrospective.ipynb
    notebooks/2025-10-03-Singular-Value-Decomposition.ipynb
+   notebooks/2025-10-06-SVD-Geometry.ipynb
 
