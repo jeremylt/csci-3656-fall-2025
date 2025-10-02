@@ -1,43 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="2025-09-15 Stability" href="2025-09-15-Stability.html"><link rel="prev" title="2025-09-10 More Newton" href="2025-09-10-More-Newton.html">
 
-<html lang="en" data-content_root="../">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>2025-09-12 Formulation</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+        <title>2025-09-12 Formulation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
-    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2025-09-15 Stability" href="2025-09-15-Stability.html" />
-    <link rel="prev" title="2025-09-10 More Newton" href="2025-09-10-More-Newton.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
 
-  
-  
 
-  </head><body>
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
 
-          <div class="body" role="main">
-            
-  <section id="2025-09-12-Formulation">
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">CSCI 3656</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">CSCI 3656</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../notebooks.html">Class Notes</a><input aria-label="Toggle navigation of Class Notes" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="2025-08-22-Welcome.html">2025-08-22 Welcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-25-Functions.html">2025-08-25 Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-27-Function-Error.html">2025-08-27 Function Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-29-Conditioning.html">2025-08-29 Conditioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-03-Rootfinding.html">2025-09-03 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-05-Convergence-Classes.html">2025-09-05 Convergence classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-08-Newton-Methods.html">2025-09-08 Newton Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-10-More-Newton.html">2025-09-10 More Newton</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">2025-09-12 Formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-15-Stability.html">2025-09-15 Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-17-Linear-Algebra.html">2025-09-17 Linear Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-19-Geometry.html">2025-09-19 Projections, rotations, and reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-22-Gram-Schmidt.html">2025-09-22 Gram-Schmidt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-24-QR-Factorization.html">2025-09-24 QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-26-QR-Stability.html">2025-09-26 QR Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-29-Householder-QR.html">2025-09-26 Householder QR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-01-QR-Retrospective.html">2025-10-01 QR Retrospective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-03-Singular-Value-Decomposition.html">2025-10-03 Singular Value Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-06-SVD-Geometry.html">2025-10-06 SVD Geometry</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quizzes.html">Quizzes</a><input aria-label="Toggle navigation of Quizzes" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-08-29.html">2025-08-29</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-12.html">2025-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-26.html">2025-09-26</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../homework.html">Homework</a><input aria-label="Toggle navigation of Homework" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-09-05-Taylor-Series-student.html">2025-09-05 Taylor Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-09-19-Rootfinding-student.html">2025-09-19 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-10-03-Orthogonal-Polynomials-student.html">2025-10-03 Orthogonal Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-10-17-Krylov-student.html">2025-10-17 Krylov Subspaces</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/notebooks/2025-09-12-Formulation.ipynb.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="2025-09-12-Formulation">
 <h1>2025-09-12 Formulation<a class="headerlink" href="#2025-09-12-Formulation" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>Goal sharing</p></li>
@@ -92,10 +323,14 @@ newton_hist (generic function with 1 method)
 <section id="Roots-with-multiplicity">
 <h2>Roots with multiplicity<a class="headerlink" href="#Roots-with-multiplicity" title="Link to this heading">¶</a></h2>
 <p>There are multiple ways to represent (monic) polynomials</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[f \left( x \right) = \left( x - a_1 \right) \left( x - a_2 \right)\]</div>
+</div>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[g \left( x \right) = x^2 - \left( a_1 + a_2 \right) x + a_1 a_2\]</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
@@ -164,16 +399,22 @@ g (generic function with 1 method)
 <section id="How-did-this-happen?">
 <h2>How did this happen?<a class="headerlink" href="#How-did-this-happen?" title="Link to this heading">¶</a></h2>
 <p>Take a polynomial with two roots at <span class="math notranslate nohighlight">\(x = a\)</span> and perturb the middle coefficient.</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[x^2 + b_1 x + b_2 = 0\]</div>
+</div>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[x^2 - 2a \left( 1 + \epsilon \right) x + a^2 = 0\]</div>
+</div>
 <p>Using the quadratic formula, we know that the roots are at</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\begin{split} \begin{align} x_* = \frac{b_1}{2} \pm \sqrt{\frac{b_1^2}{4} - b_2} &amp;= a \left(1 + \epsilon \right) \pm \sqrt{a^2 \left( 1 + \epsilon \right)^2 - a^2}\\
 &amp;= a \left( 1 + \epsilon \right) \pm a \sqrt{2 \epsilon + \epsilon^2}\\
 &amp;\approx a \left( 1 + \epsilon \pm \sqrt{2 \epsilon} \right)
 \end{align}\end{split}\]</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
@@ -191,8 +432,10 @@ g (generic function with 1 method)
 <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAlgAAAGQCAIAAAD9V4nPAAAABmJLR0QA/wD/AP+gvaeTAAAgAElEQVR4nOzdd1xT9/4/8M852QmEDSoOBMWBA1FxIKLg3tq6qh2Oqm2tvbWtV+24re3X3tpxO35tbbVLq7butu6BW9xb6sIJorLJXuf8/jj2GEOACJiTkNfzjz5yPiO8E0tenJNzPodiWZYAAAD4KlroAgAAAISEIAQAAJ+GIAQAAJ+GIAQAAJ+GIAQAAJ+GIAQAAJ+GIAQAAJ+GIAQAAJ+GIAQAAJ+GIAQAAJ/mZUG4cePG7du3C12Ft7JarUKX4MUsFovQJXgxvHvVgXevOlz53POyINy/f39GRobQVXgrk8nEMIzQVXgro9EodAleDO9edeDdqzKGYUwmU6XDvCwIAQAAahaCEAAAfBqCEAAAfBqCEAAAfBqCEAAAfBqCEAAAfBqCEAAAaifWamFtlV9HKHZDKQAAAG7D6DXGc4cMZw8aLxz3nzKfqAMqHo8gBACA2sBWWmg4e9Bw+oDpyhnC2FyfiCAEAAAvZiu8Zziz33DmgOlaJmHZKjyDTwTh8OHDz5w5I3QVj0WdOnUOHDggdBUAAO5mzcsxnN5vOH3AnH25avnH84kgPHHixLJly+rVqyd0ITXMZrO1aNFC6CoAANzHcvua4cwBw+n9ltzrFQyT1I1StEmStepsDa78k98ngpAQ0rBhw4YNGwpdRQ2z2R7hIDgAgPey3LlhOLVPf3KP9e6tCoZJ6jRUxHdXtksRRzQghDAMYzUYKn1yXwlCAADwMixrupZpPH/YcHq/Nf92ucMoShrVUtGqk6JtN3FoVY78IQgBAMCTMIzp+t+GU3sNp/fbSgrKHUbT0kYtlPHJivhkUUBIdX4gghAAAITHWi3mq+cM5w7pT+xhtMXlDaPEEml0K0VcJ2X7HrRfYI38aAQhAAAIhrWYTZdO6E/tM57NYIz68oZREqkstp0yPlneuistV9ZsDQhCAABwN9ZsNF0+pT+1z3DmIGsq93wWWuEna9ZOEddJ0SaJkikeUzEIQgAAcBNGrzGeP6w/tc904XgFq4DSSn95XKIyPlnWvAMleuw59Wg/4O+//16xYsXdu3fr16//1FNPxcTEVDrl7Nmzv//+e15eXsOGDceNGxcVFcV3Wa3WI0eOHDp06ObNmyaTKTIyslevXp07d37U1wAAAJ7MpikynDlgOLXflHWGMEx5w0QBIYo2SYo2SbKY1oR23z0hHiEIly1bNmHCBJVKFRsbu3z58g8//HDlypWDBg2qYMoPP/wwbdo0tVrdpEmTX3/99cMPP1y3bl3v3r253kuXLiUlJRFCIiIipFLpnTt33n777SeffHL58uUSiaQ6rwoAAATH6EqNmUf0p/YZ/z5WweKfouBwRasuivjussYtCUW5s0KOq0GYnZ39/PPPx8XFpaenBwUF3b17t3v37k8//XRWVlZwcLDTKVlZWS+++GL79u23bdumVqtzcnK6des2bty4rKwsf39/Qkh4ePgff/zRo0cPtVpNCMnLy5s8efLq1at79Ojx0ksv1dQrBAAAd7KVFBjOHDCc3mfKOlfB4mfiiIbKNkmKtkmS+k3cWV5Zru57fv/99waD4b333gsKCiKEREREvPXWW8XFxUuWLClvysKFC81m8wcffMDlXGRk5OzZs/Py8lasWMENCA0NHTJkCNdLCAkLC/voo48IIRkZGdV5SQAA4H62kgLt3j/yvnw9993xxWu+MV056zQFJZEx6gHPRsz+vs6c79UDnxU8BYnre4Tp6elyubxXr158y8CBA2ma3rlz57/+9S+nU3bu3KlWq1NSUviWwYMHT5s2bceOHVOmTHE6RavVEkIiIyNdLR8AAARlK843nN6vP7XPfL2imz/cX/wsoYc4vL47y3OFq0F46dKlevXqKZUPrt4IDg4ODg6+dOlSBVOioqLsv+3jnuHy5cv2wywWi1ar1el0Z86cmT17dt26dXFcFADAwzG6UsPp/bqjO13Kv/Y9xWGeu4fjahAWFxfbn/DJCQ4OLioqcjreYrHodLrQ0NBKp2zYsGHEiBHc47Zt2x44cKCC1bELCgpyc3O//fZbbpOm6bFjxyoUj+viEq9gsVhcHykWi2k3notVm1gsFtffanCAd686POrds5UWmc4dNJ3eb752vtz8oyhJ/SayNt3kbZJEwRGEEPZRPqlqEMMwTPknqfJcDUKGYcp+gIrF4vJugMD9bKdTrNaHrh1JTExcuXJlSUnJ2bNnf/jhh7S0tO3bt5d3YYZer799+/bx48e5TblcPnToUKlUWnHxbPVuVfU4bN269caNG7du3QoNDW3VqlVmZubRo0fHjh3bv3//R30q1+9BYbPZbDabB74bXoF7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" /></div>
 </div>
 <p>Note that the condition number is well behaved.</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\kappa \left( \sqrt{\epsilon} \right) = \frac{1}{2 \sqrt{\epsilon}} \frac{\epsilon}{\sqrt{\epsilon}} = \frac{1}{2}\]</div>
+</div>
 </section>
 <section id="Which-root-does-Newton-find?">
 <h2>Which root does Newton find?<a class="headerlink" href="#Which-root-does-Newton-find?" title="Link to this heading">¶</a></h2>
@@ -400,8 +643,10 @@ derivative(gpoly) = Polynomial(-3 + 2*x)
 <section id="Exploring---Wilkinson's-polynomial">
 <h2>Exploring - Wilkinson’s polynomial<a class="headerlink" href="#Exploring---Wilkinson's-polynomial" title="Link to this heading">¶</a></h2>
 <p>Let’s add more terms</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[w \left( x \right) = \prod_{k = 1}^{20} \left( x - k \right) = \left( x - 1 \right) \left( x - 2 \right) \cdots \left( x - 20 \right) = \sum_{k = 0}^{20} b_k x^k\]</div>
+</div>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
@@ -461,13 +706,17 @@ derivative(gpoly) = Polynomial(-3 + 2*x)
 <ol class="upperalpha simple">
 <li><p>coefficients <span class="math notranslate nohighlight">\(a_k\)</span> in</p></li>
 </ol>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[p \left( x \right) = \prod_k \left( x - a_k \right)\]</div>
+</div>
 <ol class="upperalpha simple" start="2">
 <li><p>coefficients <span class="math notranslate nohighlight">\(b_k\)</span> in</p></li>
 </ol>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[p \left( x \right) = \sum_k b_k x^k\]</div>
+</div>
 </section>
 <section id="Back-to-forward/backward-error-and-stability">
 <h2>Back to forward/backward error and stability<a class="headerlink" href="#Back-to-forward/backward-error-and-stability" title="Link to this heading">¶</a></h2>
@@ -476,15 +725,19 @@ derivative(gpoly) = Polynomial(-3 + 2*x)
 <section id="Stability">
 <h3>Stability<a class="headerlink" href="#Stability" title="Link to this heading">¶</a></h3>
 <p><strong>“nearly the right answer to nearly the right question”</strong></p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\frac{\left\lvert \tilde{f} \left( x \right) - f \left( \tilde{x} \right) \right\rvert}{\left\lvert f \left( \tilde{x} \right) \right\rvert} \in \mathcal{O} \left( \epsilon_\text{machine} \right)\]</div>
+</div>
 <p>for some <span class="math notranslate nohighlight">\(\tilde{x}\)</span> that is close to <span class="math notranslate nohighlight">\(x\)</span>.</p>
 </section>
 <section id="Backward-stability">
 <h3>Backward stability<a class="headerlink" href="#Backward-stability" title="Link to this heading">¶</a></h3>
 <p><strong>“exactly the right answer to nearly the right question”</strong></p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\tilde{f} \left( x \right) = f \left( \tilde{x} \right)\]</div>
+</div>
 <p>for some <span class="math notranslate nohighlight">\(\tilde{x}\)</span> that is close to <span class="math notranslate nohighlight">\(x\)</span>.</p>
 <ul class="simple">
 <li><p>Every backward stable algorithm is stable</p></li>
@@ -553,85 +806,107 @@ GKS: Possible loss of precision in routine SET_WINDOW
 <section id="Theorem---accuracy-of-backward-stable-algorithms">
 <h2>Theorem - accuracy of backward stable algorithms<a class="headerlink" href="#Theorem---accuracy-of-backward-stable-algorithms" title="Link to this heading">¶</a></h2>
 <p>A backward stable algorithm for computing <span class="math notranslate nohighlight">\(f \left( x \right)\)</span> has relative accuracy</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\frac{\left\lvert \tilde{f} \left( x \right) - f \left( \tilde{x} \right) \right\rvert}{\left\lvert f \left( \tilde{x} \right) \right\rvert} \lesssim \kappa \left( f \right) \epsilon_\text{machine}\]</div>
+</div>
 <p>Backward stability is generally the best we can hope for.</p>
 <p>In practice, it is rarely possible for a function to be backward stable when the output space is higher dimensional than the input space.</p>
 </section>
 </section>
 
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="2025-09-15-Stability.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">2025-09-15 Stability</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="2025-09-10-More-Newton.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">2025-09-10 More Newton</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Jeremy L Thompson
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">2025-09-12 Formulation</a><ul>
+<li><a class="reference internal" href="#Exploration">Exploration</a></li>
+<li><a class="reference internal" href="#Roots-with-multiplicity">Roots with multiplicity</a></li>
+<li><a class="reference internal" href="#How-did-this-happen?">How did this happen?</a></li>
+<li><a class="reference internal" href="#Which-root-does-Newton-find?">Which root does Newton find?</a></li>
+<li><a class="reference internal" href="#Using-Polynomials">Using Polynomials</a></li>
+<li><a class="reference internal" href="#Finding-all-roots-of-polynomials">Finding <em>all</em> roots of polynomials</a></li>
+<li><a class="reference internal" href="#Fundamental-Theorem-of-Algebra">Fundamental Theorem of Algebra</a></li>
+<li><a class="reference internal" href="#Exploring---Wilkinson's-polynomial">Exploring - Wilkinson’s polynomial</a><ul>
+<li><a class="reference internal" href="#Figure-from-Trefethen-and-Bau-(1999)">Figure from Trefethen and Bau (1999)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#So-which-is-better-for-modeling-inputs-to-a-rootfinder?">So which is better for modeling inputs to a rootfinder?</a></li>
+<li><a class="reference internal" href="#Back-to-forward/backward-error-and-stability">Back to forward/backward error and stability</a><ul>
+<li><a class="reference internal" href="#Stability">Stability</a></li>
+<li><a class="reference internal" href="#Backward-stability">Backward stability</a></li>
+<li><a class="reference internal" href="#Example---mapping-angle-to-the-unit-circle">Example - mapping angle to the unit circle</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Theorem---accuracy-of-backward-stable-algorithms">Theorem - accuracy of backward stable algorithms</a></li>
+</ul>
+</li>
+</ul>
 
           </div>
-          
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">CSCI 3656</a></h1>
-
-
-
-
-
-
-
-
-
-<search id="searchbox" style="display: none" role="search">
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../notebooks.html">Class Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quizzes.html">Quizzes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../homework.html">Homework</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="../notebooks.html">Class Notes</a><ul>
-      <li>Previous: <a href="2025-09-10-More-Newton.html" title="previous chapter">2025-09-10 More Newton</a></li>
-      <li>Next: <a href="2025-09-15-Stability.html" title="next chapter">2025-09-15 Stability</a></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;2025, Jeremy L Thompson.
       
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
-      |
-      <a href="../_sources/notebooks/2025-09-12-Formulation.ipynb.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
 </html>

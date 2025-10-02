@@ -1,43 +1,274 @@
-<!DOCTYPE html>
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="2025-09-05 Convergence classes" href="2025-09-05-Convergence-Classes.html"><link rel="prev" title="2025-08-29 Conditioning" href="2025-08-29-Conditioning.html">
 
-<html lang="en" data-content_root="../">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <title>2025-09-03 Rootfinding</title>
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=5ecbeea2" />
-    <link rel="stylesheet" type="text/css" href="../_static/basic.css?v=686e5160" />
-    <link rel="stylesheet" type="text/css" href="../_static/alabaster.css?v=27fed22d" />
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+        <title>2025-09-03 Rootfinding</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
     <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
-    <script src="../_static/documentation_options.js?v=5929fcd5"></script>
-    <script src="../_static/doctools.js?v=9bcbadda"></script>
-    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="2025-09-05 Convergence classes" href="2025-09-05-Convergence-Classes.html" />
-    <link rel="prev" title="2025-08-29 Conditioning" href="2025-08-29-Conditioning.html" />
-   
-  <link rel="stylesheet" href="../_static/custom.css" type="text/css" />
-  
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
 
-  
-  
 
-  </head><body>
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
   
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
 
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
 
-          <div class="body" role="main">
-            
-  <section id="2025-09-03-Rootfinding">
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">CSCI 3656</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">CSCI 3656</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../notebooks.html">Class Notes</a><input aria-label="Toggle navigation of Class Notes" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="2025-08-22-Welcome.html">2025-08-22 Welcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-25-Functions.html">2025-08-25 Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-27-Function-Error.html">2025-08-27 Function Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-29-Conditioning.html">2025-08-29 Conditioning</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">2025-09-03 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-05-Convergence-Classes.html">2025-09-05 Convergence classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-08-Newton-Methods.html">2025-09-08 Newton Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-10-More-Newton.html">2025-09-10 More Newton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-12-Formulation.html">2025-09-12 Formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-15-Stability.html">2025-09-15 Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-17-Linear-Algebra.html">2025-09-17 Linear Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-19-Geometry.html">2025-09-19 Projections, rotations, and reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-22-Gram-Schmidt.html">2025-09-22 Gram-Schmidt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-24-QR-Factorization.html">2025-09-24 QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-26-QR-Stability.html">2025-09-26 QR Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-29-Householder-QR.html">2025-09-26 Householder QR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-01-QR-Retrospective.html">2025-10-01 QR Retrospective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-03-Singular-Value-Decomposition.html">2025-10-03 Singular Value Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-06-SVD-Geometry.html">2025-10-06 SVD Geometry</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quizzes.html">Quizzes</a><input aria-label="Toggle navigation of Quizzes" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-08-29.html">2025-08-29</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-12.html">2025-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-26.html">2025-09-26</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../homework.html">Homework</a><input aria-label="Toggle navigation of Homework" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-09-05-Taylor-Series-student.html">2025-09-05 Taylor Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-09-19-Rootfinding-student.html">2025-09-19 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-10-03-Orthogonal-Polynomials-student.html">2025-10-03 Orthogonal Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-10-17-Krylov-student.html">2025-10-17 Krylov Subspaces</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/notebooks/2025-09-03-Rootfinding.ipynb.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="2025-09-03-Rootfinding">
 <h1>2025-09-03 Rootfinding<a class="headerlink" href="#2025-09-03-Rootfinding" title="Link to this heading">¶</a></h1>
 <ul class="simple">
 <li><p>Review condition numbers</p></li>
@@ -221,8 +452,10 @@ vol_Y = pvolume(Y) = 9.25
 <section id="Example:-Queueing">
 <h3>Example: Queueing<a class="headerlink" href="#Example:-Queueing" title="Link to this heading">¶</a></h3>
 <p>In a <a class="reference external" href="https://en.wikipedia.org/wiki/Queueing_theory#Simple_two-equation_queue">simple queueing model</a>, there is an arrival rate and a departure (serving) rate. While waiting in the queue, there is a probability of “dropping out”. The length of the queue in this model is</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\text{length} = \frac{\text{arrival} - \text{drop}}{\text{departure}}\]</div>
+</div>
 <p>One model for waiting time (with exponential distributions for rates) is</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
@@ -285,8 +518,10 @@ vol_Y = pvolume(Y) = 9.25
 <h3>Example: Nonlinear Elasticity<a class="headerlink" href="#Example:-Nonlinear-Elasticity" title="Link to this heading">¶</a></h3>
 <section id="Strain-energy-formulation">
 <h4>Strain-energy formulation<a class="headerlink" href="#Strain-energy-formulation" title="Link to this heading">¶</a></h4>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[W = C_1 \left( I_1 - 3 - 2 \log \left( J \right) \right) + D_1 \left( J - 1 \right)^2\]</div>
+</div>
 <p>where <span class="math notranslate nohighlight">\(I_1 = \lambda_1^2 + \lambda_2^2 + \lambda_3^2\)</span> and <span class="math notranslate nohighlight">\(J = \lambda_1 \lambda_2 \lambda_3\)</span> are <em>invariants</em> defined in terms of th eprinciple stretches <span class="math notranslate nohighlight">\(\lambda_i\)</span></p>
 </section>
 <section id="Uniaxial-extension">
@@ -491,8 +726,10 @@ vol_Y = pvolume(Y) = 9.25
 </section>
 <section id="Let's-plot-the-error">
 <h3>Let’s plot the error<a class="headerlink" href="#Let's-plot-the-error" title="Link to this heading">¶</a></h3>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\lvert \text{bisect}^k \left( f, a, b \right) - x_* \rvert, k = 1, 2, \dots\]</div>
+</div>
 <p>where <span class="math notranslate nohighlight">\(r\)</span> is the true root (<span class="math notranslate nohighlight">\(f \left( x_* \right) = 0\)</span>).</p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
@@ -538,8 +775,10 @@ vol_Y = pvolume(Y) = 9.25
 <img src="data:image/png;base64,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" /></div>
 </div>
 <p>So the error <span class="math notranslate nohighlight">\(e_k = x_k - x_*\)</span> satisfies the bound</p>
+<div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
 \[\left\lvert e_k \right\rvert \leq c 2^{-k}\]</div>
+</div>
 </section>
 </section>
 <section id="Exploration">
@@ -552,78 +791,107 @@ vol_Y = pvolume(Y) = 9.25
 </section>
 </section>
 
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="2025-09-05-Convergence-Classes.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">2025-09-05 Convergence classes</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="2025-08-29-Conditioning.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">2025-08-29 Conditioning</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Jeremy L Thompson
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">2025-09-03 Rootfinding</a><ul>
+<li><a class="reference internal" href="#Reliability">Reliability</a><ul>
+<li><a class="reference internal" href="#Well-conditioned-operations">Well-conditioned operations</a></li>
+<li><a class="reference internal" href="#Stable-algorithms">Stable algorithms</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Forward-and-backward-error">Forward and backward error</a></li>
+<li><a class="reference internal" href="#An-ill-conditioned-problem-from-Paul-Olum">An ill-conditioned problem from Paul Olum</a></li>
+<li><a class="reference internal" href="#Stability---Volume-of-a-polygon">Stability - Volume of a polygon</a></li>
+<li><a class="reference internal" href="#Rootfinding">Rootfinding</a><ul>
+<li><a class="reference internal" href="#Example:-Queueing">Example: Queueing</a></li>
+<li><a class="reference internal" href="#Example:-Nonlinear-Elasticity">Example: Nonlinear Elasticity</a><ul>
+<li><a class="reference internal" href="#Strain-energy-formulation">Strain-energy formulation</a></li>
+<li><a class="reference internal" href="#Uniaxial-extension">Uniaxial extension</a></li>
+<li><a class="reference internal" href="#What-is-the-change-of-volume?">What is the change of volume?</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Bisection-algorithm">Bisection algorithm</a><ul>
+<li><a class="reference internal" href="#Bisection">Bisection</a><ul>
+<li><a class="reference internal" href="#What-is-my-convergence-rate?">What is my convergence rate?</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Iterative-Bisection">Iterative Bisection</a></li>
+<li><a class="reference internal" href="#Let's-plot-the-error">Let’s plot the error</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Exploration">Exploration</a></li>
+</ul>
+</li>
+</ul>
 
           </div>
-          
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="Main">
-        <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../index.html">CSCI 3656</a></h1>
-
-
-
-
-
-
-
-
-
-<search id="searchbox" style="display: none" role="search">
-    <div class="searchformwrapper">
-    <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" aria-labelledby="searchlabel" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="Search"/>
-      <input type="submit" value="Go" />
-    </form>
-    </div>
-</search>
-<script>document.getElementById('searchbox').style.display = "block"</script><h3>Navigation</h3>
-<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="../notebooks.html">Class Notes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../quizzes.html">Quizzes</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../homework.html">Homework</a></li>
-</ul>
-
-<div class="relations">
-<h3>Related Topics</h3>
-<ul>
-  <li><a href="../index.html">Documentation overview</a><ul>
-  <li><a href="../notebooks.html">Class Notes</a><ul>
-      <li>Previous: <a href="2025-08-29-Conditioning.html" title="previous chapter">2025-08-29 Conditioning</a></li>
-      <li>Next: <a href="2025-09-05-Convergence-Classes.html" title="next chapter">2025-09-05 Convergence classes</a></li>
-  </ul></li>
-  </ul></li>
-</ul>
-</div>
-
-
-
-
-
-
-
-
-        </div>
-      </div>
-      <div class="clearer"></div>
-    </div>
-    <div class="footer">
-      &#169;2025, Jeremy L Thompson.
       
-      |
-      Powered by <a href="https://www.sphinx-doc.org/">Sphinx 8.1.3</a>
-      &amp; <a href="https://alabaster.readthedocs.io">Alabaster 1.0.0</a>
       
-      |
-      <a href="../_sources/notebooks/2025-09-03-Rootfinding.ipynb.txt"
-          rel="nofollow">Page source</a>
-    </div>
-
-    
-
-    
-  </body>
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
 </html>
