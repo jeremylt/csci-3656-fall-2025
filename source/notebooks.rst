@@ -63,4 +63,13 @@ Linear algebra
    notebooks/2025-10-01-QR-Retrospective.ipynb
    notebooks/2025-10-03-Singular-Value-Decomposition.ipynb
    notebooks/2025-10-06-SVD-Geometry.ipynb
+   notebooks/2025-10-08-Low-Rank.ipynb
+
+Interpolation
+-------------------------------------------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks/2025-10-10-Polynomial-Interpolation.ipynb
 
