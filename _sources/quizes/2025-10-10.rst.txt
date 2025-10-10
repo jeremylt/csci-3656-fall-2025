@@ -33,7 +33,7 @@ Which of these statements is **true**?
 
 3. Suppose we are using a Krylov method to form an iterative solution :math:`x_n` to the matrix equation :math:`A x = b` from the basis vectors :math:`\left\lbrace b, A b, A^2 b, \dots \right\rbrace`.
 That is to say, :math:`x_n = c_0 b + c_1 A b + c_2 A^2 b + \cdots + c_n A^n b`.
-If :math:`A` is an invertible :math:`m \times \m` matrix, what is the maximum number of vectors needed to find the solution :math:`A x_n = b` and why?
+If :math:`A` is an invertible :math:`m \times m` matrix, what is the maximum number of vectors needed to find the solution :math:`A x_n = b` and why?
 
 .. raw:: html
 
