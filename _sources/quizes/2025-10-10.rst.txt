@@ -1,0 +1,40 @@
+2025-10-10
+=====================================================================================
+
+1. Which of the following matrices is ill-conditioned?
+
+  a) :math:`\begin{bmatrix} 10^{10} & 0 \\ 0 & 10^{-10} \end{bmatrix}`
+
+  b) :math:`\begin{bmatrix} 10^{10} & 0 \\ 0 & 10^{10} \end{bmatrix}`
+
+  c) :math:`\begin{bmatrix} 10^{-10} & 0 \\ 0 & 10^{-10} \end{bmatrix}`
+
+  d) :math:`\begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}`
+
+.. raw:: html
+
+    <details><summary>Answer</summary>a</details>
+
+2. You are given a system of equations containing a real parameter :math:`a`.
+:math:`2 x_1 + 3 x_2 = 5, 4 x_1 + a x_2 = 8`
+Which of these statements is **true**?
+
+  a) For :math:`a = 6`, the system has no solution
+
+  b) For :math:`a = 6`, the system has infinitely many solutions
+
+  c) The system has a unique solution for any real value of :math:`a`
+
+  d) The two lines intersect when :math:`a = 6`
+
+.. raw:: html
+
+    <details><summary>Answer</summary>a</details>
+
+3. Suppose we are using a Krylov method to form an iterative solution :math:`x_n` to the matrix equation :math:`A x = b` from the basis vectors :math:`\left\lbrace b, A b, A^2 b, \dots \right\rbrace`.
+That is to say, :math:`x_n = c_0 b + c_1 A b + c_2 A^2 b + \cdots + c_n A^n b`.
+If :math:`A` is an invertible :math:`m \times \m` matrix, what is the maximum number of vectors needed to find the solution :math:`A x_n = b` and why?
+
+.. raw:: html
+
+    <details><summary>Answer</summary>The maximum is <span class="math notranslate nohighlight">\(m\)</span> the total number of columns of <span class="math notranslate nohighlight">\(A\)</span>.</details>

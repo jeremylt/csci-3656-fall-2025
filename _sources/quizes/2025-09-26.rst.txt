@@ -15,7 +15,7 @@
 
     <details><summary>Answer</summary>a</details>
 
-2. Suppose I have used the Gram-Schmidt process to decompose a matrix :math:`A` into an orthonormal matrix :math:`Q` and a upper triangular matrix :math:`R` such that :math:`A = Q R`.
+2. Suppose I have used the Gram-Schmidt process to decompose a square matrix :math:`A` into an orthonormal matrix :math:`Q` and a upper triangular matrix :math:`R` such that :math:`A = Q R`.
 Which of the following statements is **true**?
 
   a) :math:`R^T R = I`

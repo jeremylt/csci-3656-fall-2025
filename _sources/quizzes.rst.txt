@@ -10,4 +10,5 @@ Quizzes and solutions are posted here.
    quizes/2025-08-29
    quizes/2025-09-12
    quizes/2025-09-26
+   quizes/2025-10-10
 
