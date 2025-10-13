@@ -75,4 +75,5 @@ Interpolation
    notebooks/2025-10-13-Global-and-Piecewise-Interpolation.ipynb
    notebooks/2025-10-15-Spline-Interpolation.ipynb
    notebooks/2025-10-17-Higher-Dimensions.ipynb
+   notebooks/2025-10-20-Noisy-Data.ipynb
 
