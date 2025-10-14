@@ -8,4 +8,5 @@ Bonus content is posted here.
    :caption: Contents:
 
    bonus/Newton-Systems.ipynb
+   bonus/libCEED-PETSc.ipynb
 
