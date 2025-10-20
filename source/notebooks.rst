@@ -76,4 +76,7 @@ Interpolation
    notebooks/2025-10-15-Spline-Interpolation.ipynb
    notebooks/2025-10-17-Higher-Dimensions.ipynb
    notebooks/2025-10-20-Noisy-Data.ipynb
+   notebooks/2025-10-22-Regression.ipynb
+   notebooks/2025-10-24-Beyond-Linear.ipynb
+   notebooks/2025-10-27-Gradient-Descent.ipynb
 
