@@ -1,0 +1,646 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="2025-10-27 Gradient Descent" href="2025-10-27-Gradient-Descent.html"><link rel="prev" title="2025-10-22 Regression" href="2025-10-22-Regression.html">
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+        <title>2025-10-24 Beyond Linear Models</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">CSCI 3656</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">CSCI 3656</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../notebooks.html">Class Notes</a><input aria-label="Toggle navigation of Class Notes" checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="2025-08-22-Welcome.html">2025-08-22 Welcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-25-Functions.html">2025-08-25 Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-27-Function-Error.html">2025-08-27 Function Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-08-29-Conditioning.html">2025-08-29 Conditioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-03-Rootfinding.html">2025-09-03 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-05-Convergence-Classes.html">2025-09-05 Convergence classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-08-Newton-Methods.html">2025-09-08 Newton Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-10-More-Newton.html">2025-09-10 More Newton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-12-Formulation.html">2025-09-12 Formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-15-Stability.html">2025-09-15 Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-17-Linear-Algebra.html">2025-09-17 Linear Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-19-Geometry.html">2025-09-19 Projections, Rotations, and Reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-22-Gram-Schmidt.html">2025-09-22 Gram-Schmidt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-24-QR-Factorization.html">2025-09-24 QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-26-QR-Stability.html">2025-09-26 QR Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-29-Householder-QR.html">2025-09-26 Householder QR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-01-QR-Retrospective.html">2025-10-01 QR Retrospective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-03-Singular-Value-Decomposition.html">2025-10-03 Singular Value Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-06-SVD-Geometry.html">2025-10-06 SVD Geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-08-Low-Rank.html">2025-10-08 Low Rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-10-Polynomial-Interpolation.html">2025-10-10 Polynomial Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-13-Global-and-Piecewise-Interpolation.html">2025-10-13 Global and Piecewise Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-15-Spline-Interpolation.html">2025-10-15 Spline Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-17-Higher-Dimensions.html">2025-10-17 Higher Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-20-Noisy-Data.html">2025-10-20 Noisy Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-22-Regression.html">2025-10-22 Regression</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">2025-10-24 Beyond Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-27-Gradient-Descent.html">2025-10-27 Gradient Descent</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quizzes.html">Quizzes</a><input aria-label="Toggle navigation of Quizzes" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-08-29.html">2025-08-29</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-12.html">2025-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-26.html">2025-09-26</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-10-10.html">2025-10-10</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../homework.html">Homework</a><input aria-label="Toggle navigation of Homework" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-09-05-Taylor-Series-student.html">2025-09-05 Taylor Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-09-19-Rootfinding-student.html">2025-09-19 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-10-03-Orthogonal-Polynomials-student.html">2025-10-03 Orthogonal Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-10-17-Krylov-student.html">2025-10-17 Krylov Subspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../homework/2025-10-31-Piecewise-Interpolation-student.html">2025-10-31 Piecewise Interpolation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../bonus.html">Bonus content</a><input aria-label="Toggle navigation of Bonus content" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../bonus/Newton-Systems.html">Newton’s Method for Systems of Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bonus/libCEED-PETSc.html">Numerical Computation with libCEED and PETSc</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/notebooks/2025-10-24-Beyond-Linear.ipynb.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <section id="2025-10-24-Beyond-Linear-Models">
+<h1>2025-10-24 Beyond Linear Models<a class="headerlink" href="#2025-10-24-Beyond-Linear-Models" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Assumptions of linear models</p></li>
+<li><p>Look at the data!</p></li>
+<li><p>Partial derivatives</p></li>
+<li><p>Loss functions</p></li>
+</ul>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Polynomials</span>
+<span class="n">default</span><span class="p">(</span><span class="n">lw</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="n">ms</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span><span class="w"> </span><span class="n">legendfontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="n">xtickfontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="n">ytickfontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+
+<span class="c"># Here&#39;s our Vandermonde matrix again</span>
+<span class="k">function</span><span class="w"> </span><span class="n">vander</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isnothing</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">        </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="n">V</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">2</span><span class="o">:</span><span class="n">k</span>
+<span class="w">        </span><span class="n">V</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">V</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">V</span>
+<span class="k">end</span>
+
+<span class="c"># With Chebyshev polynomials</span>
+<span class="k">function</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isnothing</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+<span class="w">        </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="c"># Square by default</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">m</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="n">T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="n">m</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">        </span><span class="n">T</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">3</span><span class="o">:</span><span class="n">n</span>
+<span class="w">        </span><span class="c">#T[:, k] = x .* T[:, k-1]</span>
+<span class="w">        </span><span class="n">T</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">T</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">T</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">T</span>
+<span class="k">end</span>
+
+<span class="c"># And for piecewise constant interpolation</span>
+<span class="k">function</span><span class="w"> </span><span class="n">interp_nearest</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">)</span>
+<span class="w">    </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">s</span><span class="p">),</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+<span class="w">        </span><span class="n">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">nothing</span>
+<span class="w">        </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">Inf</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="p">,</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">enumerate</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">u</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="n">dist</span>
+<span class="w">                </span><span class="n">loc</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">j</span>
+<span class="w">                </span><span class="n">dist</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">t</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">u</span><span class="p">)</span>
+<span class="w">            </span><span class="k">end</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="n">loc</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">A</span>
+<span class="k">end</span>
+
+<span class="c"># And our &quot;bad&quot; function</span>
+<span class="n">runge</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c"># And a utility for points distributed via cos</span>
+<span class="n">CosRange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="nb">pi</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">))</span>
+
+<span class="c"># And a helper for looking at conditioning</span>
+<span class="n">vcond</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span><span class="w"> </span><span class="n">points</span><span class="p">,</span><span class="w"> </span><span class="n">nmax</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">cond</span><span class="p">(</span><span class="n">mat</span><span class="p">(</span><span class="n">points</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">2</span><span class="o">:</span><span class="n">nmax</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+vcond (generic function with 1 method)
+</pre></div></div>
+</div>
+<section id="Why-'linear'">
+<h2>Why ‘linear’<a class="headerlink" href="#Why-'linear'" title="Link to this heading">¶</a></h2>
+<p>We are currently working with algorithms that express the regression as a linear function of the model parameters. That is, we search for coefficients <span class="math notranslate nohighlight">\(c = \left[ c_1, c_2, \dots \right]^T\)</span> such that</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[V \left( x \right) c \approx y\]</div>
+</div>
+<p>where the left hand side is linear in <span class="math notranslate nohighlight">\(c\)</span>. In different notation, we are searching for a predictive model</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f \left( x_i, c \right) \approx y_i, \forall \left( x_i, y_i \right)\]</div>
+</div>
+<p>that is linear in <span class="math notranslate nohighlight">\(c\)</span>.</p>
+</section>
+<section id="Assumptions">
+<h2>Assumptions<a class="headerlink" href="#Assumptions" title="Link to this heading">¶</a></h2>
+<p>So far, we have been using the following assumptions</p>
+<ol class="arabic simple">
+<li><p>The independent variables <span class="math notranslate nohighlight">\(x\)</span> are error-free</p></li>
+<li><p>The prediction (or “response”) <span class="math notranslate nohighlight">\(f \left( x, c \right)\)</span> is linear in <span class="math notranslate nohighlight">\(c\)</span></p></li>
+<li><p>The noise in the measurements <span class="math notranslate nohighlight">\(y\)</span> is independent (uncorrelated)</p></li>
+<li><p>The noise in the measurements <span class="math notranslate nohighlight">\(y\)</span> has constant variance</p></li>
+</ol>
+<p>There are reasons why all of these assumptions may be undesirable in practice, leading to more complicated methods.</p>
+</section>
+<section id="Anscombe's-quartet">
+<h2><a class="reference external" href="https://en.wikipedia.org/wiki/Anscombe%27s_quartet">Anscombe’s quartet</a><a class="headerlink" href="#Anscombe's-quartet" title="Link to this heading">¶</a></h2>
+<p><img alt="image.png" src="data:image/png;base64,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vTAE/wsNw8DTnvY0hmHgqquuuuo/wjAMPO1pT2MYBq666qqrngvB/0J33HEHb/Imb8Idd9zBVVddddV/hDvuuIM3eZM34Y477uCqq6666rlQueqqq6666qqrrrrqhaFy1VVXXXXVVVddddULQ+Wqq6666qqrrrrqqheGylVXXXXVVVddddVVLwyVq6666qqrrrrqqqteGCpXXXXVVVddddVVV70wVK666qqrrrrqqquuemGoXHXVVVddddVVV131wlC56qqrrrrqqquuuuqFoXLVVVddddVVV1111QtD5aqrrrrqqquuuuqqF4bKVVddddVVV1111VUvDJWrrrrqqquuuuqqq14YKlddddVVV1111VX/x9gGQBL/AahcddVVV1111VVX/R8kif8gVK666qqrrrrqqqv+j5HEfyAqV1111VVXXXXVVVe9MFSuuuqqq6666qqrrnphqFx11VVXXXXVVVdd9cJQueqqq6666qqrrrrqhaFy1VVXXXXVVVddddULQ+Wqq6666qqrrrrqqheGylVXXXXVVVddddVVLwzBf5FhGHjv935vfvd3fxeApzzlKbzbu70bb/mWb8nbvM3b8Ad/8AdcddVVV1111VVX/Q9E5b/AE57wBD7jMz6DJz3pSdzvkz/5k/mgD/og3uAN3oCnPvWpvOu7viu/93u/R9/3XHXVVVddddVVV/0PQvBf4Id+6If40A/9UF7yJV+S+73TO70Tr/u6rwvAgx70IKZpYm9vj6uuuuqqq6666qr/Yaj8F/icz/kcAL7zO7+T+73DO7wD9/vmb/5mHvawh3H69Gme24ULF9jd3eWB7rjjDq666qqr/q0uXLjA7u4uD3THHXdw1VVXXfUCUPlv9vVf//X81E/9FN/3fd/H8/MDP/ADfP3Xfz1XXXXVVf9RfuAHfoCv//qv56qrrrrqRUTlv8k0TXzqp34qT33qU/nhH/5hzpw5w/Pzbu/2brzZm70ZD3THHXfwAR/wAVx11VVX/Vu827u9G2/2Zm/GA91xxx18wAd8AFddddV/D9tI4n8oKv9NPv/zP5+zZ8/y/d///SwWC16QkydPcvLkSa666qqr/qOcPHmSkydPctVVV131IqLy3+Cuu+7ih3/4h7nlllt453d+Z+73dV/3ddxyyy1cddVVV1111VX/v0jifzAq/4W+7/u+j/s94QlP4Kqrrrrqqquuuup/ASpXXXXVVVddddVVV70wVK666qqrrrrqqquuemGoXHXVVVddddVVV131wlC56qqrrrrqqquu+k9kGwBJ/C9F5aqrrrrqqquuuuo/gW3uJ4n/xahcddVVV1111VVX/SeRxP8BVK666qqrrrrqqqv+E0ji/wgqV1111VVXXXXVVVe9MFSuuuqqq6666qqrrnphqFx11VVXXXXVVVdd9cIQXHXVVVddddVVV/0b2Ob/CSpXXXXVVVddddVV/0q2+X+EylVXXXXVVVddddW/gm0AJPH/BJWrrrrqqquuuuqqfwVJ/D9D5aqrrrrqqquuuuqqF4bKVVddddVVV1111VUvDJWrrrrqqquuuuqqq14YKldd9X/M0+9Z8vN/fJ47zq656cyMN3/lUzzkugVXXXXVVVdd9W9E5aqr/g/56T84y3f+8t1kmpbwD7ce8Gt/cYH3fePreetXO8NVV1111VUvnG0AJHHVsxBcddX/EU+/Z8l3/vLdjJNpyWUtYZzMd/7y3dx6z5KrrrrqqqteMNsASOKq50Bw1VX/R/z8H58n0zw/mebn/vg8V1111VVXvXCSuOp5ULnqqv8j7ji7piXPV0u48+yaq6666qqrXjBJXPV8EVx11f8RN52ZUYLnqwTceGbGVVddddVVV/0bEFx11f8Rb/7Kp4gQz0+EeItXPsVVV1111VVX/RsQXHXV/xEPuW7B+77x9XRVlOCyEtBV8b5vfD0Pvm7BVVddddVVV/0bULnqqv9D3vrVzvDSD9vi5/74PHeeXXPjmRlv8cqnePB1C6666qqr/r+zjSSu+lejctVV/8c8+LoFH/HWN3HVVVddddUVtrnq34XKVVddddVVV131f5ZtACRx1b8Zlauuuuqqq6666v80SVz170Llqquuuuqqq676P0sSV/27Ubnqqquuuuqqq6666oWhctVVV1111VVXXXXVC0Plqquuuuqqq676X802AJK46j8Flauuuuqqq6666n8t2wBI4qr/NFSuuuqqq6666qr/dWxzP0lc9Z+KylVXXXXVVVdd9b+KbQAkcdV/CSpXXXXVVVddddX/GrYBkMRV/2UI/osMw8B7v/d787u/+7sA3HfffbzXe70Xb/7mb867vuu78oxnPIOrrvrf7un3LPm6n76DT/q2p/J1P30HT79nyVVXXXXVfyRJSOKq/1IE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emGoXHXVVVddddVVV131wlC56qqrrrrqqquuuuqFoXLVVVddddVVV1111QtD5aqrrrrqqquuuuqqF4bKVVddddVVV1111VUvDJWrrrrqqquuuuqqq14YKlddddVVV1111VVXvTBUrrrqqquuepG1+25l9Rc/T164kzh5I/OXe3PKNQ/mqquu+j+NylVXXXXVVS+S1Z/+DMvf+i5wQja4/R8Y/vbXWbzO+zB/xbfiqquu+j+L4Kqrrrrqqn9Ru+9Wlr/1XdBGyMZl2aCNLH/ru2j33cpVV131fxbBVVddddVV/6LVX/w8OHm+nKz+4ue56qqr/s+ictVVV1111b8oL9wJ2Xi+spEX7uKqq676P4vgqquuuuqqf1GcvBGi8HxFIU7ewFVXXfV/FsFVV1111VX/ovnLvTkoeL4UzF/uzbnqqqv+zyK46qqrrrrqX1SueTCL13kfKB1E4bIoUDoWr/M+lGsezFVXXfV/FpWrrrrqqqteJPNXfCu6B78Uq7/4efLCXcTJG5i/3JtTrnkwV1111f9pVK666qqrrnqRlWsezOabfDhXXXXV/ytUrrrqqquuuuqqq656YahcddVVV1111VVXXfXCULnqqquuuuqqq6666oWhctVVV1111VVXXXXVC0Plf6FxHAG44447uOqqq/5/u+mmm+j7nn+vcRwBuOOOO7jqqqv+/7rpppvo+57nQuV/oXvvvReAD/iAD+Cqq676/+2XfumXeOhDH8q/17333gvAB3zAB3DVVVf9//VLv/RLPPShD+W5INvmf5nDw0P+4i/+gmuvvZau6/jPdscdd/ABH/ABfNu3fRs33XQT/5PccccdfMAHfADf9m3fxk033cT/JHfccQcf8AEfwLd927dx00038T/JHXfcwQd8wAfwbd/2bdx00038T3LHHXfwAR/wAXzbt30bN910E/+T3HHHHXzAB3wA3/Zt38ZNN93E/wQ33XQTfd/z73V4eMhf/MVfcO2119J1Hf+Z7rjjDj7gAz6Ab/u2b+Omm27if5I77riDD/iAD+Dbvu3buOmmm/if5I477uADPuAD+LZv+zZuuukm/ie54447+IAP+AC+7du+jZtuuon/Se644w4+4AM+gG/7tm/jpptu4n+SO+64gw/4gA/g277t27jpppv4n+Cmm26i73ueC5X/hTY3N3nN13xN/qvddNNNPPSh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K0y7u9z5rd/K0eMeB0A9fpwbPviD2Xz0o/k/ispVV1111VVXXXXVi+jg7/+eu771W2l7ewBsvdRLcf37vz91e5v/w6hcddVVV1111VVX/Qs8TZz9yZ/k/C/+IpeVwrXv9E6ceIM3QBL/x1G56qqrrrrqqquueiGGs2e585u+idXTngZAd8013PihH8riwQ/m/wkqV1111VVXXXXVVS/A3p/9GXd/53eSyyUAO6/8ylz3Xu9FWSz4f4TKVVddddVVV1111XPJYeDeH/ohdn/rtwBQ33Pde7wHx1791ZHE/zNUrrrqqquuuuqqqx5gfeed3PlN38T6jjsAmN18Mzd+yIcwu+EG/p+ictVVV1111VVXXQXY5tLv/R73fP/342EA4MTrvi7XvPM7E33P/2NUrrrqqquuuuqq//facsk93/M97P3xHwMQGxtc/77vy87LvzxXQeWqq6666qqrrvp/bfn0p3PnN30T4333AbB4+MO54YM+iP7MGa66jMpVV1111VVXXfX/km0u/Oqvct+P/ii0BhKn3uzNOPPWb41q5apnoXLVVVddddVVV/2/M+3tcde3fzuHf/u3AJSdHW74wA9k68VfnKueB5Wrrrrqqquuuur/lcPHP567vuVbmHZ3Adh8sRfjhg/4AOrx41z1fFG56qqrrrrqqqv+X3BrnPvZn+Xcz/4s2BDBmbd9W0696ZuiCK56gahcddVVV1111VX/540XLnDXt3wLR098IgDdqVPc8CEfwsbDH85V/yIqV1111VVXXXXV/2n7f/VX3P3t3047PARg++Vejuvf930pm5tc9SKhctVVV1111VVX/Z+U48h9P/qjXPy1XwNAtXLtu74rx1/ndZDEVS8yKlddddVVV1111f85wz33cOc3fROrZzwDgP6GG7jxQz6E+c03c9W/GpWrrrrqqquuuur/lEt/+Ifc873fS65WABx7jdfgund/d2I246p/EypXXXXVVVddddX/Cblacc/3fR+X/uAPAIj5nOve+7059sqvzFX/LlSuuuqqq6666qr/9VbPeAZ3ftM3MdxzDwDzBz+YGz/kQ+ivvZar/t2oXHXVVVddddVV/2vZ5uJv/Ab3/fAP42kC4OQbvRHXvMM7oFq56j8Elauuuuqqq6666n+ldnjI3d/5nez/xV8AULa2uP7935/tl35prvoPReWqq6666qqr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ss41b3vTO3LN/Bquuuqqq6666qqr/hWo/B8nifd56Adw1VVXXXXVVVdd9W9E5aqrrrrqqquuuuqqF4bKVVddddVVV1111VUvDJWrrrrqqquuuuqqq14YKlddddVVV1111VVXvTBUrrrqqquuuuqqq656YahcddVVV1111VVXXfXCULnqqquuuuqqq6666oWhctVVV1111VVXXXXVC0Plqquuuuqqq6666qoXhspVV1111VVXXXXVVS8Mlauuuuqqq6666qqrXhgqV1111VVXXXXVVVe9MFSuuuqqq6666qqrrnphqFx11VVXXXXVVVdd9cJQueqqq6666qqrrrrqhaFy1VVXXXXVVVddddULQ+Wqq6666qqrrrrqqheG4H+A7/me7+Ed3/Edueqqq6666qqrrvofiOC/2eMe9zi+/du/nauuuuqqq6666qr/oQj+Gx0eHvKZn/mZfOzHfixXXXXVVVddddVV/0NR+W/02Z/92bzv+74vp06d4gW5cOECu7u7PNAdd9zBVVddddW/1YULF9jd3eWB7rjjDq666qqrXgAq/01+8id/kq7reNM3fVP+5E/+hBfkB37gB/j6r/96rrrqqqv+o/zAD/wAX//1X89VV1111YsI2Tb/Dd7nfd6H++67j1orR0dHnD17lpd7uZfjO77jO3igCxcusLu7ywPdcccdfMAHfAC/9Eu/xEMf+lCuuuqqq/41Lly4wO7uLg90xx138AEf8AH80i/9Eg996EO56qqrrnoAKv9Nvuu7vov7/cmf/Alf8RVfwXd8x3fw3E6ePMnJkye56qqrrvqPcvLkSU6ePMlVV1111YuIylVXXXXVVVddddVVLwyV/wFe6ZVeiR/90R/lqquuuuqqq6666n8gKlddddVVV1111VVXvTBUrrrqqquuuuqqq656YahcddVVV1111VVXXfXCULnqqquuuuqqq6666oWhctVVV1111VVXXXXVC0Plqquuuuqqq6666qoXhspVV1111VVXXXXVVS8Mlauuuuqqq6666qqrXhgqV1111VVXXXXVVVe9MFSuuuqqq6666qqrrnphqFx11VVXXXXVVVdd9cJQueqqq6666qqrrrrqhaFy1VVXXXXVVVddddULQ+Wqq6666qqrrrrqqheGylVXXXXVVVddddVVLwyVq6666qqrrrrqqqteGCpXXXXVVVddddVVV70wVK666qqrrrrqqquuemGoXHXVVVddddVVV131wlC56qqrrrrqqquuuuqFoXLVVVddddVVV1111QtD5aqrrrrqqquuuuqqF4bKVVddddVVV1111VUvDJWrrrrqqquuuuqqq14YKlddddVVV1111VVXvTBU/hcaxxGAO+64g6uuuur/t5tuuom+7/n3GscRgDvuuIOrrrrq/6+bbrqJvu95LlT+F7r33nsB+IAP+ACuuuqq/99+6Zd+iYc+9KH8e917770AfMAHfABXXXXV/1+/9Eu/xEMf+lCeC7Jt/pc5PDzkL/7iL7j22mvpuo7/bHfccQcf8AEfwLd927dx00038T/JHXfcwQd8wAfwbd/2bdx00038T3LHHXfwAR/wAXzbt30bN910E/+T3HHHHXzAB3wA3/Zt38ZNN93E/yR33HEHH/ABH8C3fdu3cdNNN/E/yR133MEHfMAH8G3f9m3cdNNN/E9w00030fc9/16Hh4f8xV/8Bddeey1d1/Gf6Y477uADPuAD+LZv+zZuuukm/ie54447+IAP+AC+7du+jZtuuon/Se644w4+4AM+gG/7tm/jpptu4n+SO+64gw/4gA/g277t27jpppv4n+SOO+7gAz7gA/i2b/s2brrpJv4nueOOO/iAD/gAvu3bvo2bbrqJ/wluuukm+r7nuVD5X2hzc5PXfM3X5L/aTTfdxEMf+lD+J7rpppt46EMfyv9EN910Ew996EP5n+imm27ioQ99KP8T3XTTTTz0oQ/lf6KbbrqJhz70ofxfsrm5yWu+5mvyX+mmm27ioQ99KP8T3XTTTTz0oQ/lf6KbbrqJhz70ofxPdNNNN/HQhz6U/4luuukmHvrQh/I/0U033cRDH/pQ/gejctVVV1111VVXXXXVC0Plqquuuuqqq6666qoXhspVV1111VVXXXXVVS8M5bM/+7M/m6teKNssFgte8RVfkcViwf8ktlksFrziK74ii8WC/0lss1gseMVXfEUWiwX/k9hmsVjwiq/4iiwWC/4nsc1iseAVX/EVWSwW/E9im8ViwSu+4iuyWCy46t/GNovFgld8xVdksVjwP4ltFosFr/iKr8hiseB/EtssFgte8RVfkcViwf8ktlksFrziK74ii8WC/0lss1gseMVXfEUWiwX/k9hmsVjwiq/4iiwWC/4HQ7bNVVddddVVV111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" /></p>
+</section>
+<section id="Loss-functions">
+<h2>Loss functions<a class="headerlink" href="#Loss-functions" title="Link to this heading">¶</a></h2>
+<p>The error in a single prediction <span class="math notranslate nohighlight">\(f \left( x_i, c \right)\)</span> of an observation <span class="math notranslate nohighlight">\(\left( x_i, y_i \right)\)</span> is often measured as</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\frac{1}{2} \left( f \left( x_i, c \right) - y_i \right)^2\]</div>
+</div>
+<p>which turns out to have a statistical interpretation when the noise is normally distributed.</p>
+<p>It is natural to define the error over the entire data set as</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+L \left( c; x, y \right) &amp;= \sum_i \frac{1}{2} \left( f \left( x_i, c \right) - y_i \right)^2\\
+                         &amp;= \frac{1}{2} \left\lvert \left\lvert f \left( x, c \right) - y \right\rvert \right\rvert^2
+\end{align}\end{split}\]</div>
+</div>
+<p>where I’ve used the notation <span class="math notranslate nohighlight">\(f \left( x, c \right)\)</span> to mean the vector resulting from gathering all of the outputs <span class="math notranslate nohighlight">\(f \left( x_i, c \right)\)</span>. The function is called the “loss function” and is the key to relaxing the above assumptions.</p>
+</section>
+<section id="Gradient-of-scalar-valued-functions">
+<h2>Gradient of scalar-valued functions<a class="headerlink" href="#Gradient-of-scalar-valued-functions" title="Link to this heading">¶</a></h2>
+<p>Let’s step back from optimization and consider how to differentiate a function of several variables. Let <span class="math notranslate nohighlight">\(f \left( \mathbf{x} \right)\)</span> be a function of a vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. For example,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f \left( \mathbf{x} \right) = x_1^2 + \sin \left( x_2 \right) e^{3 x_3}\]</div>
+</div>
+<p>We can evaluate the partial derivative by differentiating with respect to each component <span class="math notranslate nohighlight">\(x_i\)</span> separately (holding the others constant), and collect the result in a vector,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+\frac{\partial f}{\partial \mathbf{x}} &amp;= \begin{bmatrix} \frac{\partial f}{\partial x_1} &amp; \frac{\partial f}{\partial x_2} &amp; \frac{\partial f}{\partial x_3} \end{bmatrix}\\
+                                       &amp;= \begin{bmatrix} 2 x_1 &amp; \cos \left( x_2 \right) e^{3 x_3} &amp; 3 \sin \left( x_2 \right) e^{3 x_3} \end{bmatrix}
+\end{align}\end{split}\]</div>
+</div>
+</section>
+<section id="Gradient-of-vector-valued-functions">
+<h2>Gradient of vector-valued functions<a class="headerlink" href="#Gradient-of-vector-valued-functions" title="Link to this heading">¶</a></h2>
+<p>Now let’s consider a vector-valued function <span class="math notranslate nohighlight">\(\mathbf{f} \left( \mathbf{x} \right)\)</span>. For example,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split}\mathbf{f} \left( \mathbf{x} \right) = \begin{bmatrix} x_1^2 + \sin \left( x_2 \right) e^{3 x_3}\\ x_1 x_2^2 / x_3 \end{bmatrix}\end{split}\]</div>
+</div>
+<p>and write the derivative as a matrix</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+\frac{\partial \mathbf{f}}{\partial \mathbf{x}} &amp;= \begin{bmatrix} \frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \frac{\partial f_1}{\partial x_3}\\ \frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \frac{\partial f_2}{\partial x_3} \end{bmatrix}\\
+                                       &amp;= \begin{bmatrix} 2 x_1 &amp; \cos \left( x_2 \right) e^{3 x_3} &amp; 3 \sin \left( x_2 \right) e^{3 x_3}\\ x_2^2 / x_3 &amp; 2 x_1 x_2 / x_3 &amp; -x_1 x_2^2 / x_3^2 \end{bmatrix}
+\end{align}\end{split}\]</div>
+</div>
+<p>Here is a handy resource on partial derivatives for matrices and vectors: <a class="reference external" href="https://explained.ai/matrix-calculus/index.html#sec3">https://explained.ai/matrix-calculus/index.html#sec3</a></p>
+</section>
+<section id="Derivative-of-a-dot-product">
+<h2>Derivative of a dot product<a class="headerlink" href="#Derivative-of-a-dot-product" title="Link to this heading">¶</a></h2>
+<p>(Hang in there; I promise that we’re building to a point!)</p>
+<p>Let <span class="math notranslate nohighlight">\(f \left( \mathbf{x} \right) = \mathbf{y}^T \mathbf{x} = \sum_i y_i x_i\)</span> and compute the derivative</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\frac{\partial f}{\partial \mathbf{x}} = \begin{bmatrix} y_1 &amp; y_2 &amp; \cdots \end{bmatrix} = \mathbf{y}^T\]</div>
+</div>
+<p>Note that <span class="math notranslate nohighlight">\(\mathbf{y}^T \mathbf{x} = \mathbf{x}^T \mathbf{y}\)</span> and we have the product rule</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\frac{\partial \left\lvert \left\lvert \mathbf{x} \right\rvert \right\rvert^2}{\partial \mathbf{x}} = \frac{\partial \mathbf{x}^T \mathbf{x}}{\partial \mathbf{x}} = 2 \mathbf{x}^T\]</div>
+</div>
+<p>Also,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\frac{\partial \left\lvert \left\lvert \mathbf{x} - \mathbf{y} \right\rvert \right\rvert^2}{\partial \mathbf{x}} = \frac{\partial (\mathbf{x} - \mathbf{y})^T (\mathbf{x} - \mathbf{y})}{\partial \mathbf{x}} = 2 (\mathbf{x} - \mathbf{y})^T\]</div>
+</div>
+</section>
+<section id="Variational-notation">
+<h2>Variational notation<a class="headerlink" href="#Variational-notation" title="Link to this heading">¶</a></h2>
+<p>It’s convenient to express derivatives in terms of how they act on an infinitesimal perturbation. So we might write</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\delta f = \frac{\partial f}{\partial x} \delta x\]</div>
+</div>
+<p>(It is common to use <span class="math notranslate nohighlight">\(\delta x\)</span> or <span class="math notranslate nohighlight">\(dx\)</span> for these infinitesimals.) This makes inner products look like a normal product rule</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\delta \left( \mathbf{x}^T \mathbf{y} \right) = \left( \delta \mathbf{x} \right)^T \mathbf{y} + \mathbf{x}^T \left( \delta \mathbf{y} \right)\]</div>
+</div>
+<p>A powerful example of variational notation is differentiating a matrix inverse</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[0 = \delta I = \delta \left( A^{-1} A \right) = \left( \delta A^{-1} \right) A + A^{-1} \left( \delta A \right)\]</div>
+</div>
+<p>and thus</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\delta A^{-1} = - A^{-1} \left( \delta A \right) A^{-1}\]</div>
+</div>
+</section>
+<section id="Practice">
+<h2>Practice<a class="headerlink" href="#Practice" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Differentiate <span class="math notranslate nohighlight">\(f \left( x \right) = A x\)</span> with respect to <span class="math notranslate nohighlight">\(x\)</span></p></li>
+<li><p>Differentiate <span class="math notranslate nohighlight">\(f \left( x \right) = A x\)</span> with respect to <span class="math notranslate nohighlight">\(A\)</span></p></li>
+</ol>
+</section>
+<section id="Optimization">
+<h2>Optimization<a class="headerlink" href="#Optimization" title="Link to this heading">¶</a></h2>
+<p>Ok, now we can start putting pieces together.</p>
+<p>Given data <span class="math notranslate nohighlight">\(\left( x, y \right)\)</span> and loss function <span class="math notranslate nohighlight">\(L \left( c; x, y \right)\)</span>, we wish to find the coefficients <span class="math notranslate nohighlight">\(c\)</span> that minimize the loss, thus yielding the “best predictor” (in a sense that can be made statistically precise). I.e.,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\bar{c} = \arg \min_c L \left( c; x, y \right)\]</div>
+</div>
+<p>It is usually desirable to design models such that the loss function is differentiable with respect to the coefficients <span class="math notranslate nohighlight">\(c\)</span>, because this allows the use of more efficient optimization methods.</p>
+<p>Recall that our forward model is given in terms of the Vandermonde matrix,</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f \left( x, c \right) = V \left( x \right) c\]</div>
+</div>
+<p>and thus</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\frac{\partial f}{\partial c} = V \left( x \right)\]</div>
+</div>
+</section>
+<section id="Derivative-of-loss-function">
+<h2>Derivative of loss function<a class="headerlink" href="#Derivative-of-loss-function" title="Link to this heading">¶</a></h2>
+<p>We can now differentiate our loss function</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[L \left( c; x, y \right) = \frac{1}{2} \left\lvert \left\lvert f \left( x, c \right) - y \right\rvert \right\rvert^2 = \frac{1}{2} \sum_i \left( f \left( x_i, c \right) - y_i \right)^2\]</div>
+</div>
+<p>term-by-term as</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+\nabla_c L \left( c; x, y \right) = \frac{\partial L \left( c; x, y \right)}{\partial c}
+ &amp;= \sum_i \left( f \left( x_i, c \right) - y_i \right) \frac{\partial f \left( x_i, c \right)}{\partial c} \\
+ &amp;= \sum_i \left( f \left( x_i, c \right) - y_i \right) V \left( x_i \right)
+\end{align}\end{split}\]</div>
+</div>
+<p>where <span class="math notranslate nohighlight">\(V \left( x_i \right)\)</span> is the <span class="math notranslate nohighlight">\(i\)</span>th row of <span class="math notranslate nohighlight">\(V \left( x \right)\)</span>.</p>
+</section>
+<section id="Alternative-derivative">
+<h2>Alternative derivative<a class="headerlink" href="#Alternative-derivative" title="Link to this heading">¶</a></h2>
+<p>Alternatively, we can take a more linear algebraic approach to write the same expression as</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+\nabla_c L \left( c; x, y \right)
+ &amp;= \left( f \left( x, c \right) - y \right)^T V \left( x \right) \\
+ &amp;= \left( V \left( x \right) c - y \right)^T V \left( x \right) \\
+ &amp;= V \left( x \right)^T \left( V \left( x \right) c - y \right)
+\end{align}\end{split}\]</div>
+</div>
+<p>A necessary condition for the loss function to be minimized is that $ <span class="math">\nabla</span>_c L <span class="math">\left`( c; x, y :nbsphinx-math:</span>right`) = 0$.</p>
+<ul class="simple">
+<li><p>Is the condition sufficient for general <span class="math notranslate nohighlight">\(f \left( x, c \right)\)</span>?</p></li>
+<li><p>Is the condition sufficient for the linear model <span class="math notranslate nohighlight">\(f \left( x, c \right) = V \left( x \right) c\)</span>?</p></li>
+<li><p>Have we seen this sort of equation before?</p></li>
+</ul>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="2025-10-27-Gradient-Descent.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">2025-10-27 Gradient Descent</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="2025-10-22-Regression.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">2025-10-22 Regression</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Jeremy L Thompson
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">2025-10-24 Beyond Linear Models</a><ul>
+<li><a class="reference internal" href="#Why-'linear'">Why ‘linear’</a></li>
+<li><a class="reference internal" href="#Assumptions">Assumptions</a></li>
+<li><a class="reference internal" href="#Anscombe's-quartet">Anscombe’s quartet</a></li>
+<li><a class="reference internal" href="#Loss-functions">Loss functions</a></li>
+<li><a class="reference internal" href="#Gradient-of-scalar-valued-functions">Gradient of scalar-valued functions</a></li>
+<li><a class="reference internal" href="#Gradient-of-vector-valued-functions">Gradient of vector-valued functions</a></li>
+<li><a class="reference internal" href="#Derivative-of-a-dot-product">Derivative of a dot product</a></li>
+<li><a class="reference internal" href="#Variational-notation">Variational notation</a></li>
+<li><a class="reference internal" href="#Practice">Practice</a></li>
+<li><a class="reference internal" href="#Optimization">Optimization</a></li>
+<li><a class="reference internal" href="#Derivative-of-loss-function">Derivative of loss function</a></li>
+<li><a class="reference internal" href="#Alternative-derivative">Alternative derivative</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
