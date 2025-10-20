@@ -1,0 +1,999 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html"><link rel="next" title="Bonus content" href="../bonus.html"><link rel="prev" title="2025-10-17 Krylov Subspaces" href="2025-10-17-Krylov-student.html">
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+        <title>2025-10-31 Piecewise Interpolation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">CSCI 3656</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">CSCI 3656</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks.html">Class Notes</a><input aria-label="Toggle navigation of Class Notes" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-22-Welcome.html">2025-08-22 Welcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-25-Functions.html">2025-08-25 Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-27-Function-Error.html">2025-08-27 Function Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-29-Conditioning.html">2025-08-29 Conditioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-03-Rootfinding.html">2025-09-03 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-05-Convergence-Classes.html">2025-09-05 Convergence classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-08-Newton-Methods.html">2025-09-08 Newton Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-10-More-Newton.html">2025-09-10 More Newton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-12-Formulation.html">2025-09-12 Formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-15-Stability.html">2025-09-15 Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-17-Linear-Algebra.html">2025-09-17 Linear Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-19-Geometry.html">2025-09-19 Projections, Rotations, and Reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-22-Gram-Schmidt.html">2025-09-22 Gram-Schmidt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-24-QR-Factorization.html">2025-09-24 QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-26-QR-Stability.html">2025-09-26 QR Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-29-Householder-QR.html">2025-09-26 Householder QR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-01-QR-Retrospective.html">2025-10-01 QR Retrospective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-03-Singular-Value-Decomposition.html">2025-10-03 Singular Value Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-06-SVD-Geometry.html">2025-10-06 SVD Geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-08-Low-Rank.html">2025-10-08 Low Rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-10-Polynomial-Interpolation.html">2025-10-10 Polynomial Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-13-Global-and-Piecewise-Interpolation.html">2025-10-13 Global and Piecewise Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-15-Spline-Interpolation.html">2025-10-15 Spline Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-17-Higher-Dimensions.html">2025-10-17 Higher Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-20-Noisy-Data.html">2025-10-20 Noisy Data</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quizzes.html">Quizzes</a><input aria-label="Toggle navigation of Quizzes" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-08-29.html">2025-08-29</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-12.html">2025-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-26.html">2025-09-26</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-10-10.html">2025-10-10</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="../homework.html">Homework</a><input aria-label="Toggle navigation of Homework" checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="2025-09-05-Taylor-Series-student.html">2025-09-05 Taylor Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-19-Rootfinding-student.html">2025-09-19 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-03-Orthogonal-Polynomials-student.html">2025-10-03 Orthogonal Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-17-Krylov-student.html">2025-10-17 Krylov Subspaces</a></li>
+<li class="toctree-l2 current current-page"><a class="current reference internal" href="#">2025-10-31 Piecewise Interpolation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../bonus.html">Bonus content</a><input aria-label="Toggle navigation of Bonus content" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../bonus/Newton-Systems.html">Newton’s Method for Systems of Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bonus/libCEED-PETSc.html">Numerical Computation with libCEED and PETSc</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/homework/2025-10-31-Piecewise-Interpolation-student.ipynb.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <p>Before you turn this problem in, make sure everything runs as expected. First, restart the kernel (in the menubar, select Kernel → Restart) and then run all cells (in the menubar, select Cell → Run All).</p>
+<p>Make sure you fill in any place that says <code class="docutils literal notranslate"><span class="pre">BEGIN</span> <span class="pre">SOLUTION</span></code> and <code class="docutils literal notranslate"><span class="pre">END</span> <span class="pre">SOLUTION</span></code>, as well as your name and collaborators below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">COLLABORATORS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<section id="2025-10-31-Piecewise-Interpolation">
+<h1>2025-10-31 Piecewise Interpolation<a class="headerlink" href="#2025-10-31-Piecewise-Interpolation" title="Link to this heading">¶</a></h1>
+<p>We covered global polynomial interpolation, piecwise constant interpolation, and piecewise spline interpolation. In this assignment, we will explore piecewise polynomial interpolation with each piece being a polynomial of degree three or higher. We will then use these piecewise polynomials for interpolation.</p>
+<p>To start, we will use our matrix for polynomial interpolation with Chebyshev polynomials from class. The Chebyshev polynomials can be generated with the recursion</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+   T_0 \left( x \right) &amp;= 1\\
+   T_1 \left( x \right) &amp;= x\\
+   T_n \left( x \right) &amp;= 2 x T_{n - 1} \left( x \right) - T_{n - 2}
+\end{align}\end{split}\]</div>
+</div>
+<p>and our interpolating polynomial is given by <span class="math notranslate nohighlight">\(p \left( x \right) = \sum_{i = 0}^{k-1} c_i T_i \left( x \right)\)</span>, where <span class="math notranslate nohighlight">\(k\)</span> is the number of interpolation points and <span class="math notranslate nohighlight">\(k - 1\)</span> is the highest order (degree) of our Chebyshev polynomials.</p>
+<p>Recall that with this Vandermonde matrix for the Chebyshev polynomials, we create a matrix equation <span class="math notranslate nohighlight">\(A c = p\)</span>, where <span class="math notranslate nohighlight">\(A\)</span> is the Vandermonde matrix with columns given by the Chebyshev polynomials <span class="math notranslate nohighlight">\(T_i \left( x \right)\)</span> and the rows given by our interpolation points <span class="math notranslate nohighlight">\(x_j\)</span>, <span class="math notranslate nohighlight">\(c\)</span> is the vector of coefficients for each individual Chebyshev polynomial, and <span class="math notranslate nohighlight">\(p\)</span> is the values of our interpolating polynomial <span class="math notranslate nohighlight">\(p \left( x \right)\)</span> at our interpolation points
+<span class="math notranslate nohighlight">\(x_j\)</span>.</p>
+<section id="Fitting-on-one-interval">
+<h2>Fitting on one interval<a class="headerlink" href="#Fitting-on-one-interval" title="Link to this heading">¶</a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Test</span>
+
+<span class="c"># Our Vandermonde matrix for Chebyshev polynomials</span>
+<span class="k">function</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="o">=</span><span class="nb">nothing</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Return a Vandermonde matrix of the first n Chebyshev polynomials evaluated at the points x.</span>
+<span class="s">    The returned matrix will be of size n x k, where n is the length of the vector x.</span>
+<span class="s">    If no k is provided, the returned matrix will be square.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="n">isnothing</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">        </span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">    </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">ones</span><span class="p">(</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">3</span><span class="o">:</span><span class="n">k</span>
+<span class="w">        </span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">A</span><span class="p">[</span><span class="o">:</span><span class="p">,</span><span class="w"> </span><span class="n">i</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">A</span>
+<span class="k">end</span>
+
+<span class="c"># Let&#39;s try it</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="kt">Vector</span><span class="p">(</span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)))</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;A =&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">A</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<p>We’ll solve a small interpolation problem to make sure this function works as expected.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># The target function</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c"># The Vandermonde matrix</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c"># Solve for the coefficents</span>
+<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span>
+
+<span class="c"># And use the coefficients</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">)</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">p</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Fitting-on-multiple-subintervals">
+<h2>Fitting on multiple subintervals<a class="headerlink" href="#Fitting-on-multiple-subintervals" title="Link to this heading">¶</a></h2>
+<p>We can now use this Vandermonde matrix to fix polynomials piecewise.</p>
+<p>Consider the interval from <span class="math notranslate nohighlight">\(\left[ -1, 3 \right]\)</span>. We can divide this into two sub-intervals, <span class="math notranslate nohighlight">\(\left[ -1, 1 \right]\)</span> and <span class="math notranslate nohighlight">\(\left[ 1, 3 \right]\)</span> and fit a polynomial of degree <span class="math notranslate nohighlight">\(k\)</span> to each subinterval via our Vandermonde matrix. We will have separate sets of coefficients <span class="math notranslate nohighlight">\(c_{0, i}\)</span> and <span class="math notranslate nohighlight">\(c_{1, i}\)</span> such that</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[p_0 \left( x \right) = \sum_{i = 0}^{k-1} c_{0, i} T_i \left( x \right), x \in \left[ -1, 1 \right]\]</div>
+</div>
+<p>and</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[p_1 \left( x \right) = \sum_{i = 0}^{k-1} c_{1, i} T_i \left( x - 2 \right) , x \in \left[ 1, 3 \right]\]</div>
+</div>
+<p>For simplicity, we’ll use a small ‘trick’. Instead of creating a new Vandermonde matrix for each subinterval, we’ll just reuse the same Vandermonde matrix on the interval <span class="math notranslate nohighlight">\(\left[ -1, 1 \right]\)</span> and fit two separate sets of coefficients. When evaluating these polynomials, we’ll shift the input <span class="math notranslate nohighlight">\(x\)</span> back into the range <span class="math notranslate nohighlight">\(\left[ -1, 1 \right]\)</span> for the current piecewise piece of our polynomial fit.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Our first range</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="n">y1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="w"> </span><span class="n">y1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data, subinterval 1&quot;</span><span class="p">)</span>
+
+<span class="c"># The first fit</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x1</span><span class="p">)</span>
+<span class="n">A_inv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">c1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A_inv</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y1</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w">  </span><span class="n">c1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit, subinterval 1&quot;</span><span class="p">)</span>
+
+<span class="c"># Our second range</span>
+<span class="n">x2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="n">y2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">x2</span><span class="p">)</span>
+<span class="n">scatter!</span><span class="p">(</span><span class="n">x2</span><span class="p">,</span><span class="w"> </span><span class="n">y2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data, subinterval 2&quot;</span><span class="p">)</span>
+
+<span class="c"># The second fit</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">c2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">A_inv</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y2</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit, subinterval 2&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We could create a single large matrix equation representing this computation, but that matrix would have multiple copies of our Vandermonde matrix, which would be inefficient. Let’s instead make a single function that solves these systems of equations for each piece of our piecewise polynomial.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Fit piecewise Chebyshev polynomials</span>
+<span class="k">function</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Return the polynomial coefficents for a piecewise fit of Chebyshev polynomials</span>
+<span class="s">    at the points x with the values f(x_i) = y_i. on subintervals of length w.</span>
+<span class="s">    The parameter n is the number of subintervals.</span>
+<span class="s">    The parameter k is the number of points in each subinterval.</span>
+<span class="s">    The subinterval length is given by (x[end] - x[1]) / n.</span>
+<span class="s">    This function returns (a, C), where a is the start of the first subinterval, and C</span>
+<span class="s">    is a list of sets of Chebyshev coefficients, where C_j corresponds to the interval</span>
+<span class="s">    [a + w*(j - 1), a + w*j].</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="c"># Get dimensions</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="w">    </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="k">end</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c"># length of a subinterval</span>
+<span class="w">    </span><span class="c"># Build our Vandermonde matrix</span>
+<span class="w">    </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">k</span><span class="p">]</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="c"># Why this &quot;.- a) .* (2 / w) .- 1&quot; part?</span>
+<span class="w">    </span><span class="n">A_inv</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="w">    </span><span class="c"># And a place to hold coefficients</span>
+<span class="w">    </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n</span>
+<span class="w">        </span><span class="c"># Now solve for the current set of coeffients for the current subset of y</span>
+<span class="w">        </span><span class="n">yj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="c"># What is the correct indices from y?</span>
+<span class="w">        </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">        </span><span class="c">### END SOLUTION</span>
+<span class="w">        </span><span class="n">push!</span><span class="p">(</span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">c</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span>
+<span class="k">end</span>
+
+<span class="c"># Let&#39;s make the same data combined</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c"># And let&#39;s try to fit our piecewise polynomial</span>
+<span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">C</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="n">log</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+
+<span class="nd">@test</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">1</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">5</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mf">0.4164026546438594</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.6167932864672474</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.12767897738782175</span><span class="p">,</span><span class="w"> </span><span class="mf">0.07298432524001167</span><span class="p">,</span><span class="w"> </span><span class="mf">0.00027267080444547744</span><span class="p">]</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mf">0.6019173600399995</span><span class="p">,</span><span class="w"> </span><span class="mf">0.8000865534138122</span><span class="p">,</span><span class="w"> </span><span class="mf">0.29530092118109597</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.028009254382361723</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.008924184564117534</span><span class="p">]</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="p">[</span><span class="mf">1.332621217129435</span><span class="p">,</span><span class="w"> </span><span class="mf">0.5434549235122322</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.379306420655918</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.038210237255288715</span><span class="p">,</span><span class="w"> </span><span class="mf">0.00846656539185615</span><span class="p">]</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mf">0.2857915440827067</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">1.8185885681934457</span><span class="p">,</span><span class="w"> </span><span class="mf">0.017546468197354503</span><span class="p">,</span><span class="w"> </span><span class="mf">0.08409664184838822</span><span class="p">,</span><span class="w"> </span><span class="mf">0.000779197662611586</span><span class="p">]</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">C</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="p">[</span><span class="o">-</span><span class="mf">1.4529213285142264</span><span class="p">,</span><span class="w"> </span><span class="mf">1.0464432985128442</span><span class="p">,</span><span class="w"> </span><span class="mf">0.4681804363327252</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.040158216086755155</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mf">0.01093182996020823</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Applying-our-fit">
+<h2>Applying our fit<a class="headerlink" href="#Applying-our-fit" title="Link to this heading">¶</a></h2>
+<p>Naturally, having the sets of polynomial coefficients is not very useful if we cannot use them. Now we need a function to apply our coefficients to produce values at a given set of points, <span class="math notranslate nohighlight">\(x\)</span>.</p>
+<p>In this function, we will assume that the subintervals overlap. That means that if we have 3 subintervals with 5 points each, then</p>
+<ul class="simple">
+<li><p>subinterval 1 contains points 1, 2, 3, 4, and 5</p></li>
+<li><p>subinterval 2 contains points 5, 6, 7, 9, and 9</p></li>
+<li><p>subinterval 3 contains points 9, 10, 11, 12, and 13</p></li>
+</ul>
+<p>These subintervals overlap, so we will have an ‘extra’ point on each subinterval.</p>
+<p>We will call the number of points we are providing interpolated values for <span class="math notranslate nohighlight">\(k_\text{interp}\)</span> while we call the number of original points we fit against <span class="math notranslate nohighlight">\(k_\text{fit}\)</span>. Thus, we will use a Vandermonde matrix of size <span class="math notranslate nohighlight">\(k_\text{interp} \times k_\text{fit}\)</span> to compute the interpolated values <span class="math notranslate nohighlight">\(y_i\)</span> on each subinterval.</p>
+<p>We will therefore compute</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[p_j \left( x \right) = \sum_{i = 0}^{k-1} c_{j, i} T_i \left( \left( x - \left( a + w \left( j - 1 \right) \right) \right) \left( 2 / w \right) - 1 \right)\]</div>
+</div>
+<p>for subintervals <span class="math notranslate nohighlight">\(j \in \left\lbrace 1, 2, \dots \right\rbrace\)</span> and <span class="math notranslate nohighlight">\(w\)</span> is the width of the subintervals.</p>
+<p>Notice that like above, we shift and rescale the values of <span class="math notranslate nohighlight">\(x\)</span> for each subinterval <span class="math notranslate nohighlight">\(j\)</span> so that <span class="math notranslate nohighlight">\(\left[ a + w \left( j - 1 \right), a + w j \right]\)</span> becomes <span class="math notranslate nohighlight">\(\left[ -1, 1 \right]\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Interpolate piecewise Chebyshev polynomials</span>
+<span class="k">function</span><span class="w"> </span><span class="n">interpolate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k_interp</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Return the interpolation from a piecewise fit of Chebyshev polynomials on the interval x.</span>
+<span class="s">    n is a parameter sating how many subintervals there are.</span>
+<span class="s">    k_interp is a parameter stating how many points are on each subinterval.</span>
+<span class="s">    The width of the subintervals is therefore (x[end] - x[1]) / n.</span>
+<span class="s">    This function returns y, where a is the start of the first sub interval, and C</span>
+<span class="s">    is a list of sets of Chebyshev coefficients, where C_i corresponds to the interval</span>
+<span class="s">    [a + 2*(i - 1), a + 2*i].</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="c"># Get dimensions</span>
+<span class="w">    </span><span class="n">k_fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">C</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="w">    </span><span class="nd">@assert</span><span class="w"> </span><span class="n">length</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c"># these need to match</span>
+<span class="w">    </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="k">end</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span>
+<span class="w">    </span><span class="c"># Build our Vandermonde matrix</span>
+<span class="w">    </span><span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">((</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">k_interp</span><span class="p">]</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">.*</span><span class="w"> </span><span class="p">(</span><span class="mi">2</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">w</span><span class="p">)</span><span class="w"> </span><span class="o">.-</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="n">k_fit</span><span class="p">)</span>
+<span class="w">    </span><span class="c"># And a place to hold output</span>
+<span class="w">    </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n</span>
+<span class="w">        </span><span class="c"># Now solve for the current set of coeffients for the current subset of y</span>
+<span class="w">        </span><span class="n">yj</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">k_interp</span><span class="p">)</span>
+<span class="w">        </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">        </span><span class="c">### END SOLUTION</span>
+<span class="w">        </span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="p">(</span><span class="n">j</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">k_interp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">j</span><span class="o">*</span><span class="p">(</span><span class="n">k_interp</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">yj</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">y</span>
+<span class="k">end</span>
+
+<span class="c"># Let&#39;s make the same data combined</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">sin</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">)</span>
+
+<span class="c"># And let&#39;s try to fit our piecewise polynomial</span>
+<span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+
+<span class="c"># Finally, let&#39;s use that fit</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpolate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">4</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">2</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">.^</span><span class="mi">3</span>
+<span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpolate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="n">x</span><span class="o">.^</span><span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Runge-returns">
+<h2>Runge returns<a class="headerlink" href="#Runge-returns" title="Link to this heading">¶</a></h2>
+<p>Now let’s compare a fit with a piecewise polynomial to a single global polynomial.</p>
+<p>You should notice that the Runge phenomenon is less pronounced but still present for each piece of the piecewise polynomial.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Let&#39;s try a longer range</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="n">num_fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">num_fit</span><span class="p">)</span>
+<span class="n">runge</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">10</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runge</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">)</span>
+
+<span class="c"># And let&#39;s try to fit our piecewise polynomial</span>
+<span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C_piecewise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+
+<span class="c"># And a global fit</span>
+<span class="n">c_global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv</span><span class="p">(</span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span>
+
+<span class="c"># Finally, let&#39;s use that fit</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c">## Here&#39;s the true function</span>
+<span class="n">y_true</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runge</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_true</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">)</span>
+
+<span class="c">## The piecewise fit</span>
+<span class="n">y_piecewise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpolate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C_piecewise</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">y_true</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_piecewise</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_piecewise</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit, piecewise&quot;</span><span class="p">)</span>
+
+<span class="c">## And the global fit</span>
+<span class="n">y_global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">num_fit</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c_global</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">y_true</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_global</span><span class="p">);</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_global</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit, global&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Previously, we repaired this Runge phenomenon by selecting better interpolation points.</p>
+<p>We will try this again here by using a cosine range on each subinterval. Fill in the function below so that our points <span class="math notranslate nohighlight">\(x\)</span> use the <code class="docutils literal notranslate"><span class="pre">CosRange</span></code> distribution on each subinterval.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Here&#39;s our CosRange function</span>
+<span class="n">CosRange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="nb">pi</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">))</span>
+
+<span class="c"># And a piecewise range utility</span>
+<span class="k">function</span><span class="w"> </span><span class="n">build_range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">range_function</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Return a range of points for a piecewise interpolation on the interval [a, b].</span>
+<span class="s">    There will be n subintervals with k points on each subinterval.</span>
+<span class="s">    `range_function` is the function used to distribute points on one of the subintervals.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">w</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="c"># Size of the subinterval</span>
+<span class="w">    </span><span class="n">x1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">range_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">w</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="n">x</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n</span>
+<span class="w">        </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">        </span><span class="c">### END SOLUTION</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">x</span>
+<span class="k">end</span>
+
+<span class="c"># And our true data to fit</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">7</span>
+<span class="n">n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="n">num_fit</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">build_range</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="n">CosRange</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runge</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;data&quot;</span><span class="p">)</span>
+
+<span class="c"># And let&#39;s try to fit our piecewise polynomial</span>
+<span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C_piecewise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+
+<span class="c"># And a global fit</span>
+<span class="n">c_global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv</span><span class="p">(</span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span>
+
+<span class="c"># Finally, let&#39;s use that fit</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">50</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c">## Here&#39;s the true function</span>
+<span class="n">y_true</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">runge</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_true</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">)</span>
+
+<span class="c">## The piecewise fit</span>
+<span class="n">y_piecewise</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpolate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C_piecewise</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">y_true</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_piecewise</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_piecewise</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit, piecewise&quot;</span><span class="p">)</span>
+
+<span class="c">## And the global fit</span>
+<span class="n">y_global</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">num_fit</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c_global</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">norm</span><span class="p">(</span><span class="n">y_true</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">y_global</span><span class="p">);</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y_global</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit, global&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Discuss the tradeoffs between using global and piecewise polynomial interpolation. Include any additional charts with other functions, numbers of subintervals (<span class="math notranslate nohighlight">\(n\)</span>), and number of points per subinterval (<span class="math notranslate nohighlight">\(k\)</span>) to support your discussion.</p>
+<section id="BEGIN-SOLUTION">
+<h3>BEGIN SOLUTION<a class="headerlink" href="#BEGIN-SOLUTION" title="Link to this heading">¶</a></h3>
+</section>
+<section id="END-SOLUTION">
+<h3>END SOLUTION<a class="headerlink" href="#END-SOLUTION" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<section id="Integration">
+<h2>Integration<a class="headerlink" href="#Integration" title="Link to this heading">¶</a></h2>
+<p>One important use of interpolation is integration. We have the polynomial</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[p \left( x \right) = \sum_{i = 0}^n c_i T_i \left( x \right)\]</div>
+</div>
+<p>for the Chebyshev polynomials</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+  T_0 \left( x \right) &amp;= 1\\
+  T_1 \left( x \right) &amp;= x\\
+  T_n \left( x \right) &amp;= 2 x T_{n - 1} \left( x \right) - T_{n - 2} \left( x \right)
+\end{align}\end{split}\]</div>
+</div>
+<p>Suppose we wanted to compute the integral</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\int_a^b p \left( x \right) \, dx = \int_a^b \sum_{i = 0}^n c_i T_i \left( x \right) \, dx\]</div>
+</div>
+<p>Using the powers of alegbraic simplification, we can instead compute</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\int_a^b p \left( x \right) \, dx = \sum_{i = 0}^n c_i \int_a^b T_i \left( x \right) \, dx\]</div>
+</div>
+<p>This feels like something we can get traction with, especially with the <a class="reference external" href="https://en.wikipedia.org/wiki/Chebyshev_polynomials">special properties</a> of the Chebyshev polynomials.</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\begin{split} \begin{align}
+  \int_a^b T_0 \left( x \right) &amp;= \left. x \right\vert_a^b\\
+  \int_a^b T_1 \left( x \right) &amp;= \left. \frac{1}{2} x^2 \right\vert_a^b\\
+  \int_a^b T_n \left( x \right) &amp;= \left. \frac{1}{2} \left( \frac{T_{n + 1} \left( x \right)}{n + 1} - \frac{T_{n - 1} \left( x \right)}{n - 1} \right) \right\vert_a^b
+\end{align}\end{split}\]</div>
+</div>
+<p>where</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\left. f \left( x \right) \right\vert_a^b = f \left( b \right) - f \left( a \right)\]</div>
+</div>
+<p>We can use this recursion to turn our interpolation coefficients into integration coefficients.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Function to get Chebyshev polynomial integrals</span>
+<span class="k">function</span><span class="w"> </span><span class="n">chebyshev_integrals</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Return the values of the integrals of the Chebyshev polynomials on the interval [-1, 1].</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="n">T_a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">T_b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="w">    </span><span class="c"># Initalize</span>
+<span class="w">    </span><span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="w">    </span><span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">T_a</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="c"># Note that T_a[1] is T_0</span>
+<span class="w">    </span><span class="n">T_a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">a</span>
+<span class="w">    </span><span class="n">T_b</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="w">    </span><span class="n">T_b</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span>
+<span class="w">    </span><span class="c"># Follow the Chebyshev polynomial recursion to compute T_n</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">:</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span>
+<span class="w">        </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">        </span><span class="c">### END SOLUTION</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="c"># And now compute the integrals</span>
+<span class="w">    </span><span class="n">interp_T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">zeros</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="n">interp_T</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">b</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">a</span>
+<span class="w">    </span><span class="n">interp_T</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="o">^</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">a</span><span class="o">^</span><span class="mi">2</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">3</span><span class="o">:</span><span class="n">k</span>
+<span class="w">        </span><span class="c"># NOTE: Be careful with indexing here!</span>
+<span class="w">        </span><span class="c"># Julia uses 1 based indexing but the math equations use 0 based indexing!!</span>
+<span class="w">        </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">        </span><span class="c">### END SOLUTION</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">interp_T</span><span class="o">&#39;</span>
+<span class="k">end</span>
+
+<span class="c"># Let&#39;s try it</span>
+<span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span>
+<span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span>
+<span class="n">k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">x</span><span class="o">.^</span><span class="mi">4</span><span class="w"> </span><span class="c"># We should be able to exactly integrate this!</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">)</span>
+<span class="n">A</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="c"># Fit the Chebyshev polynomials</span>
+<span class="n">c</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">y</span>
+<span class="n">x_plt</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot!</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span><span class="w"> </span><span class="n">vander_chebyshev</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;fit&quot;</span><span class="p">)</span>
+<span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c"># Integrate the fit polynomial</span>
+<span class="n">interp_T</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">chebyshev_integrals</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">interp_T</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">c</span><span class="w"> </span><span class="o">≈</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">b</span><span class="o">^</span><span class="mi">5</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">5</span><span class="p">)</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">a</span><span class="o">^</span><span class="mi">5</span><span class="p">;</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Piecewise-polynomial-integration">
+<h2>Piecewise polynomial integration<a class="headerlink" href="#Piecewise-polynomial-integration" title="Link to this heading">¶</a></h2>
+<p>And now we can combine these two ideas. Complete the function below to compute an integral of a piecewise polynomial fit.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Integrate using piecewise Chebyshev polynomials</span>
+<span class="k">function</span><span class="w"> </span><span class="n">integrate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="s">&quot;&quot;&quot;Return the value of integrating a piecewise fit of Chebyshev polynomials on the interval x for the values y.</span>
+<span class="s">    n is a parameter stating how many subintervals there are.</span>
+<span class="s">    k is a parameter stating how many points are on each subinterval.</span>
+<span class="s">    This function returns the integral of the piecewise Chebyshev polynomial interpolation.</span>
+<span class="s">    &quot;&quot;&quot;</span>
+<span class="w">    </span><span class="c"># Get fit</span>
+<span class="w">    </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="c"># Build our integral values</span>
+<span class="w">    </span><span class="n">w</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="k">end</span><span class="p">]</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">n</span>
+<span class="w">    </span><span class="n">interp_T</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">chebyshev_integrals</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+<span class="w">    </span><span class="n">interp_T</span><span class="w"> </span><span class="o">*=</span><span class="w"> </span><span class="p">(</span><span class="n">w</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="c"># Why do I need this line?</span>
+<span class="w">    </span><span class="c"># And a place to hold output</span>
+<span class="w">    </span><span class="n">interp</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">j</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">n</span>
+<span class="w">        </span><span class="c"># Sum up the integrals on each interval</span>
+<span class="w">        </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">        </span><span class="c">### END SOLUTION</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">interp</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s use our new function to compute the integral</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\int_0^5 cos \left( x \right) \, dx\]</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Let&#39;s integrate cosine with increasingly many subintervals and points</span>
+<span class="n">plot</span><span class="p">()</span>
+<span class="n">a</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">b</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">max_n</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="n">max_k</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">5</span>
+<span class="k">for</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">1</span><span class="o">:</span><span class="n">max_n</span><span class="w"> </span><span class="c"># number of subintervals</span>
+<span class="w">    </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---- </span><span class="si">$n</span><span class="s"> subintervals ----&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="mi">2</span><span class="o">:</span><span class="n">max_k</span><span class="w"> </span><span class="c"># number of points per subinterval</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">build_range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">,</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">)</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="w">        </span><span class="c"># Interpolate the fit</span>
+<span class="w">        </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">fit_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">        </span><span class="c"># Integrate the fit</span>
+<span class="w">        </span><span class="n">integral</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">integrate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">k</span><span class="p">)</span>
+<span class="w">        </span><span class="c"># Plot the fix</span>
+<span class="w">        </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">build_range</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">)</span>
+<span class="w">        </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">interpolate_piecewise_chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">C</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="mi">100</span><span class="p">)</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">max_k</span>
+<span class="w">            </span><span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;n = </span><span class="si">$n</span><span class="s">, k = </span><span class="si">$k</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="k">end</span>
+<span class="w">        </span><span class="c"># And print out info</span>
+<span class="w">        </span><span class="n">println</span><span class="p">(</span><span class="s">&quot;</span><span class="si">$k</span><span class="s"> points each, integral ≈ </span><span class="si">$integral</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">end</span>
+<span class="w">    </span><span class="n">println</span><span class="p">()</span>
+<span class="k">end</span>
+
+<span class="c"># And the true fit</span>
+<span class="n">println</span><span class="p">(</span><span class="s">&quot;---- true value ----&quot;</span><span class="p">)</span>
+<span class="nd">@show</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">sin</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kt">LinRange</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="mi">300</span><span class="p">)</span>
+<span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">cos</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">p</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plot!</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">color</span><span class="o">=</span><span class="ss">:black</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;true&quot;</span><span class="p">);</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Exploration">
+<h2>Exploration<a class="headerlink" href="#Exploration" title="Link to this heading">¶</a></h2>
+<ol class="arabic simple">
+<li><p>Run some experiments using different values of <span class="math notranslate nohighlight">\(n\)</span> and <span class="math notranslate nohighlight">\(k\)</span> and using <code class="docutils literal notranslate"><span class="pre">LinRange</span></code> and <code class="docutils literal notranslate"><span class="pre">CosRange</span></code> for our integration example above. Generate a plot summarizing your results and discuss your plot.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>This technique can exactly integrate polynomials up to degree <span class="math notranslate nohighlight">\(k - 1\)</span>. If we correctly select the location of the integration points, then we can see accurate integration for polynomials of up to degree <span class="math notranslate nohighlight">\(2k - 1\)</span>. This is known as <a class="reference external" href="https://en.wikipedia.org/wiki/Gaussian_quadrature">Gaussian quadrature</a>. Discuss the pros and cons of this approach vs the one in this assignment.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+<ol class="arabic simple" start="3">
+<li><p>Select a Julia package that implements numerical integration. Use the package for a few integrals. Discuss the ease of use and quality of documentation for the package you picked.</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="../bonus.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Bonus content</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="2025-10-17-Krylov-student.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">2025-10-17 Krylov Subspaces</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Jeremy L Thompson
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">2025-10-31 Piecewise Interpolation</a><ul>
+<li><a class="reference internal" href="#Fitting-on-one-interval">Fitting on one interval</a></li>
+<li><a class="reference internal" href="#Fitting-on-multiple-subintervals">Fitting on multiple subintervals</a></li>
+<li><a class="reference internal" href="#Applying-our-fit">Applying our fit</a></li>
+<li><a class="reference internal" href="#Runge-returns">Runge returns</a><ul>
+<li><a class="reference internal" href="#BEGIN-SOLUTION">BEGIN SOLUTION</a></li>
+<li><a class="reference internal" href="#END-SOLUTION">END SOLUTION</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Integration">Integration</a></li>
+<li><a class="reference internal" href="#Piecewise-polynomial-integration">Piecewise polynomial integration</a></li>
+<li><a class="reference internal" href="#Exploration">Exploration</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
