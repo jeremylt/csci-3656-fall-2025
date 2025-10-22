@@ -79,4 +79,5 @@ Interpolation
    notebooks/2025-10-22-Regression.ipynb
    notebooks/2025-10-24-Beyond-Linear.ipynb
    notebooks/2025-10-27-Gradient-Descent.ipynb
+   notebooks/2025-10-29-Nonlinear-Regression.ipynb
 
