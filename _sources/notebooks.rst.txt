@@ -81,3 +81,11 @@ Interpolation
    notebooks/2025-10-27-Gradient-Descent.ipynb
    notebooks/2025-10-29-Nonlinear-Regression.ipynb
 
+Derivatives and Integrals
+-------------------------------------------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks/2025-10-31-Differentiation.ipynb
+
