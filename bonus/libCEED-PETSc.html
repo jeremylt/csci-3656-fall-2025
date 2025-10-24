@@ -232,6 +232,7 @@
 <li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-12.html">2025-09-12</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-26.html">2025-09-26</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../quizes/2025-10-10.html">2025-10-10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-10-24.html">2025-10-24</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../homework.html">Homework</a><input aria-label="Toggle navigation of Homework" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -454,7 +455,7 @@
 <h3>Standard examples<a class="headerlink" href="#Standard-examples" title="Link to this heading">¶</a></h3>
 <p>There are three standard examples we use to outline the interface concepts. These examples are based upon a single application of the operator, so computing the matrix-vector product <span class="math notranslate nohighlight">\(A u\)</span>.</p>
 <ol class="arabic simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">ex1-volume</span></code> - compute the volume of a region by computing <span class="math notranslate nohighlight">\(\int_\Omega u \, dV\)</span>, where <span class="math notranslate nohighlight">\(u \left( x \right) = 1\)</span>. In other words, this example applies the mass matrix to a vector of all <code class="docutils literal notranslate"><span class="pre">1</span></code>s.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ex1-volume</span></code> - compute the volume of a region by computing <span class="math notranslate nohighlight">\(\int_\Omega v u \, dV\)</span>, where <span class="math notranslate nohighlight">\(u \left( x \right) = 1\)</span>. In other words, this example applies the mass matrix to a vector of all <code class="docutils literal notranslate"><span class="pre">1</span></code>s.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ex2-surface</span></code> - compute the surface area of a region by computing <span class="math notranslate nohighlight">\(\int_{\partial \Omega} 1 \, dS = \int_\Omega \nabla v \cdot \nabla u \, dV\)</span> (Calc III identities!) ,where <span class="math notranslate nohighlight">\(u \left( x \right) = x_0 + x_1 + x_2\)</span>. In other words, this example applies the diffusion operator to a vector whose values represent a linear function in <span class="math notranslate nohighlight">\(x, y, z\)</span>.</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ex3-volume</span></code> - compute the volume of a region by computing <span class="math notranslate nohighlight">\(\int_\Omega \left( u + \nabla^2 u \right) \, dV\)</span>, where <span class="math notranslate nohighlight">\(u \left( x \right) = 1\)</span>. In other words, this example applies the mass matrix and diffusion operator to a vector of all <code class="docutils literal notranslate"><span class="pre">1</span></code>s.</p></li>
 </ol>

@@ -1,0 +1,38 @@
+2025-10-24
+=====================================================================================
+
+1. Suppose you have :math:`n` data points :math:`\left( x_i, y_i \right)`, with all :math:`x_i` distinct.
+Which of the following statements about the degree :math:`n` interpolating polynomial (so :math:`c_0 + c_1 x + \cdots + c_n x^n`) is **true**?
+
+  a) The interpolating polynomial is unique.
+
+  b) There are infinitely many such interpolating polynomials.
+
+  c) There is no polynomial of this degree that interpolates all :math:`n` points.
+
+.. raw:: html
+
+    <details><summary>Answer</summary>b</details>
+
+2. Which of the following is **not** a valid reason for choosing piecewise cubic interpolation over piecewise linear interpolation.
+
+  a) Piecewise cubics can yield an interpolating function that has continuous derivatives
+
+  b) Piecewise cubics generally converge to the underlying function faster than linera interpolants when the number of data points is increased
+
+  c) Piecewise cubics are cheaper to compute
+
+  d) Piecewise cubics can predict derivative values better than linear interpolants
+
+.. raw:: html
+
+    <details><summary>Answer</summary>c</details>
+
+3. Suppose we are fitting a global polynomial to a large number of noisy datapoints.
+Create a pair of labeled graphs of two possible polynomial fits, one of which is a good fit and one of which is overfitting to the noise in the data.
+Write a couple of sentences explaining your graphs.
+Bonus: Add and caption an example of underfitting.
+
+.. raw:: html
+
+    <details><summary>Answer</summary>See the discussion on <a href="https://en.wikipedia.org/wiki/Overfitting">Wikipedia</a>.</details>
