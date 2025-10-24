@@ -18,7 +18,7 @@ Which of the following statements about the degree :math:`n` interpolating polyn
 
   a) Piecewise cubics can yield an interpolating function that has continuous derivatives
 
-  b) Piecewise cubics generally converge to the underlying function faster than linera interpolants when the number of data points is increased
+  b) Piecewise cubics generally converge to the underlying function faster than linear interpolants when the number of data points is increased
 
   c) Piecewise cubics are cheaper to compute
 
