@@ -1,0 +1,615 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="../">
+  <head><meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="../genindex.html"><link rel="search" title="Search" href="../search.html">
+
+    <!-- Generated with Sphinx 8.1.3 and Furo 2025.09.25 -->
+        <title>2025-11-14 Numerical Differentiation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=d111a655" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo.css?v=580074bf" />
+    <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/furo-extensions.css?v=8dab3a3b" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f2f2f2;
+  --color-code-foreground: #1e1e1e;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-with-moon" viewBox="0 0 24 24">
+    <title>Auto light/dark, in light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path style="opacity: 50%" d="M 5.411 14.504 C 5.471 14.504 5.532 14.504 5.591 14.504 C 3.639 16.319 4.383 19.569 6.931 20.352 C 7.693 20.586 8.512 20.551 9.25 20.252 C 8.023 23.207 4.056 23.725 2.11 21.184 C 0.166 18.642 1.702 14.949 4.874 14.536 C 5.051 14.512 5.231 14.5 5.411 14.5 L 5.411 14.504 Z"/>
+      <line x1="14.5" y1="3.25" x2="14.5" y2="1.25"/>
+      <line x1="14.5" y1="15.85" x2="14.5" y2="17.85"/>
+      <line x1="10.044" y1="5.094" x2="8.63" y2="3.68"/>
+      <line x1="19" y1="14.05" x2="20.414" y2="15.464"/>
+      <line x1="8.2" y1="9.55" x2="6.2" y2="9.55"/>
+      <line x1="20.8" y1="9.55" x2="22.8" y2="9.55"/>
+      <line x1="10.044" y1="14.006" x2="8.63" y2="15.42"/>
+      <line x1="19" y1="5.05" x2="20.414" y2="3.636"/>
+      <circle cx="14.5" cy="9.55" r="3.6"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon-with-sun" viewBox="0 0 24 24">
+    <title>Auto light/dark, in dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round"
+      class="icon-custom-derived-from-feather-sun-and-tabler-moon">
+      <path d="M 8.282 7.007 C 8.385 7.007 8.494 7.007 8.595 7.007 C 5.18 10.184 6.481 15.869 10.942 17.24 C 12.275 17.648 13.706 17.589 15 17.066 C 12.851 22.236 5.91 23.143 2.505 18.696 C -0.897 14.249 1.791 7.786 7.342 7.063 C 7.652 7.021 7.965 7 8.282 7 L 8.282 7.007 Z"/>
+      <line style="opacity: 50%" x1="18" y1="3.705" x2="18" y2="2.5"/>
+      <line style="opacity: 50%" x1="18" y1="11.295" x2="18" y2="12.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="4.816" x2="14.464" y2="3.964"/>
+      <line style="opacity: 50%" x1="20.711" y1="10.212" x2="21.563" y2="11.063"/>
+      <line style="opacity: 50%" x1="14.205" y1="7.5" x2="13.001" y2="7.5"/>
+      <line style="opacity: 50%" x1="21.795" y1="7.5" x2="23" y2="7.5"/>
+      <line style="opacity: 50%" x1="15.316" y1="10.184" x2="14.464" y2="11.036"/>
+      <line style="opacity: 50%" x1="20.711" y1="4.789" x2="21.563" y2="3.937"/>
+      <circle style="opacity: 50%" cx="18" cy="7.5" r="2.169"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-pencil" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-pencil-code">
+      <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4" />
+      <path d="M13.5 6.5l4 4" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+  <symbol id="svg-eye" viewBox="0 0 24 24">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-eye-code">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M10 12a2 2 0 1 0 4 0a2 2 0 0 0 -4 0" />
+      <path
+        d="M11.11 17.958c-3.209 -.307 -5.91 -2.293 -8.11 -5.958c2.4 -4 5.4 -6 9 -6c3.6 0 6.6 2 9 6c-.21 .352 -.427 .688 -.647 1.008" />
+      <path d="M20 21l2 -2l-2 -2" />
+      <path d="M17 17l-2 2l2 2" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle site navigation sidebar">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc" aria-label="Toggle table of contents sidebar">
+<label class="overlay sidebar-overlay" for="__navigation"></label>
+<label class="overlay toc-overlay" for="__toc"></label>
+
+<a class="skip-to-content muted-link" href="#furo-main-content">Skip to content</a>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <span class="icon"><svg><use href="#svg-menu"></use></svg></span>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="../index.html"><div class="brand">CSCI 3656</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+          <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+          <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="../index.html">
+  
+  <span class="sidebar-brand-text">CSCI 3656</span>
+  
+</a><form class="sidebar-search-container" method="get" action="../search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../syllabus.html">Course Syllabus</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ungrading.html">Ungrading</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../notebooks.html">Class Notes</a><input aria-label="Toggle navigation of Class Notes" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-22-Welcome.html">2025-08-22 Welcome</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-25-Functions.html">2025-08-25 Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-27-Function-Error.html">2025-08-27 Function Errors</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-08-29-Conditioning.html">2025-08-29 Conditioning</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-03-Rootfinding.html">2025-09-03 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-05-Convergence-Classes.html">2025-09-05 Convergence classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-08-Newton-Methods.html">2025-09-08 Newton Methods</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-10-More-Newton.html">2025-09-10 More Newton</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-12-Formulation.html">2025-09-12 Formulation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-15-Stability.html">2025-09-15 Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-17-Linear-Algebra.html">2025-09-17 Linear Algebra</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-19-Geometry.html">2025-09-19 Projections, Rotations, and Reflections</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-22-Gram-Schmidt.html">2025-09-22 Gram-Schmidt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-24-QR-Factorization.html">2025-09-24 QR Factorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-26-QR-Stability.html">2025-09-26 QR Stability</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-09-29-Householder-QR.html">2025-09-26 Householder QR</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-01-QR-Retrospective.html">2025-10-01 QR Retrospective</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-03-Singular-Value-Decomposition.html">2025-10-03 Singular Value Decomposition</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-06-SVD-Geometry.html">2025-10-06 SVD Geometry</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-08-Low-Rank.html">2025-10-08 Low Rank</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-10-Polynomial-Interpolation.html">2025-10-10 Polynomial Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-13-Global-and-Piecewise-Interpolation.html">2025-10-13 Global and Piecewise Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-15-Spline-Interpolation.html">2025-10-15 Spline Interpolation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-17-Higher-Dimensions.html">2025-10-17 Higher Dimensions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-20-Noisy-Data.html">2025-10-20 Noisy Data</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-22-Regression.html">2025-10-22 Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-24-Beyond-Linear.html">2025-10-24 Beyond Linear Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-27-Gradient-Descent.html">2025-10-27 Gradient Descent</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-29-Nonlinear-Regression.html">2025-10-29 Nonlinear Regression</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-10-31-Differentiation.html">2025-10-31 Differentiation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-11-03-Optimization.html">2025-11-03 Optimization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../notebooks/2025-11-05-Integration.html">2025-11-05 Integration</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../quizzes.html">Quizzes</a><input aria-label="Toggle navigation of Quizzes" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-08-29.html">2025-08-29</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-12.html">2025-09-12</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-09-26.html">2025-09-26</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-10-10.html">2025-10-10</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../quizes/2025-10-24.html">2025-10-24</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../homework.html">Homework</a><input aria-label="Toggle navigation of Homework" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-05-Taylor-Series-student.html">2025-09-05 Taylor Series</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-09-19-Rootfinding-student.html">2025-09-19 Rootfinding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-03-Orthogonal-Polynomials-student.html">2025-10-03 Orthogonal Polynomials</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-17-Krylov-student.html">2025-10-17 Krylov Subspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-10-31-Piecewise-Interpolation-student.html">2025-10-31 Piecewise Interpolation</a></li>
+</ul>
+</li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../bonus.html">Bonus content</a><input aria-label="Toggle navigation of Bonus content" class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="../bonus/Newton-Systems.html">Newton’s Method for Systems of Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../bonus/libCEED-PETSc.html">Numerical Computation with libCEED and PETSc</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          <div class="view-this-page">
+  <a class="muted-link" href="../_sources/homework/2025-11-14-Differentiation-student.ipynb.txt" title="View this page">
+    <svg><use href="#svg-eye"></use></svg>
+    <span class="visually-hidden">View this page</span>
+  </a>
+</div>
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle" aria-label="Toggle Light / Dark / Auto color theme">
+              <svg class="theme-icon-when-auto-light"><use href="#svg-sun-with-moon"></use></svg>
+              <svg class="theme-icon-when-auto-dark"><use href="#svg-moon-with-sun"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <span class="icon"><svg><use href="#svg-toc"></use></svg></span>
+          </label>
+        </div>
+        <article role="main" id="furo-main-content">
+          <p>Before you turn this problem in, make sure everything runs as expected. First, restart the kernel (in the menubar, select Kernel → Restart) and then run all cells (in the menubar, select Cell → Run All).</p>
+<p>Make sure you fill in any place that says <code class="docutils literal notranslate"><span class="pre">BEGIN</span> <span class="pre">SOLUTION</span></code> and <code class="docutils literal notranslate"><span class="pre">END</span> <span class="pre">SOLUTION</span></code>, as well as your name and collaborators below:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">NAME</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+<span class="n">COLLABORATORS</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+<section id="2025-11-14-Numerical-Differentiation">
+<h1>2025-11-14 Numerical Differentiation<a class="headerlink" href="#2025-11-14-Numerical-Differentiation" title="Link to this heading">¶</a></h1>
+<p>This activity will explore numerical approximation of derivatives using methods of the from</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f' \left( x \right) \approx \frac{f \left( x + h \right) - f \left( x \right)}{h}\]</div>
+</div>
+<p>for some small <span class="math notranslate nohighlight">\(h &gt; 0\)</span>. This is know as the <strong>first-order forward difference</strong>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Plots</span>
+<span class="k">using</span><span class="w"> </span><span class="n">Test</span>
+<span class="n">default</span><span class="p">(</span><span class="n">linewidth</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="c"># Approximate the derivative with a forward finite difference</span>
+<span class="k">function</span><span class="w"> </span><span class="n">diff_fwd</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span>
+<span class="w">    </span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="w"> </span><span class="o">.+</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">f</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h</span>
+<span class="k">end</span>
+
+<span class="c"># And plot</span>
+<span class="n">plot</span><span class="p">([</span><span class="n">cos</span><span class="p">,</span>
+<span class="w">      </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">diff_fwd</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mf">.1</span><span class="p">),</span>
+<span class="w">      </span><span class="n">x</span><span class="w"> </span><span class="o">-&gt;</span><span class="w"> </span><span class="n">diff_fwd</span><span class="p">(</span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="mf">.5</span><span class="p">)],</span>
+<span class="w">    </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">cos ( x )</span><span class="se">\$</span><span class="s">&quot;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$</span><span class="s">h = 0.1</span><span class="se">\$</span><span class="s">&quot;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$</span><span class="s">h = 0.5</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">],</span>
+<span class="w">    </span><span class="n">xlims</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>In this figure, every point in the <span class="math notranslate nohighlight">\(h = 0.1\)</span> and <span class="math notranslate nohighlight">\(h = 0.5\)</span> lines is calculated by a finite difference estimate of the derivative. The analytic derivative is shown in blue. The <span class="math notranslate nohighlight">\(h = 0.1\)</span> line appears to be more accurate than <span class="math notranslate nohighlight">\(h = 0.5\)</span>, which is a good sign.</p>
+<p>To be quantitative, let’s examine how the error (taken to be the maximum error on a set of sample points) depends upon the parameter <span class="math notranslate nohighlight">\(h\)</span>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Compute the error from the true derivative</span>
+<span class="k">function</span><span class="w"> </span><span class="n">compute_errors</span><span class="p">(</span><span class="n">diff</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fprime</span><span class="p">;</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">))</span>
+<span class="w">    </span><span class="n">hs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.</span><span class="w"> </span><span class="o">.^</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="o">:</span><span class="mf">.5</span><span class="o">:</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">norm</span><span class="p">(</span><span class="n">diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fprime</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">hs</span><span class="p">]</span>
+<span class="w">    </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span>
+<span class="k">end</span>
+
+<span class="c"># And let&#39;s plot</span>
+<span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_errors</span><span class="p">(</span><span class="n">diff_fwd</span><span class="p">,</span><span class="w"> </span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">cos</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;forward diff&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">h</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(h)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-15</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(1/h)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="o">=</span><span class="ss">:bottomleft</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Evidently the error behaves like <span class="math notranslate nohighlight">\(\mathcal{O} \left( h \right)\)</span> for large values of <span class="math notranslate nohighlight">\(h\)</span> and like <span class="math notranslate nohighlight">\(\mathcal{O} \left( 1 / h \right)\)</span> for small values of <span class="math notranslate nohighlight">\(h\)</span>. To minimize error, we should choose a value of <span class="math notranslate nohighlight">\(h \approx 10^{-8} \approx \sqrt{\epsilon_\text{machine}}\)</span> in this case, but the specific choice depends on the function.</p>
+<section id="Backward-difference">
+<h2>Backward difference<a class="headerlink" href="#Backward-difference" title="Link to this heading">¶</a></h2>
+<p>There is nothing special about adding <span class="math notranslate nohighlight">\(h\)</span>. We can also consider the <strong>first-ordre backward difference</strong></p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f' \left( x \right) \approx \frac{f \left( x \right) - f \left( x - h \right)}{h}\]</div>
+</div>
+<p>for some small <span class="math notranslate nohighlight">\(h &gt; 0\)</span>.</p>
+<p>Complete the function below and compare with our forward difference.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Approximate the derivative with a backward finite difference.</span>
+<span class="k">function</span><span class="w"> </span><span class="n">diff_back</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span>
+<span class="w">    </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">    </span><span class="c">### END SOLUTION</span>
+<span class="k">end</span>
+
+<span class="c"># And let&#39;s plot</span>
+<span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_errors</span><span class="p">(</span><span class="n">diff_back</span><span class="p">,</span><span class="w"> </span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">cos</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;backward diff&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">h</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(h)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-15</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(1/h)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="o">=</span><span class="ss">:bottomleft</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>It appears that we don’t see particularly different behavior between the forward and backward difference equations. Perhaps if we combined them?</p>
+</section>
+<section id="Centered-difference-formula">
+<h2>Centered difference formula<a class="headerlink" href="#Centered-difference-formula" title="Link to this heading">¶</a></h2>
+<p>We can do similar experiments for the “centered” difference formula</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f' \left( x \right) \approx \frac{f \left( x + h \right) - f \left( x - h \right)}{2 h}\]</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Finite difference with centered difference formula</span>
+<span class="k">function</span><span class="w"> </span><span class="n">diff_cent</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span>
+<span class="w">    </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">    </span><span class="c">### END SOLUTION</span>
+<span class="k">end</span>
+
+<span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_errors</span><span class="p">(</span><span class="n">diff_cent</span><span class="p">,</span><span class="w"> </span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">cos</span><span class="p">)</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;centered diff&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">h</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">ylims</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-12</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">))</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">hs</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(h^2)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-15</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(1/h)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="o">=</span><span class="ss">:bottomleft</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<section id="Caption">
+<h3>Caption<a class="headerlink" href="#Caption" title="Link to this heading">¶</a></h3>
+<p>Write a caption for this figure, explaining the effect of <strong>rounding error</strong> and <strong>discretization error</strong>. Explain how to use the estimates <span class="math notranslate nohighlight">\(1/h\)</span>, <span class="math notranslate nohighlight">\(h\)</span>, and/or <span class="math notranslate nohighlight">\(h^2\)</span> to produce an expression involving <span class="math notranslate nohighlight">\(\epsilon_\text{machine}\)</span> to justify a good choice of <span class="math notranslate nohighlight">\(h\)</span>.</p>
+</section>
+<section id="BEGIN-SOLUTION">
+<h3>BEGIN SOLUTION<a class="headerlink" href="#BEGIN-SOLUTION" title="Link to this heading">¶</a></h3>
+</section>
+<section id="END-SOLUTION">
+<h3>END SOLUTION<a class="headerlink" href="#END-SOLUTION" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<section id="Shifting-the-domain">
+<h2>Shifting the domain<a class="headerlink" href="#Shifting-the-domain" title="Link to this heading">¶</a></h2>
+<p>Now, we consider the effect of shifting from comparing accuracy on the interval <span class="math notranslate nohighlight">\(\left( -4, 4 \right)\)</span> to the interval <span class="math notranslate nohighlight">\(\left( 10^5 \pi - 4, 10^5 \pi + 4 \right)\)</span>. Note that our test function <span class="math notranslate nohighlight">\(f \left( x \right) = \sin \left( x \right)\)</span> is <span class="math notranslate nohighlight">\(2 \pi\)</span> periodic.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Gather our data</span>
+<span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors1</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_errors</span><span class="p">(</span><span class="n">diff_fwd</span><span class="p">,</span><span class="w">  </span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">cos</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mf">1e5</span><span class="o">*</span><span class="nb">π</span><span class="o">.+</span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">))</span>
+<span class="n">_</span><span class="p">,</span><span class="w">  </span><span class="n">errors2</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">compute_errors</span><span class="p">(</span><span class="n">diff_cent</span><span class="p">,</span><span class="w"> </span><span class="n">sin</span><span class="p">,</span><span class="w"> </span><span class="n">cos</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="mf">1e5</span><span class="o">*</span><span class="nb">π</span><span class="o">.+</span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">))</span>
+
+<span class="c"># And plot</span>
+<span class="n">scatter</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors1</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;forward diff&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xlabel</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">h</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">ylabel</span><span class="o">=</span><span class="s">&quot;error&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="n">xscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">yscale</span><span class="o">=</span><span class="ss">:log10</span><span class="p">,</span><span class="w"> </span><span class="n">ylims</span><span class="o">=</span><span class="p">(</span><span class="mf">1e-12</span><span class="p">,</span><span class="w"> </span><span class="mi">10</span><span class="p">))</span>
+<span class="n">scatter!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;centered diff&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(h)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">hs</span><span class="o">.^</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(h^2)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">)</span>
+<span class="n">plot!</span><span class="p">(</span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="mf">1e-15</span><span class="w"> </span><span class="o">./</span><span class="w"> </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">O(1/h)</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">legend</span><span class="o">=</span><span class="ss">:bottomleft</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This definitely is higher error than we saw before. Create a caption discussing the difference between the plots above and this most recent plot.</p>
+<section id="id1">
+<h3>BEGIN SOLUTION<a class="headerlink" href="#id1" title="Link to this heading">¶</a></h3>
+</section>
+<section id="id2">
+<h3>END SOLUTION<a class="headerlink" href="#id2" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+<section id="Estimate-constants">
+<h2>Estimate constants<a class="headerlink" href="#Estimate-constants" title="Link to this heading">¶</a></h2>
+<p>Suppose you are given two positive values <span class="math notranslate nohighlight">\(h_0\)</span> and <span class="math notranslate nohighlight">\(h_1\)</span> as well as two errors <span class="math notranslate nohighlight">\(e_0 = e \left( h_0 \right)\)</span> and <span class="math notranslate nohighlight">\(e_1 = e \left( h_1 \right)\)</span>. Use the ratios <span class="math notranslate nohighlight">\(h_1 / h_0\)</span> and <span class="math notranslate nohighlight">\(e_1 / e_0\)</span> to estimate <span class="math notranslate nohighlight">\(p\)</span> assuming our error is of the form <span class="math notranslate nohighlight">\(e \left( h \right) = c h^p\)</span>.</p>
+<p>Hint: take ratios of the equations and use a logarithm (<code class="docutils literal notranslate"><span class="pre">log</span></code>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">convergence_order</span><span class="p">(</span><span class="n">h0</span><span class="p">,</span><span class="w"> </span><span class="n">e0</span><span class="p">,</span><span class="w"> </span><span class="n">h1</span><span class="p">,</span><span class="w"> </span><span class="n">e1</span><span class="p">)</span>
+<span class="w">    </span><span class="n">hratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">h1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">h0</span>
+<span class="w">    </span><span class="n">eratio</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">e1</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">e0</span>
+<span class="w">    </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">    </span><span class="c">### END SOLUTION</span>
+<span class="k">end</span>
+
+<span class="n">convergence_order</span><span class="p">(</span><span class="n">hs</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">6</span><span class="p">],</span><span class="w"> </span><span class="n">errors1</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">6</span><span class="p">],</span><span class="w"> </span><span class="n">hs</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">7</span><span class="p">],</span><span class="w"> </span><span class="n">errors1</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@test</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">convergence_order</span><span class="p">(</span><span class="n">hs</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="n">errors1</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">5</span><span class="p">],</span><span class="w"> </span><span class="n">hs</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">7</span><span class="p">],</span><span class="w"> </span><span class="n">errors1</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">7</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-4</span>
+<span class="nd">@test</span><span class="w"> </span><span class="n">abs</span><span class="p">(</span><span class="n">convergence_order</span><span class="p">(</span><span class="n">hs</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="n">errors2</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">4</span><span class="p">],</span><span class="w"> </span><span class="n">hs</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">3</span><span class="p">],</span><span class="w"> </span><span class="n">errors2</span><span class="p">[</span><span class="k">end</span><span class="o">-</span><span class="mi">3</span><span class="p">])</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mf">1e-4</span>
+</pre></div>
+</div>
+</div>
+<p>Note: While the last assignment gave insight into some ideas behind the <a class="reference external" href="https://en.wikipedia.org/wiki/Finite_element_method">Finite Element Method</a>, this assignment gives insights to <a class="reference external" href="https://en.wikipedia.org/wiki/Finite_difference_method">Finite Difference Methods</a>.</p>
+</section>
+<section id="Extension">
+<h2>Extension<a class="headerlink" href="#Extension" title="Link to this heading">¶</a></h2>
+<p>We can iteratively apply these ideas to approximate higher order derivatives. Read the <a class="reference external" href="https://en.wikipedia.org/wiki/Finite_difference#Higher-order_differences">Wikipedia article</a> about higher order differences and pick one of the formulations for estimating the second derivative. That is to say, pick one of the formulations</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[f'' \left( x \right) \approx \dots\]</div>
+</div>
+<p>Implement the function below.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Second derivative via finite differencing</span>
+<span class="k">function</span><span class="w"> </span><span class="n">diff2</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span>
+<span class="w">    </span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="w">    </span><span class="c">### END SOLUTION</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<p>Let’s be bold here. Here’s a function for computing the error in a second order. Make a plot like the ones above showing the error in this second order finite difference. Add appropriate reference lines (<span class="math notranslate nohighlight">\(h\)</span>, <span class="math notranslate nohighlight">\(h^2\)</span>, <span class="math notranslate nohighlight">\(1/h\)</span>, etc) that match the error we see.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Compute the error from the true second derivative</span>
+<span class="k">function</span><span class="w"> </span><span class="n">compute_errors_diff2</span><span class="p">(</span><span class="n">diff2</span><span class="p">,</span><span class="w"> </span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">fprimeprime</span><span class="p">;</span><span class="w"> </span><span class="n">x</span><span class="o">=</span><span class="kt">LinRange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w"> </span><span class="mi">50</span><span class="p">))</span>
+<span class="w">    </span><span class="n">hs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">10.</span><span class="w"> </span><span class="o">.^</span><span class="w"> </span><span class="p">(</span><span class="o">-</span><span class="mi">15</span><span class="o">:</span><span class="mf">.5</span><span class="o">:</span><span class="mi">0</span><span class="p">)</span>
+<span class="w">    </span><span class="n">errors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">norm</span><span class="p">(</span><span class="n">diff2</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">fprimeprime</span><span class="o">.</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">h</span><span class="w"> </span><span class="k">in</span><span class="w"> </span><span class="n">hs</span><span class="p">]</span>
+<span class="w">    </span><span class="n">hs</span><span class="p">,</span><span class="w"> </span><span class="n">errors</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c">### BEGIN SOLUTION</span>
+
+<span class="c">### END SOLUTION</span>
+</pre></div>
+</div>
+</div>
+<p>Caption this plot as you did above.</p>
+<section id="id3">
+<h3>BEGIN SOLUTION<a class="headerlink" href="#id3" title="Link to this heading">¶</a></h3>
+</section>
+<section id="id4">
+<h3>END SOLUTION<a class="headerlink" href="#id4" title="Link to this heading">¶</a></h3>
+</section>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2025, Jeremy L Thompson
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">2025-11-14 Numerical Differentiation</a><ul>
+<li><a class="reference internal" href="#Backward-difference">Backward difference</a></li>
+<li><a class="reference internal" href="#Centered-difference-formula">Centered difference formula</a><ul>
+<li><a class="reference internal" href="#Caption">Caption</a></li>
+<li><a class="reference internal" href="#BEGIN-SOLUTION">BEGIN SOLUTION</a></li>
+<li><a class="reference internal" href="#END-SOLUTION">END SOLUTION</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Shifting-the-domain">Shifting the domain</a><ul>
+<li><a class="reference internal" href="#id1">BEGIN SOLUTION</a></li>
+<li><a class="reference internal" href="#id2">END SOLUTION</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#Estimate-constants">Estimate constants</a></li>
+<li><a class="reference internal" href="#Extension">Extension</a><ul>
+<li><a class="reference internal" href="#id3">BEGIN SOLUTION</a></li>
+<li><a class="reference internal" href="#id4">END SOLUTION</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="../_static/documentation_options.js?v=5929fcd5"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/scripts/furo.js?v=46bd48cc"></script>
+    <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+    <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    </body>
+</html>
