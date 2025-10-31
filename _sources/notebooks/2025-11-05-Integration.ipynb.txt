@@ -533,7 +533,7 @@
    "source": [
     "## Extrapolation\n",
     "\n",
-    "Let's switch our plot to use $h = \\delta x$ instead of the number of points $x$."
+    "Let's switch our plot to use $h = \\Delta x$ instead of the number of points $x$."
    ]
   },
   {
