@@ -30,3 +30,5 @@ You will propose a final grade and we will discuss how your journal, goals, and 
 * C - Satisfactory. Student understands the core concept and can use, with collaborators or research, the course concepts appropriately.
 
 * D - Unsatisfactory. Student understands some of the core concepts but is missing key pieces.
+
+This `video <https://www.youtube.com/watch?v=fe-SZ_FPZew>`_ explains many of the core ideas about ungrading.
