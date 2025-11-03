@@ -90,5 +90,6 @@ Derivatives and Integrals
    notebooks/2025-10-31-Differentiation.ipynb
    notebooks/2025-11-03-Optimization.ipynb
    notebooks/2025-11-05-Integration.ipynb
-   notebooks/2025-11-07-Quadrature.ipynb
+   Notebooks/2025-11-07-Quadrature.ipynb
+   Notebooks/2025-11-10-Transformed-Quadrature.ipynb
 
