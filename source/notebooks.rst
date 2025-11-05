@@ -92,4 +92,5 @@ Derivatives and Integrals
    notebooks/2025-11-05-Integration.ipynb
    Notebooks/2025-11-07-Quadrature.ipynb
    Notebooks/2025-11-10-Transformed-Quadrature.ipynb
+   Notebooks/2025-11-12-Differential-Equations.ipynb
 
