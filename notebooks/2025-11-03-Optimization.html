@@ -539,6 +539,7 @@ diff_wp (generic function with 1 method)
 </section>
 <section id="Automatic-differentiation">
 <h2>Automatic differentiation<a class="headerlink" href="#Automatic-differentiation" title="Link to this heading">¶</a></h2>
+<p>See also <a class="reference external" href="https://enzyme.mit.edu/julia/stable">Enzyme.jl</a></p>
 <div class="nbinput docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
@@ -597,7 +598,7 @@ diff_wp (generic function with 1 method)
 <div class="highlight"><pre>
 <span class="ansi-black-intense-fg">; Function Signature: square(Float64)</span>
 <span class="ansi-black-intense-fg">;  @ In[8]:1 within `square`</span>
-<span class="ansi-magenta-intense-fg">define</span> <span class="ansi-cyan-fg">double</span> <span class="ansi-yellow-intense-fg">@julia_square_11208</span><span class="ansi-yellow-fg">(</span><span class="ansi-cyan-fg">double</span> %&#34;x::Float64&#34;<span class="ansi-yellow-fg">)</span> #0 <span class="ansi-yellow-fg">{</span>
+<span class="ansi-magenta-intense-fg">define</span> <span class="ansi-cyan-fg">double</span> <span class="ansi-yellow-intense-fg">@julia_square_11421</span><span class="ansi-yellow-fg">(</span><span class="ansi-cyan-fg">double</span> %&#34;x::Float64&#34;<span class="ansi-yellow-fg">)</span> #0 <span class="ansi-yellow-fg">{</span>
 <span class="ansi-red-intense-fg">top:</span>
 <span class="ansi-black-intense-fg">; ┌ @ intfuncs.jl:370 within `literal_pow`</span>
 <span class="ansi-black-intense-fg">; │┌ @ float.jl:493 within `*`</span>
@@ -623,7 +624,7 @@ diff_wp (generic function with 1 method)
 <div class="highlight"><pre>
 <span class="ansi-black-intense-fg">; Function Signature: gradient(typeof(Main.square), Float64)</span>
 <span class="ansi-black-intense-fg">;  @ /home/jeremy/.julia/packages/Zygote/55SqB/src/compiler/interface.jl:152 within `gradient`</span>
-<span class="ansi-magenta-intense-fg">define</span> <span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">1</span> x <span class="ansi-cyan-fg">double</span><span class="ansi-yellow-fg">]</span> <span class="ansi-yellow-intense-fg">@julia_gradient_11423</span><span class="ansi-yellow-fg">(</span><span class="ansi-cyan-fg">double</span> %&#34;args<span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">1</span><span class="ansi-yellow-fg">]</span>::Float64&#34;<span class="ansi-yellow-fg">)</span> #0 <span class="ansi-yellow-fg">{</span>
+<span class="ansi-magenta-intense-fg">define</span> <span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">1</span> x <span class="ansi-cyan-fg">double</span><span class="ansi-yellow-fg">]</span> <span class="ansi-yellow-intense-fg">@julia_gradient_11636</span><span class="ansi-yellow-fg">(</span><span class="ansi-cyan-fg">double</span> %&#34;args<span class="ansi-yellow-fg">[</span><span class="ansi-yellow-fg">1</span><span class="ansi-yellow-fg">]</span>::Float64&#34;<span class="ansi-yellow-fg">)</span> #0 <span class="ansi-yellow-fg">{</span>
 <span class="ansi-red-intense-fg">top:</span>
 <span class="ansi-black-intense-fg">;  @ /home/jeremy/.julia/packages/Zygote/55SqB/src/compiler/interface.jl:154 within `gradient`</span>
 <span class="ansi-black-intense-fg">; ┌ @ /home/jeremy/.julia/packages/Zygote/55SqB/src/compiler/interface.jl:97 within `#88`</span>
