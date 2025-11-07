@@ -1,0 +1,40 @@
+2025-11-07 Quiz 6
+=====================================================================================
+
+1. Which of the following limit statements regarding the first derivative of a smooth function :math:`f \left( x \right)` is **true**?
+
+  a) :math:`f' \left( x \right) = \lim_{h \rightarrow 0} \frac{f \left( x + h \right) - f \left( x \right)}{h}`
+
+  b) :math:`f' \left( x \right) = \lim_{h \rightarrow 0} \frac{f \left( x - h \right) - f \left( x \right)}{-h}`
+
+  c) :math:`f' \left( x \right) = \lim_{h \rightarrow 0} \frac{f \left( x + h \right) - f \left( x - h \right)}{2h}`
+
+  d) All of the above
+
+.. raw:: html
+
+    <details><summary>Answer</summary>d</details>
+
+2. A first-order difference approximation of the first derivative is written in the form :math:`f' \left( x \right) = G \left( h \right) + a h + \mathcal{O} \left( h^2 \right)`, where :math:`a` is some constant.
+Which of the extrapolation formulas below is an :math:`\mathcal{O} \left( h^2 \right)` approximation of :math:`f' \left( x \right)`?
+
+  a) :math:`\frac{4 G \left( h / 2 \right) - G \left( h \right)}{3}`
+
+  b) :math:`\frac{2 G \left( h / 2 \right) - G \left( h \right)}{3}`
+
+  c) :math:`2 G \left( h / 2 \right) - G \left( h \right)`
+
+  d) None of the above
+
+.. raw:: html
+
+    <details><summary>Answer</summary>c</details>
+
+3. Draw a pair of graphs showing why the forward finite difference formula for approximating the first derivative of a function will be incorrect.
+Do not forget to add labels to your charts.
+Include a brief description explaining your graphs.
+Hint: One of your graphs should be the true tangent line of the function at a point.
+
+.. raw:: html
+
+    <details><summary>Answer</summary>See the discussion on <a href="https://en.wikipedia.org/wiki/Finite_difference">Wikipedia</a>.</details>
