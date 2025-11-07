@@ -1,4 +1,4 @@
-2025-09-26
+2025-09-26 Quiz 3
 =====================================================================================
 
 1. If :math:`A` is an invertible matrix, then which of the following statements is **false**?

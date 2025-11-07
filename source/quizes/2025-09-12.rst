@@ -1,4 +1,4 @@
-2025-09-12
+2025-09-12 Quiz 2
 =====================================================================================
 
 1. The error of values :math:`x_k` in a bisection iteration is given by :math:`e_k \approx \left( b - a \right) \left(\frac{1}{2} \right)^k` for the initial interval :math:`\left[ a, b \right]`.

@@ -1,4 +1,4 @@
-2025-10-24
+2025-10-24 Quiz 5
 =====================================================================================
 
 1. Suppose you have :math:`n` data points :math:`\left( x_i, y_i \right)`, with all :math:`x_i` distinct.
