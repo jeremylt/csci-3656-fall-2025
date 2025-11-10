@@ -27,7 +27,7 @@ You will propose a final grade and we will discuss how your journal, goals, and 
 
 * B - Good. Student understands the core concepts and has extended this understanding in at least one area.
 
-* C - Satisfactory. Student understands the core concept and can use, with collaborators or research, the course concepts appropriately.
+* C - Satisfactory. Student understands the core concepts and can use, with collaborators or research, the course concepts appropriately.
 
 * D - Unsatisfactory. Student understands some of the core concepts but is missing key pieces.
 
