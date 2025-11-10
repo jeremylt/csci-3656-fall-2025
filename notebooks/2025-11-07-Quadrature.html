@@ -657,9 +657,15 @@ quad_trapezoid (generic function with 1 method)
 <p>Suppose a polynomial on the interval <span class="math notranslate nohighlight">\(\left[ -1, 1 \right]\)</span> can be written as</p>
 <div class="math-wrapper docutils container">
 <div class="math notranslate nohighlight">
-\[P_n \left( x \right) q \left( x \right) + r \left( x \right)\]</div>
+\[p \left( x \right) = P_n \left( x \right) q \left( x \right) + r \left( x \right)\]</div>
 </div>
 <p>where <span class="math notranslate nohighlight">\(P_n \left( x \right)\)</span> is the <span class="math notranslate nohighlight">\(n\)</span>th Legendre polynomials and both <span class="math notranslate nohighlight">\(q \left( x \right)\)</span> and <span class="math notranslate nohighlight">\(r \left( x \right)\)</span> are polynomials of degree at most <span class="math notranslate nohighlight">\(n - 1\)</span>.</p>
+<p>We want to exactly integrate this function <span class="math notranslate nohighlight">\(p \left( x \right)\)</span> with a sum of the form</p>
+<div class="math-wrapper docutils container">
+<div class="math notranslate nohighlight">
+\[\int_{-1}^1 p \left( x \right) = \sum_{i = 1}^n w_i p \left( x_i \right)\]</div>
+</div>
+<p>I argue we can do this for a polynomial up to degree <span class="math notranslate nohighlight">\(2 n - 1\)</span>. Why is this the case?</p>
 <ul class="simple">
 <li><p>Why is <span class="math notranslate nohighlight">\(\int_{-1}^1 P_n \left( x \right) q \left( x \right) = 0\)</span>?</p></li>
 <li><p>Can every polynomial of degree <span class="math notranslate nohighlight">\(2 n - 1\)</span> be written in the above form?</p></li>
@@ -782,6 +788,7 @@ quad_trapezoid (generic function with 1 method)
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">    Updating</span> registry at `~/.julia/registries/General.toml`
 <span class="ansi-green-intense-fg ansi-bold">   Resolving</span> package versions...
 <span class="ansi-green-intense-fg ansi-bold">  No Changes</span> to `~/.julia/environments/v1.11/Project.toml`
 <span class="ansi-green-intense-fg ansi-bold">  No Changes</span> to `~/.julia/environments/v1.11/Manifest.toml`
