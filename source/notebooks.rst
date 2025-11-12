@@ -95,3 +95,12 @@ Derivatives and Integrals
    notebooks/2025-11-12-Differential-Equations.ipynb
    notebooks/2025-11-14-Stiff-Equations.ipynb
 
+Applications
+-------------------------------------------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   notebooks/2025-11-17-ODE.ipynb
+   notebooks/2025-11-19-PDE.ipynb
+
