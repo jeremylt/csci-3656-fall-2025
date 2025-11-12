@@ -232,6 +232,8 @@
 <li class="toctree-l2 current current-page"><a class="current reference internal" href="#">2025-11-10 Transformed Quadrature</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2025-11-12-Differential-Equations.html">2025-11-12 Differential Equations</a></li>
 <li class="toctree-l2"><a class="reference internal" href="2025-11-14-Stiff-Equations.html">2025-11-14 Stiff Equations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-11-17-ODE.html">2025-11-17 ODE Exercise</a></li>
+<li class="toctree-l2"><a class="reference internal" href="2025-11-19-PDE.html">2025-11-19 PDE Exercise</a></li>
 </ul>
 </li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../quizzes.html">Quizzes</a><input aria-label="Toggle navigation of Quizzes" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><span class="icon"><svg><use href="#svg-arrow-right"></use></svg></span></label><ul>
@@ -304,7 +306,7 @@
 <li><p>Integration in multiple dimensions</p></li>
 </ul>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">LinearAlgebra</span>
@@ -359,17 +361,8 @@
 </pre></div>
 </div>
 </div>
-<div class="nboutput docutils container">
-<div class="prompt empty docutils container">
-</div>
-<div class="output_area stderr docutils container">
-<div class="highlight"><pre>
-<span class="ansi-cyan-intense-fg ansi-bold">[ </span><span class="ansi-cyan-intense-fg ansi-bold">Info: </span>Precompiling IJuliaExt [2f4121a4-3b3a-5ce6-9c5e-1f2673ce168a] (cache misses: wrong dep version loaded (2), incompatible header (4))
-<span class="ansi-cyan-intense-fg ansi-bold">[ </span><span class="ansi-cyan-intense-fg ansi-bold">Info: </span>Precompiling Polynomials [f27b6e38-b328-58d1-80ce-0feddd5e7a45] (cache misses: incompatible header (10))
-</pre></div></div>
-</div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -400,18 +393,10 @@ plot_accuracy (generic function with 1 method)
 </div>
 <div class="output_area stderr docutils container">
 <div class="highlight"><pre>
+<span class="ansi-green-intense-fg ansi-bold">    Updating</span> registry at `~/.julia/registries/General.toml`
 <span class="ansi-green-intense-fg ansi-bold">   Resolving</span> package versions...
 <span class="ansi-green-intense-fg ansi-bold">  No Changes</span> to `~/.julia/environments/v1.11/Project.toml`
 <span class="ansi-green-intense-fg ansi-bold">  No Changes</span> to `~/.julia/environments/v1.11/Manifest.toml`
-<span class="ansi-green-intense-fg ansi-bold">Precompiling</span> project...
-    667.0 ms<span class="ansi-green-fg">  ✓ </span><span class="ansi-black-intense-fg">ColorVectorSpace → SpecialFunctionsExt</span>
-    738.4 ms<span class="ansi-green-fg">  ✓ </span><span class="ansi-black-intense-fg">StructArrays → StructArraysStaticArraysExt</span>
-    999.0 ms<span class="ansi-green-fg">  ✓ </span>Polynomials → PolynomialsChainRulesCoreExt
-   1084.5 ms<span class="ansi-green-fg">  ✓ </span>CurveFit
-   1168.1 ms<span class="ansi-green-fg">  ✓ </span>Polynomials → PolynomialsMutableArithmeticsExt
-   1489.1 ms<span class="ansi-green-fg">  ✓ </span>FastGaussQuadrature
-   2463.7 ms<span class="ansi-green-fg">  ✓ </span>Plots → UnitfulExt
-  7 dependencies successfully precompiled in 4 seconds. 357 already precompiled.
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
@@ -423,10 +408,10 @@ plot_accuracy (generic function with 1 method)
 </div>
 <p>Other reading: <a class="reference external" href="https://people.maths.ox.ac.uk/trefethen/mythspaper.pdf">Trefethen, Six Myths of Polynomial Interpolation and Quadrature</a></p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[21]:
 </pre></div>
 </div>
-<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span><span class="w"> </span><span class="n">gausslegendre</span><span class="p">(</span><span class="mi">10000000</span><span class="p">);</span>
+<div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="nd">@time</span><span class="w"> </span><span class="n">gausslegendre</span><span class="p">(</span><span class="mi">10_000_000</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
@@ -435,7 +420,7 @@ plot_accuracy (generic function with 1 method)
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-  0.179473 seconds (45 allocations: 305.189 MiB, 29.69% gc time, 1.88% compilation time)
+  0.418783 seconds (16 allocations: 305.187 MiB, 64.74% gc time)
 </pre></div></div>
 </div>
 </section>
@@ -443,7 +428,7 @@ plot_accuracy (generic function with 1 method)
 <h2>Singular Integrands<a class="headerlink" href="#Singular-Integrands" title="Link to this heading">¶</a></h2>
 <p>What should we do when the integrand contains a singularity?</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">([</span><span class="n">sqrt</span><span class="w"> </span><span class="n">log</span><span class="w"> </span><span class="n">x</span><span class="o">-&gt;</span><span class="mf">.5</span><span class="o">*</span><span class="n">x</span><span class="o">^</span><span class="p">(</span><span class="o">-</span><span class="mf">.5</span><span class="p">)],</span><span class="w"> </span><span class="n">xlim</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">),</span><span class="w"> </span><span class="n">label</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;</span><span class="se">\$</span><span class="s">sqrt(x)</span><span class="se">\$</span><span class="s">&quot;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$</span><span class="s">log(x)</span><span class="se">\$</span><span class="s">&quot;</span><span class="w"> </span><span class="s">&quot;</span><span class="se">\$</span><span class="s">1/(2 sqrt(x))</span><span class="se">\$</span><span class="s">&quot;</span><span class="p">])</span>
@@ -451,7 +436,7 @@ plot_accuracy (generic function with 1 method)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[22]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -459,7 +444,7 @@ plot_accuracy (generic function with 1 method)
 </div>
 <p>Error is higher than we would expect with other functions.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">fint_gauss</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
@@ -472,7 +457,7 @@ plot_accuracy (generic function with 1 method)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -481,7 +466,7 @@ fint_gauss (generic function with 1 method)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot</span><span class="p">(</span><span class="mi">3</span><span class="o">:</span><span class="mi">4</span><span class="o">:</span><span class="mi">100</span><span class="p">,</span>
@@ -492,7 +477,7 @@ fint_gauss (generic function with 1 method)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[24]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -508,7 +493,7 @@ fint_gauss (generic function with 1 method)
 </div>
 <p>The tanh-sinh method uses a transformation such that <span class="math notranslate nohighlight">\(\phi ' \left( s \right) \rightarrow 0\)</span> faster than the singularity <span class="math notranslate nohighlight">\(f \left( \phi \left( s \right) \right)\)</span> grows, such that the integrand goes to <span class="math notranslate nohighlight">\(0\)</span> at finite <span class="math notranslate nohighlight">\(s\)</span>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">tanhsinh</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">tanh</span><span class="p">(</span><span class="nb">π</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="n">sinh</span><span class="p">(</span><span class="n">s</span><span class="p">))</span>
@@ -533,7 +518,7 @@ fint_gauss (generic function with 1 method)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[25]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -544,7 +529,7 @@ fint_gauss (generic function with 1 method)
 <p>The function below implements tanh-sinh quadrature on the interval <span class="math notranslate nohighlight">\(\left( -1, 1 \right)\)</span>. Given the number of points, we need to choose both the limits of integration (we can’t afford to integrate all the way to infinity) and the spacing. Here we make an arbitrary choice to integrate on the interval <span class="math notranslate nohighlight">\(\left( -L, L \right)\)</span> where <span class="math notranslate nohighlight">\(L = \log \left( n \right)\)</span>. The grid spacing thus scales as <span class="math notranslate nohighlight">\(h \approx 2 \log \left( n \right) / n\)</span>.</p>
 <p>Modify the quadrature so it can be used to integrate on an arbitrary interval <span class="math notranslate nohighlight">\(\left( a, b \right)\)</span>.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">fint_tanhsinh</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="w"> </span><span class="n">a</span><span class="p">,</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"> </span><span class="n">n</span><span class="o">=</span><span class="mi">9</span><span class="p">)</span>
@@ -560,7 +545,7 @@ fint_gauss (generic function with 1 method)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[26]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
@@ -569,7 +554,7 @@ fint_tanhsinh (generic function with 1 method)
 </pre></div></div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">plot_accuracy</span><span class="p">(</span><span class="n">fint_tanhsinh</span><span class="p">,</span><span class="w"> </span><span class="n">tests</span><span class="p">,</span><span class="w"> </span><span class="mi">9</span><span class="o">:</span><span class="mi">4</span><span class="o">:</span><span class="mi">60</span><span class="p">,</span><span class="w"> </span><span class="n">ref</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">])</span>
@@ -578,7 +563,7 @@ fint_tanhsinh (generic function with 1 method)
 </div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
@@ -700,7 +685,7 @@ Stacktrace:
 <h2>Adaptive integration<a class="headerlink" href="#Adaptive-integration" title="Link to this heading">¶</a></h2>
 <p>Adaptive integration is a process where we adaptively subdivide the integration into smaller pieces until the numerical integral converges.</p>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="k">using</span><span class="w"> </span><span class="n">Pkg</span>
@@ -731,7 +716,7 @@ F_heaviside(1 - 0.3) - F_heaviside(-1 - 0.3) = 0.7
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[28]:
 </pre></div>
 </div>
 <div class="output_area docutils container">
