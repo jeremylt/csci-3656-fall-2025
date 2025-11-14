@@ -103,4 +103,5 @@ Applications
 
    notebooks/2025-11-17-ODE.ipynb
    notebooks/2025-11-19-PDE.ipynb
+   notebooks/2025-11-21-PDE-2D.ipynb
 
