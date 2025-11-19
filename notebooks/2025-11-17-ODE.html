@@ -364,8 +364,8 @@ dFdt (generic function with 1 method)
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="c"># Initial conditions</span>
-<span class="n">θ_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">π</span><span class="o">/</span><span class="mi">4</span><span class="w"> </span><span class="c"># 45°</span>
-<span class="n">v_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">  </span><span class="c"># m/s</span>
+<span class="n">θ_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">π</span><span class="o">/</span><span class="mi">4</span><span class="w"> </span><span class="c"># 180°</span>
+<span class="n">v_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="mi">1</span><span class="w">  </span><span class="c"># rad/s</span>
 <span class="n">x_0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="n">θ_0</span><span class="p">;</span><span class="w"> </span><span class="n">v_0</span><span class="p">]</span>
 </pre></div>
 </div>
@@ -596,7 +596,7 @@ x_1 = euler_backward(x_0, h, dFdt) = [0.6792355369698221, -1.061626264511185]
 </div>
 </div>
 <div class="nbinput docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-julia notranslate"><div class="highlight"><pre><span></span><span class="n">gif</span><span class="p">(</span><span class="n">animation</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;pedulum.gif&quot;</span><span class="p">,</span><span class="w"> </span><span class="n">fps</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
@@ -612,7 +612,7 @@ x_1 = euler_backward(x_0, h, dFdt) = [0.6792355369698221, -1.061626264511185]
 </pre></div></div>
 </div>
 <div class="nboutput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="output_area rendered_html docutils container">
