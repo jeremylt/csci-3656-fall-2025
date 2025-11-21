@@ -10,13 +10,13 @@ What is the ODE?
 
   c) :math:`\frac{dy}{dt} = h a y`
 
-  d) :math:`\frac{dy}{dy} = h a`
+  d) :math:`\frac{dy}{dt} = h a`
 
 .. raw:: html
 
     <details><summary>Answer</summary>a</details>
 
-2. A mass-spring problem is described by the ODE :math:`y'' + 2 y = cos \left( 2 t \right)$`.
+2. A mass-spring problem is described by the ODE :math:`y'' + 2 y = cos \left( 2 t \right)`.
 Which of the following is the equivalent first-order system?
 
   a) :math:`y' = x, \, y' = -2 y + cos \left( 2 t \right)`
