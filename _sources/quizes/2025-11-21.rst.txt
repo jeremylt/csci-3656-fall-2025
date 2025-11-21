@@ -1,0 +1,39 @@
+2025-11-21 Quiz 7
+=====================================================================================
+
+1. Using Euler's method to approximate an ODE, you obtain the difference equation :math:`y_{n + 1} = y_n + h a y_n`.
+What is the ODE?
+
+  a) :math:`\frac{dy}{dt} = a y`
+
+  b) :math:`\frac{dy}{dt} = a`
+
+  c) :math:`\frac{dy}{dt} = h a y`
+
+  d) :math:`\frac{dy}{dy} = h a`
+
+.. raw:: html
+
+    <details><summary>Answer</summary>a</details>
+
+2. A mass-spring problem is described by the ODE :math:`y'' + 2 y = cos \left( 2 t \right)$`.
+Which of the following is the equivalent first-order system?
+
+  a) :math:`y' = x, \, y' = -2 y + cos \left( 2 t \right)`
+
+  b) :math:`y' = x, \, x' + 2 y = cos \left( 2 t \right)`
+
+  c) This second-order ODE can't be converted into a first-order system.
+
+.. raw:: html
+
+    <details><summary>Answer</summary>b</details>
+
+3. Draw a pair of graphs explaining the difference between forward Euler and backward (implicit) Euler for ODEs.
+Do not forget to add labels to your charts.
+Include a brief description explaining your graphs.
+Hint: Where do you draw the tangent line?
+
+.. raw:: html
+
+    <details><summary>Answer</summary>See the discussion on Wikipedia for <a href="https://en.wikipedia.org/wiki/Euler_method">forward Euler</a> and <a href="https://en.wikipedia.org/wiki/Backward_Euler_method">backward Euler</a>. Forward Euler is based upon a tangent line at the current location and backward Euler is based upon a tangent line at the next location.</details>

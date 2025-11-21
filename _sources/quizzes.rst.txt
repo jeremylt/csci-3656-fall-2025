@@ -14,4 +14,5 @@ Many thanks to the `Open Access Clicker Question Bank for Numerical Analysis <ht
    quizes/2025-10-10
    quizes/2025-10-24
    quizes/2025-11-07
+   quizes/2025-11-21
 
