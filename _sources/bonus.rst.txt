@@ -1,4 +1,4 @@
-Bonus content
+Bonus Content
 =====================================================================================
 
 Bonus content is posted here.
