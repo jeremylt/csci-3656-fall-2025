@@ -48,7 +48,7 @@ Rootfinding
    notebooks/2025-09-12-Formulation.ipynb
    notebooks/2025-09-15-Stability.ipynb
 
-Linear algebra
+Linear Algebra
 -------------------------------------------------------------------------------------
 
 .. toctree::
